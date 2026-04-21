@@ -12,11 +12,11 @@ nav{position:sticky;top:0;z-index:300;background:rgba(255,252,248,0.97);backdrop
 .nav-inner{max-width:1100px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
 .nav-logo{font-family:'Playfair Display',serif;font-size:19px;color:var(--terra);cursor:pointer;}
 .nav-logo small{display:block;font-family:'DM Sans',sans-serif;font-size:10px;color:var(--soft);font-weight:300;letter-spacing:1.4px;text-transform:uppercase;margin-top:-2px;}
-.nav-desktop{display:flex;gap:1.75rem;align-items:center;}
+.nav-desktop{display:none;}
 .nav-desktop a{text-decoration:none;color:var(--mid);font-size:14px;transition:color 0.2s;cursor:pointer;}
 .nav-desktop a:hover{color:var(--terra);}
 .nav-cta{background:var(--terra)!important;color:white!important;padding:8px 18px;border-radius:100px;font-size:13px!important;font-weight:500!important;}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:none;background:none;}
+.hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:none;background:none;}
 .hamburger span{display:block;width:22px;height:2px;background:var(--terra);border-radius:2px;transition:all 0.28s;}
 .hamburger.acik span:nth-child(1){transform:translateY(7px) rotate(45deg);}
 .hamburger.acik span:nth-child(2){opacity:0;}
@@ -207,7 +207,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 .bos{text-align:center;padding:2rem;color:var(--soft);font-size:14px;background:var(--warm);border-radius:12px;border:1px solid var(--border);}
 @media(max-width:900px){.has-body{grid-template-columns:1fr;}.sidebar{order:-1;}}
 @media(max-width:768px){
-  .nav-desktop{display:none;}.hamburger{display:flex;}
+  
   .hero{grid-template-columns:1fr;padding:3rem 1.5rem;gap:2rem;}.hero h1{font-size:38px;}
   .den-grid{grid-template-columns:1fr;}.pf{position:static;}
   .hk-grid{grid-template-columns:1fr;}.section,.hk-section{padding:3rem 1.5rem;}.den-ic{padding:0 1.5rem;}
@@ -228,7 +228,16 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       <a onclick="sayfaGit('ana');git('hakkimizda')">Hakkımızda</a>
       <a onclick="sayfaGit('ana');git('paylasim')" class="nav-cta">Deneyim Paylaş</a>
     </div>
-    <button class="hamburger" id="hbtn" onclick="menuToggle()"><span></span><span></span><span></span></button>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div id="nav-giris-btn">
+        <a onclick="sayfaGit('giris')" style="font-size:13px;color:var(--terra);font-weight:500;cursor:pointer;border:1.5px solid var(--terra);padding:6px 16px;border-radius:100px;transition:all 0.2s;" onmouseover="this.style.background='var(--terra-pale)'" onmouseout="this.style.background='transparent'">Giriş Yap</a>
+      </div>
+      <div id="nav-profil" style="display:none;align-items:center;gap:8px;">
+        <div id="nav-av" style="width:32px;height:32px;border-radius:50%;background:var(--terra-pale);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--terra);overflow:hidden;cursor:pointer;"></div>
+        <button onclick="cikisYap()" style="font-size:12px;color:var(--soft);background:none;border:1px solid var(--border);padding:5px 12px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;">Çıkış</button>
+      </div>
+      <button class="hamburger" id="hbtn" onclick="menuToggle()"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </nav>
 
@@ -497,6 +506,9 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       <button class="stab" onclick="tabAc('yorumlar',this)">Deneyimler & Yorumlar</button>
     </div>
     <div class="tab-panel ak" id="tab-sorular">
+      <div style="margin-bottom:1rem;">
+        <input type="text" id="soru-arama" placeholder="Sorularda ara..." oninput="soruArama('sorular')" style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dark);background:var(--warm);">
+      </div>
       <div class="yaz-kutu">
         <h4>Soru Sor</h4>
         <div id="soru-giris-uyari" class="yaz-giris-uyari" style="display:none">Soru sormak için <a onclick="sayfaGit('giris')" style="color:var(--terra);font-weight:500;cursor:pointer;">giriş yapın</a>.</div>
@@ -609,6 +621,13 @@ onAuthStateChanged(auth,user=>{
   if(user){
     document.getElementById('auth-giris').style.display='none';
     document.getElementById('auth-profil').style.display='block';
+    // Nav bar güncelle
+    document.getElementById('nav-giris-btn').style.display='none';
+    const navProfil = document.getElementById('nav-profil');
+    navProfil.style.display='flex';
+    const navAv = document.getElementById('nav-av');
+    if(user.photoURL) navAv.innerHTML=`<img src="${user.photoURL}" style="width:32px;height:32px;object-fit:cover;border-radius:50%;">`;
+    else navAv.textContent=(user.displayName||user.email||'?')[0].toUpperCase();
     // Admin kontrolü - admin maili ile giriş yapıldıysa yönetici panelini aç
     if(ADMIN_MAILLER.includes(user.email)){
       setTimeout(()=>{
@@ -852,6 +871,19 @@ function admFilt(d,btn){
   admListele();
 }
 
+function soruArama(tip){
+  const inputId = tip==='sorular' ? 'soru-arama' : 'yorum-arama';
+  const listeId = tip==='sorular' ? 'sorular-liste' : 'yorumlar-liste';
+  const q = document.getElementById(inputId)?.value.toLowerCase() || '';
+  const kartlar = document.getElementById(listeId)?.querySelectorAll('.soru-kart');
+  if(!kartlar) return;
+  kartlar.forEach(k => {
+    const metin = k.querySelector('.sk-metin')?.textContent.toLowerCase() || '';
+    const isim = k.querySelector('.sk-isim')?.textContent.toLowerCase() || '';
+    k.style.display = (!q || metin.includes(q) || isim.includes(q)) ? '' : 'none';
+  });
+}
+
 function admArama(){
   const q = document.getElementById('adm-arama').value.toLowerCase();
   document.querySelectorAll('.adm-kart').forEach(k => {
@@ -952,7 +984,23 @@ function mmToggle(id){
 function menuKapat(){document.getElementById('hbtn').classList.remove('acik');document.getElementById('mobil-menu').classList.remove('acik');document.body.style.overflow='';}
 let aktifKat='hepsi';
 function aramaYap(){const q=document.getElementById('arama-inp').value.toLowerCase();document.querySelectorAll('.hkart').forEach(k=>{const txt=(k.dataset.q||'')+k.querySelector('h3').textContent.toLowerCase();const katOk=aktifKat==='hepsi'||txt.includes(aktifKat);k.classList.toggle('gizli',!(katOk&&(!q||txt.includes(q))));});}
-function katFilt(kat,btn){aktifKat=kat;document.querySelectorAll('.filtre-pills .fp').forEach(b=>b.classList.remove('ak'));btn.classList.add('ak');aramaYap();}
+function katFilt(kat,btn){
+  if(kat==='hepsi'){
+    aktifKat='hepsi';
+    document.querySelectorAll('.filtre-pills .fp').forEach(b=>b.classList.remove('ak'));
+    btn.classList.add('ak');
+  } else if(aktifKat===kat){
+    // Aynı kategoriye tekrar tıklayınca seçimi kaldır
+    aktifKat='hepsi';
+    document.querySelectorAll('.filtre-pills .fp').forEach(b=>b.classList.remove('ak'));
+    document.querySelector('.filtre-pills .fp').classList.add('ak'); // Tümü seç
+  } else {
+    aktifKat=kat;
+    document.querySelectorAll('.filtre-pills .fp').forEach(b=>b.classList.remove('ak'));
+    btn.classList.add('ak');
+  }
+  aramaYap();
+}
 function denFilt(kat,btn){document.querySelectorAll('#den-filtreler .fp').forEach(b=>{b.style.background='rgba(255,255,255,0.6)';b.style.color='var(--terra)';b.style.borderColor='rgba(139,58,31,0.3)';});btn.style.background='var(--terra)';btn.style.color='white';btn.style.borderColor='var(--terra)';document.querySelectorAll('.dkart').forEach(k=>{k.style.display=(kat==='hepsi'||k.dataset.kat===kat)?'':'none';});}
 </script>
 </body>
