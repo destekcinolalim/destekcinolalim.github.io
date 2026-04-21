@@ -353,6 +353,8 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
               </select>
             </div>
             <div class="fg"><label>Deneyimini anlat</label><textarea id="f-metin" placeholder="Yaşadıklarını paylaşabilirsin..."></textarea></div>
+            <div id="den-giris-uyari" style="display:none;background:var(--terra-pale);border-radius:10px;padding:12px 16px;margin-bottom:1rem;font-size:14px;color:var(--terra);">Deneyim paylaşmak için <a onclick="sayfaGit('giris')" style="font-weight:600;cursor:pointer;text-decoration:underline;">giriş yapın</a>.</div>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin-bottom:1rem;cursor:pointer;"><input type="checkbox" id="f-anonim" style="width:16px;height:16px;"> Anonim olarak paylaş</label>
             <button class="sbtn" id="submit-btn" onclick="gonder()">Paylaşımı Gönder →</button>
             <div class="basari" id="basari">✓ Teşekkürler! Onaylandıktan sonra burada görünecek.</div>
           </div>
@@ -637,6 +639,8 @@ const H={'endometriozis':{baslik:'Endometriozis',ikon:'🌸',ozet:'Rahim iç yü
 const DIGER=[{id:'endometriozis',ad:'Endometriozis',ico:'🌸'},{id:'pkos',ad:'PKOS',ico:'🔬'},{id:'meme-kanseri',ad:'Meme Kanseri',ico:'🎗️'},{id:'menopoz',ad:'Menopoz',ico:'🌡️'},{id:'miyom',ad:'Rahim Miyomları',ico:'💊'},{id:'rahim-agzi-kanseri',ad:'Rahim Ağzı Kanseri',ico:'🩺'},{id:'over-kanseri',ad:'Over Kanseri',ico:'🫁'}];
 
 window.aktifH=null,window.window.kullanici=null;
+    const denGirisUyari2=document.getElementById('den-giris-uyari');
+    if(denGirisUyari2) denGirisUyari2.style.display='block';
 
 window.hastalıkAc=(id, pushHistory=true)=>{
   window.aktifH=id;const h=H[id];if(!h)return;
@@ -658,6 +662,10 @@ onAuthStateChanged(auth,user=>{
   if(user){
     document.getElementById('auth-giris').style.display='none';
     document.getElementById('auth-profil').style.display='block';
+    // Giriş sayfasındaysa geri git
+    if(document.getElementById('sayfa-giris').classList.contains('aktif')){
+      history.back();
+    }
     // Nav bar güncelle
     document.getElementById('nav-giris-btn').style.display='none';
     const navProfil = document.getElementById('nav-profil');
@@ -665,6 +673,9 @@ onAuthStateChanged(auth,user=>{
     const navAv = document.getElementById('nav-av');
     if(user.photoURL) navAv.innerHTML=`<img src="${user.photoURL}" style="width:32px;height:32px;object-fit:cover;border-radius:50%;">`;
     else navAv.textContent=(user.displayName||user.email||'?')[0].toUpperCase();
+    // Deneyim formu giriş kontrolü
+    const denGirisUyari=document.getElementById('den-giris-uyari');
+    if(denGirisUyari) denGirisUyari.style.display='none';
     // Admin kontrolü - admin maili ile giriş yapıldıysa yönetici panelini aç
     if(ADMIN_MAILLER.includes(user.email)){
       setTimeout(()=>{
@@ -971,29 +982,64 @@ window.soruGonder=async()=>{const i=document.getElementById('soru-input');const 
 window.yorumGonder=async()=>{const i=document.getElementById('yorum-input');const anonim=document.getElementById('yorum-anonim')?.checked||false;const ok=await gonderiEkle('yorum',i.value.trim(),anonim);if(ok){i.value='';document.getElementById('yorum-anonim').checked=false;gosterToast('Yorumunuz alındı! Onaylandıktan sonra görünecek.','basari');}};
 window.tabAc=(id,btn)=>{document.querySelectorAll('.stab').forEach(b=>b.classList.remove('ak'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('ak'));btn.classList.add('ak');document.getElementById(`tab-${id}`).classList.add('ak');};
 
-// Airtable
-const AT_KEY='patEU3dZOTwnjHl9H.718f825374ec6365317a82ea789c5bed4219268e1b523c246168936e5cc7f95e',AT_BASE='appF9ov0eeD5hvj1i';
-const AT_URL=`https://api.airtable.com/v0/${AT_BASE}/tblMLCiA6OeHfaD28`;
-const AT_H={'Authorization':`Bearer ${AT_KEY}`,'Content-Type':'application/json'};
+// Deneyimler - Firebase
 const RK=['#8B3A1F','#C45C2E','#D4850A','#5c7a2d','#2d5c7a','#7a2d5c'];
-function zamanAt(t){if(!t)return'';const f=(Date.now()-new Date(t))/1000;if(f<3600)return`${Math.floor(f/60)} dk önce`;if(f<86400)return`${Math.floor(f/3600)} saat önce`;return`${Math.floor(f/86400)} gün önce`;}
+function zamanAt(t){if(!t)return'';const f=(Date.now()-t.toMillis())/1000;if(f<3600)return`${Math.floor(f/60)} dk önce`;if(f<86400)return`${Math.floor(f/3600)} saat önce`;return`${Math.floor(f/86400)} gün önce`;}
 function ini(n){if(!n||n.toLowerCase()==='anonim')return'A';return n.split(' ').map(k=>k[0]).join('').toUpperCase().slice(0,2);}
 async function yukle(){
   const L=document.getElementById('den-liste');
-  try{const r=await fetch(`${AT_URL}?filterByFormula={Durum}="Onaylandi"&sort[0][field]=Tarih&sort[0][direction]=desc&maxRecords=20`,{headers:AT_H});const d=await r.json();const R=d.records||[];
-  document.getElementById('s-paylasim').textContent=R.length;
-  if(!R.length){L.innerHTML='<div class="yukl">Henüz onaylı paylaşım yok!</div>';return;}
-  L.innerHTML=R.map((r,i)=>{const f=r.fields;const isim=f.Isim||'Anonim';return`<div class="dkart" data-kat="${f.Kategori||''}"><div class="dk-ust"><div class="dk-av" style="background:${RK[i%6]}">${ini(isim)}</div><div><div class="dk-isim">${isim}</div><div class="dk-sure">${zamanAt(f.Tarih)}</div></div><span class="dk-etiket">${f.Kategori||'Diğer'}</span></div><div class="dk-metin">${f.Metin||''}</div><div class="dk-alt"><button class="dk-e" onclick="destekle(this,'${r.id}',${f.Destek||0})">♡ ${f.Destek||0} destek</button></div></div>`;}).join('');}
-  catch(e){document.getElementById('s-paylasim').textContent='0';L.innerHTML=`<div class="dkart" data-kat="Endometriozis"><div class="dk-ust"><div class="dk-av" style="background:#8B3A1F">AY</div><div><div class="dk-isim">Ayşe Y.</div><div class="dk-sure">2 saat önce</div></div><span class="dk-etiket">Endometriozis</span></div><div class="dk-metin">Ameliyat sonrası 3. ayım. Bu topluluğun varlığını bilmek büyük destek oldu.</div><div class="dk-alt"><button class="dk-e">♡ 24 destek</button></div></div><div class="dkart" data-kat="PKOS"><div class="dk-ust"><div class="dk-av" style="background:#D4850A">MK</div><div><div class="dk-isim">Merve K.</div><div class="dk-sure">1 gün önce</div></div><span class="dk-etiket">PKOS</span></div><div class="dk-metin">Glütensiz diyete geçeli 2 ay oldu, şişkinliğim geçti.</div><div class="dk-alt"><button class="dk-e">♡ 41 destek</button></div></div><p style="text-align:center;padding:0.5rem;font-size:11px;color:var(--soft)">Demo mod</p>`;}
+  try{
+    const q=query(collection(db,'deneyimler'),where('durum','==','onaylandi'),orderBy('tarih','desc'));
+    const snap=await getDocs(q);
+    document.getElementById('s-paylasim').textContent=snap.size;
+    if(snap.empty){L.innerHTML='<div class="yukl">Henüz onaylı paylaşım yok!</div>';return;}
+    L.innerHTML='';
+    snap.forEach((d,i)=>{
+      const r=d.data();
+      const isim=r.anonim?'Anonim':r.kullaniciAdi||'Anonim';
+      L.innerHTML+=`<div class="dkart" data-kat="${r.kategori||''}"><div class="dk-ust"><div class="dk-av" style="background:${RK[snap.docs.indexOf(d)%6]}">${ini(isim)}</div><div><div class="dk-isim">${isim}</div><div class="dk-sure">${zamanAt(r.tarih)}</div></div><span class="dk-etiket">${r.kategori||'Diğer'}</span></div><div class="dk-metin">${r.metin||''}</div><div class="dk-alt"><button class="dk-e ${r.begeni||0}" onclick="destekleFb(this,'${d.id}',${r.begeni||0})">♡ ${r.begeni||0} destek</button></div></div>`;
+    });
+  }catch(e){L.innerHTML='<div class="yukl">Yüklenemedi.</div>';}
 }
-window.destekle=async(btn,id,m)=>{if(btn.classList.contains('liked'))return;btn.classList.add('liked');btn.innerHTML=`♡ ${m+1} destek`;try{await fetch(`${AT_URL}/${id}`,{method:'PATCH',headers:AT_H,body:JSON.stringify({fields:{Destek:m+1}})});}catch(e){}};
+window.destekleFb=async(btn,id,m)=>{
+  if(btn.classList.contains('liked'))return;
+  btn.classList.add('liked');
+  btn.innerHTML=`♡ ${m+1} destek`;
+  try{await updateDoc(doc(db,'deneyimler',id),{begeni:increment(1)});}catch(e){}
+};
 window.gonder=async()=>{
-  const isim=document.getElementById('f-isim').value.trim()||'Anonim',kat=document.getElementById('f-kat').value,metin=document.getElementById('f-metin').value.trim();
-  if(!kat){gosterToast('Lütfen kategori seçin.','uyari');return;}if(metin.length<20){gosterToast('En az 20 karakter yazın.','uyari');return;}
-  const btn=document.getElementById('submit-btn');btn.textContent='Gönderiliyor...';btn.disabled=true;
-  try{await fetch(AT_URL,{method:'POST',headers:AT_H,body:JSON.stringify({fields:{Isim:isim,Kategori:kat,Metin:metin,Durum:'Beklemede',Tarih:new Date().toISOString()}})});}catch(e){}
-  document.getElementById('f-isim').value='';document.getElementById('f-kat').value='';document.getElementById('f-metin').value='';
-  btn.style.display='none';document.getElementById('basari').style.display='block';
+  if(!window.kullanici){sayfaGit('giris');return;}
+  const anonim=document.getElementById('f-anonim')?.checked||false;
+  const isim=document.getElementById('f-isim').value.trim()||'';
+  const kat=document.getElementById('f-kat').value;
+  const metin=document.getElementById('f-metin').value.trim();
+  if(!kat){gosterToast('Lütfen kategori seçin.','uyari');return;}
+  if(metin.length<20){gosterToast('En az 20 karakter yazın.','uyari');return;}
+  const submitBtn=document.getElementById('submit-btn');
+  submitBtn.textContent='Gönderiliyor...';submitBtn.disabled=true;
+  try{
+    await addDoc(collection(db,'deneyimler'),{
+      metin,kategori:kat,
+      kullaniciAdi:anonim?'Anonim':(isim||window.kullanici.displayName||'Kullanıcı'),
+      kullaniciFoto:anonim?null:window.kullanici.photoURL||null,
+      kullaniciId:window.kullanici.uid,
+      gercekAd:window.kullanici.displayName||'',
+      gercekMail:window.kullanici.email||'',
+      anonim:anonim,
+      durum:'beklemede',
+      begeni:0,
+      tarih:serverTimestamp()
+    });
+    document.getElementById('f-isim').value='';
+    document.getElementById('f-kat').value='';
+    document.getElementById('f-metin').value='';
+    submitBtn.style.display='none';
+    document.getElementById('basari').style.display='block';
+  }catch(e){
+    gosterToast('Gönderilemedi. Tekrar deneyin.','hata');
+    submitBtn.textContent='Paylaşımı Gönder →';
+    submitBtn.disabled=false;
+  }
 };
 yukle();
 </script>
