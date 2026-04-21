@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kadın Sağlığı — Ege Toplum Gönüllüleri</title>
+<title>Destekçin Olalım — Ege Toplum Gönüllüleri</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--terra:#8B3A1F;--terra-mid:#C45C2E;--terra-pale:#F2E8E0;--amber:#D4850A;--amber-light:#F5C842;--cream:#FAF6F0;--warm:#FFFCF8;--dark:#2C1810;--mid:#6B4C3B;--soft:#A07B68;--border:rgba(139,58,31,0.13);--shadow:0 6px 28px rgba(139,58,31,0.12);}
@@ -221,7 +221,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 
 <nav>
   <div class="nav-inner">
-    <div class="nav-logo" onclick="sayfaGit('ana')">Kadın Sağlığı<small>Ege Toplum Gönüllüleri</small></div>
+    <div class="nav-logo" onclick="sayfaGit('ana')">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div>
     <div class="nav-desktop">
       <a onclick="sayfaGit('ana');git('hastaliklar')">Hastalıklar</a>
       <a onclick="sayfaGit('ana');git('deneyimler')">Deneyimler</a>
@@ -346,11 +346,11 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 
   <section class="hk-section" id="hakkimizda">
     <div class="sh"><h2 style="font-family:'Playfair Display',serif;font-size:30px;color:var(--terra);font-weight:500;">Hakkımızda</h2></div>
-    <p class="sac">Ege Toplum Gönüllüleri — Kadın Sağlığı Projesi</p>
+    <p class="sac">Ege Toplum Gönüllüleri — Destekçin Olalım Projesi</p>
     <div class="hk-grid">
       <div class="hk-sol">
-        <h3>Neden bu projeyi yaptık?</h3>
-        <p>Kadın hastalıkları, toplumda yeterince konuşulamayan, çoğu zaman geç teşhis edilen ve yalnız atlatılan bir süreç olabiliyor. Ege Üniversitesi öğrencileri olarak bu sessizliği kırmak istedik.</p>
+        <h3>Destekçin Olalım nedir?</h3>
+        <p>"Destekçin Olalım", kadın sağlığı konusundaki sessizliği kırmak için Ege Toplum Gönüllüleri bünyesinde hayata geçirilen bir projedir.</p>
         <p>Bu platform; doğru bilgiye ulaşmayı kolaylaştırmak, deneyimleri paylaşabilmek ve "benden önce bu yoldan geçmiş biri var" hissini yaşatmak için kuruldu.</p>
         <p>Tüm içerikler gönüllülerimiz tarafından derlenmekte, paylaşımlar moderasyon sürecinden geçmektedir.</p>
         <div class="hk-degerler">
@@ -373,7 +373,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
         <div class="iletisim-k">
           <div class="lbl">İletişim</div>
           <p>Proje hakkında görüş, öneri veya işbirliği için bize ulaşabilirsiniz.</p>
-          <div class="email">etg.kadinSagligi@ege.edu.tr</div>
+          <div class="email">destekcinolalim@gmail.com</div>
         </div>
       </div>
     </div>
@@ -381,13 +381,58 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 
   <footer>
     <div class="footer-ic">
-      <div class="footer-logo">Kadın Sağlığı<small>Ege Toplum Gönüllüleri</small></div>
+      <div class="footer-logo">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div>
       <div class="footer-links">
         <a onclick="git('hakkimizda')">Hakkımızda</a>
         <a>Gizlilik</a><a>İletişim</a>
       </div>
     </div>
   </footer>
+</div>
+
+
+<!-- GİRİŞ SAYFASI -->
+<div class="sayfa" id="sayfa-giris">
+  <div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+    <div style="background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:420px;text-align:center;">
+      <div style="font-size:40px;margin-bottom:1rem;">🌸</div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:26px;color:var(--terra);margin-bottom:8px;font-weight:500;">Hoş geldin</h1>
+      <p style="font-size:14px;color:var(--soft);font-weight:300;margin-bottom:2rem;line-height:1.7;">Soru sormak, yorum yazmak veya deneyim paylaşmak için giriş yap.</p>
+      
+      <button onclick="googleGiris();sayfaGit('hastalik',false)" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:white;color:var(--dark);border:1px solid var(--border);padding:12px 16px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:12px;transition:all 0.2s;">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Google ile Giriş Yap
+      </button>
+
+      <div style="display:flex;align-items:center;gap:10px;margin:16px 0;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <span style="font-size:12px;color:var(--soft);">veya</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+
+      <div id="giris-form-login">
+        <input type="email" id="g-mail" placeholder="E-posta adresi" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
+        <input type="password" id="g-sifre" placeholder="Şifre" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:12px;background:var(--cream);color:var(--dark);">
+        <button onclick="girisMailGiris()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;margin-bottom:12px;">Giriş Yap</button>
+        <p style="font-size:13px;color:var(--soft);">Hesabın yok mu? <a onclick="girisFormToggle()" style="color:var(--terra);cursor:pointer;font-weight:500;">Kayıt ol</a></p>
+      </div>
+
+      <div id="giris-form-kayit" style="display:none;">
+        <input type="text" id="g-ad" placeholder="Adın veya takma adın" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
+        <input type="email" id="g-mail2" placeholder="E-posta adresi" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
+        <input type="password" id="g-sifre2" placeholder="Şifre (en az 6 karakter)" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:12px;background:var(--cream);color:var(--dark);">
+        <button onclick="girisKayitOl()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:12px;">Hesap Oluştur</button>
+        <p style="font-size:13px;color:var(--soft);">Zaten hesabın var mı? <a onclick="girisFormToggle()" style="color:var(--terra);cursor:pointer;font-weight:500;">Giriş yap</a></p>
+      </div>
+
+      <div id="giris-hata" style="font-size:13px;color:#d9534f;margin-top:8px;display:none;"></div>
+
+      <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+        <button onclick="history.back()" style="background:none;border:none;color:var(--soft);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">← Geri dön</button>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-ic"><div class="footer-logo">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div></div></footer>
 </div>
 
 <!-- HASTALIK DETAY SAYFASI -->
@@ -454,7 +499,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     <div class="tab-panel ak" id="tab-sorular">
       <div class="yaz-kutu">
         <h4>Soru Sor</h4>
-        <div id="soru-giris-uyari" class="yaz-giris-uyari" style="display:none">Soru sormak için <a onclick="document.getElementById('auth-kutu').scrollIntoView({behavior:'smooth'})">giriş yapın</a>.</div>
+        <div id="soru-giris-uyari" class="yaz-giris-uyari" style="display:none">Soru sormak için <a onclick="sayfaGit('giris')" style="color:var(--terra);font-weight:500;cursor:pointer;">giriş yapın</a>.</div>
         <div id="soru-yaz-form">
           <textarea class="yaz-textarea" id="soru-input" placeholder="Bu hastalıkla ilgili merak ettiğiniz bir şey mi var?"></textarea>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin-top:8px;cursor:pointer;">
@@ -468,7 +513,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     <div class="tab-panel" id="tab-yorumlar">
       <div class="yaz-kutu">
         <h4>Deneyim veya Yorum Yaz</h4>
-        <div id="yorum-giris-uyari" class="yaz-giris-uyari" style="display:none">Yorum yazmak için <a onclick="document.getElementById('auth-kutu').scrollIntoView({behavior:'smooth'})">giriş yapın</a>.</div>
+        <div id="yorum-giris-uyari" class="yaz-giris-uyari" style="display:none">Yorum yazmak için <a onclick="sayfaGit('giris')" style="color:var(--terra);font-weight:500;cursor:pointer;">giriş yapın</a>.</div>
         <div id="yorum-yaz-form">
           <textarea class="yaz-textarea" id="yorum-input" placeholder="Deneyiminizi veya görüşünüzü paylaşın..."></textarea>
           <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin-top:8px;cursor:pointer;">
@@ -482,7 +527,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
   </div>
   <footer>
     <div class="footer-ic">
-      <div class="footer-logo">Kadın Sağlığı<small>Ege Toplum Gönüllüleri</small></div>
+      <div class="footer-logo">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div>
       <div class="footer-links">
         <a onclick="sayfaGit('ana');git('hakkimizda')">Hakkımızda</a>
         <a>Gizlilik</a><a>İletişim</a>
@@ -491,7 +536,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
   </footer>
 </div>
 
-<button class="admin-float" onclick="adminAc()">⚙ Yönetici</button>
+<!-- Yönetici butonu gizlendi - admin maili ile giriş yapınca otomatik açılır -->
 
 <!-- YÖNETİCİ PANELİ -->
 <div class="sayfa" id="sayfa-yonetici">
@@ -518,14 +563,17 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     <div style="background:var(--warm);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;"><div style="font-size:28px;font-weight:500;color:#a32d2d;" id="adm-reddedildi">—</div><div style="font-size:12px;color:var(--soft);">Reddedildi</div></div>
   </div>
   <div style="display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap;">
-    <button onclick="admFilt('hepsi',this)" style="background:var(--terra);color:white;border:none;padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Hepsi</button>
-    <button onclick="admFilt('beklemede',this)" style="background:var(--warm);border:1px solid var(--border);color:var(--mid);padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">⏳ Beklemede</button>
+    <button onclick="admFilt('hepsi',this)" style="background:var(--warm);border:1px solid var(--border);color:var(--mid);padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Hepsi</button>
+    <button onclick="admFilt('beklemede',this)" id="adm-btn-beklemede" style="background:var(--terra);color:white;border:none;padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">⏳ Beklemede</button>
     <button onclick="admFilt('onaylandi',this)" style="background:var(--warm);border:1px solid var(--border);color:var(--mid);padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">✓ Onaylananlar</button>
     <button onclick="admFilt('reddedildi',this)" style="background:var(--warm);border:1px solid var(--border);color:var(--mid);padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Reddedilenler</button>
   </div>
+  <div style="margin-bottom:1.5rem;">
+    <input type="text" id="adm-arama" placeholder="Soru veya yorumda ara..." oninput="admArama()" style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dark);background:var(--warm);">
+  </div>
   <div id="adm-liste"><div class="yukl">Yükleniyor...</div></div>
 </div>
-<footer><div class="footer-ic"><div class="footer-logo">Kadın Sağlığı<small>Ege Toplum Gönüllüleri</small></div></div></footer>
+<footer><div class="footer-ic"><div class="footer-logo">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div></div></footer>
 </div>
 
 <script type="module">
@@ -541,7 +589,7 @@ const DIGER=[{id:'endometriozis',ad:'Endometriozis',ico:'🌸'},{id:'pkos',ad:'P
 
 window.aktifH=null,window.window.kullanici=null;
 
-window.hastalıkAc=(id)=>{
+window.hastalıkAc=(id, pushHistory=true)=>{
   window.aktifH=id;const h=H[id];if(!h)return;
   document.getElementById('breadcrumb-ad').textContent=h.baslik;
   document.getElementById('has-ikon').textContent=h.ikon;
@@ -551,7 +599,8 @@ window.hastalıkAc=(id)=>{
   document.getElementById('ilgili-list').innerHTML=DIGER.filter(d=>d.id!==id).map(d=>`<div class="ilgili-link" onclick="hastalıkAc('${d.id}')"><span class="ilgili-ico">${d.ico}</span>${d.ad}</div>`).join('');
   document.querySelectorAll('.stab').forEach((b,i)=>{b.classList.toggle('ak',i===0);});
   document.querySelectorAll('.tab-panel').forEach((p,i)=>{p.classList.toggle('ak',i===0);});
-  sayfaGit('hastalik');window.scrollTo(0,0);
+  sayfaGit('hastalik', false);window.scrollTo(0,0);
+  if(pushHistory) history.pushState({sayfa:'hastalik',hastalik:id},'','#hastalik-'+id);
   soruYorumYukle('soru');soruYorumYukle('yorum');
 };
 
@@ -560,6 +609,18 @@ onAuthStateChanged(auth,user=>{
   if(user){
     document.getElementById('auth-giris').style.display='none';
     document.getElementById('auth-profil').style.display='block';
+    // Admin kontrolü - admin maili ile giriş yapıldıysa yönetici panelini aç
+    if(ADMIN_MAILLER.includes(user.email)){
+      setTimeout(()=>{
+        if(!admGirisYapildi){
+          admGirisYapildi=true;
+          sayfaGit('yonetici');
+          document.getElementById('admin-giris-ekrani').style.display='none';
+          document.getElementById('admin-panel').style.display='block';
+          admYukle();
+        }
+      }, 500);
+    }
     const av=document.getElementById('profil-av');
     av.innerHTML=user.photoURL?`<img src="${user.photoURL}" alt="">`:(user.displayName||user.email||'?')[0].toUpperCase();
     document.getElementById('profil-isim').textContent=user.displayName||'Kullanıcı';
@@ -653,6 +714,48 @@ window.yanitaYanitGonder=async(yanitId,soruId)=>{
   }catch(e){alert('Gönderilemedi.');}
 };
 
+// GİRİŞ SAYFASI FONKSİYONLARI
+window.girisFormToggle=()=>{
+  const l=document.getElementById('giris-form-login');
+  const k=document.getElementById('giris-form-kayit');
+  l.style.display=l.style.display==='none'?'block':'none';
+  k.style.display=k.style.display==='none'?'block':'none';
+};
+
+window.girisMailGiris=async()=>{
+  const mail=document.getElementById('g-mail').value;
+  const sifre=document.getElementById('g-sifre').value;
+  try{
+    await signInWithEmailAndPassword(auth,mail,sifre);
+    history.back();
+  }catch(e){
+    const el=document.getElementById('giris-hata');
+    el.textContent='E-posta veya şifre hatalı.';
+    el.style.display='block';
+  }
+};
+
+window.girisKayitOl=async()=>{
+  const ad=document.getElementById('g-ad').value.trim();
+  const mail=document.getElementById('g-mail2').value;
+  const sifre=document.getElementById('g-sifre2').value;
+  if(!ad){
+    const el=document.getElementById('giris-hata');
+    el.textContent='Lütfen isim girin.';
+    el.style.display='block';
+    return;
+  }
+  try{
+    const c=await createUserWithEmailAndPassword(auth,mail,sifre);
+    await updateProfile(c.user,{displayName:ad});
+    history.back();
+  }catch(e){
+    const el=document.getElementById('giris-hata');
+    el.textContent='Kayıt başarısız. Şifre en az 6 karakter olmalı.';
+    el.style.display='block';
+  }
+};
+
 window.gonderiSil=async(id)=>{
   if(!confirm('Gönderinizi silmek istediğinize emin misiniz?'))return;
   try{
@@ -699,9 +802,10 @@ yukle();
 <script>
 // YÖNETİCİ
 const ADMIN_SIFRE = 'etg2024';
+const ADMIN_MAILLER = ['destekcinolalim@gmail.com'];
 let admGirisYapildi = false;
 let tumGonderiler = [];
-let admFiltreAktif = 'hepsi';
+let admFiltreAktif = 'beklemede';
 
 function adminAc(){sayfaGit('yonetici');window.scrollTo(0,0);}
 function adminCikis(){admGirisYapildi=false;document.getElementById('admin-giris-ekrani').style.display='flex';document.getElementById('admin-panel').style.display='none';document.getElementById('admin-sifre').value='';sayfaGit('ana');}
@@ -748,6 +852,15 @@ function admFilt(d,btn){
   admListele();
 }
 
+function admArama(){
+  const q = document.getElementById('adm-arama').value.toLowerCase();
+  document.querySelectorAll('.adm-kart').forEach(k => {
+    const metin = k.dataset.metin||'';
+    const kullanici = k.dataset.kullanici||'';
+    k.style.display = (!q || metin.includes(q) || kullanici.includes(q)) ? '' : 'none';
+  });
+}
+
 function admListele(){
   const liste=document.getElementById('adm-liste');
   const kayitlar=admFiltreAktif==='hepsi'?tumGonderiler:tumGonderiler.filter(r=>r.durum===admFiltreAktif);
@@ -759,7 +872,7 @@ function admListele(){
     const durumBg=r.durum==='onaylandi'?'#f0faf0':r.durum==='reddedildi'?'#faf0f0':'#fff8e6';
     const durumAd=r.durum==='onaylandi'?'Onaylandı':r.durum==='reddedildi'?'Reddedildi':'Beklemede';const tipAd=r.tip==='soru'?'Soru':r.tip==='yorum'?'Yorum':'Yanıt';
     const tarih=r.tarih?new Date(r.tarih.toMillis()).toLocaleString('tr-TR'):'—';
-    return `<div style="background:var(--warm);border:1px solid var(--border);border-left:3px solid ${durumRenk};border-radius:14px;padding:1.25rem;margin-bottom:12px;">
+    return `<div class="adm-kart" data-metin="${(r.metin||'').toLowerCase()}" data-kullanici="${(r.kullaniciAdi||'').toLowerCase()}" style="background:var(--warm);border:1px solid var(--border);border-left:3px solid ${durumRenk};border-radius:14px;padding:1.25rem;margin-bottom:12px;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
         <span style="font-size:13px;font-weight:500;">${r.kullaniciAdi||'Anonim'}</span>${r.anonim?` <span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;">Anonim — Gerçek: ${r.gercekAd} (${r.gercekMail})</span>`:''}
         <span style="font-size:11px;background:var(--terra-pale);color:var(--terra);padding:3px 10px;border-radius:100px;">${r.hastalik||''}</span>
@@ -789,9 +902,47 @@ async function admDurum(id, yeniDurum){
   }catch(e){alert('Güncelleme başarısız.');}
 }
 
-function sayfaGit(id){document.querySelectorAll('.sayfa').forEach(s=>s.classList.remove('aktif'));document.getElementById('sayfa-'+id).classList.add('aktif');window.scrollTo(0,0);}
+function sayfaGit(id, pushHistory=true){
+  document.querySelectorAll('.sayfa').forEach(s=>s.classList.remove('aktif'));
+  document.getElementById('sayfa-'+id).classList.add('aktif');
+  window.scrollTo(0,0);
+  if(pushHistory){
+    const hash = id==='ana' ? '#ana' : '#'+id;
+    history.pushState({sayfa:id, hastalik:window.aktifH||null}, '', hash);
+  }
+}
 function git(id){const el=document.getElementById(id);if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth'}),100);}
 function menuToggle(){document.getElementById('hbtn').classList.toggle('acik');document.getElementById('mobil-menu').classList.toggle('acik');document.body.style.overflow=document.getElementById('mobil-menu').classList.contains('acik')?'hidden':'';}
+// Geri/ileri tuşu desteği
+window.addEventListener('popstate', function(e){
+  if(e.state){
+    const {sayfa, hastalik} = e.state;
+    if(sayfa === 'hastalik' && hastalik){
+      window.hastalıkAc(hastalik, false);
+    } else {
+      sayfaGit(sayfa || 'ana', false);
+    }
+  } else {
+    sayfaGit('ana', false);
+  }
+});
+
+// Sayfa ilk yüklendiğinde hash kontrolü + ana sayfayı history'e ekle
+window.addEventListener('load', function(){
+  const hash = window.location.hash;
+  if(hash.startsWith('#hastalik-')){
+    const id = hash.replace('#hastalik-','');
+    // Önce ana sayfayı history'e ekle, sonra hastalık sayfasını
+    history.replaceState({sayfa:'ana', hastalik:null}, '', '#ana');
+    if(id) window.hastalıkAc(id);
+  } else if(hash === '#yonetici'){
+    history.replaceState({sayfa:'ana', hastalik:null}, '', '#ana');
+    adminAc();
+  } else {
+    history.replaceState({sayfa:'ana', hastalik:null}, '', '#ana');
+  }
+});
+
 function mmToggle(id){
   const el=document.getElementById(id);
   const ok=document.getElementById(id+'-ok');
