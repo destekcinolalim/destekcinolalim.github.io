@@ -807,7 +807,7 @@ window.yanitToggle=(id)=>{
     if(kart) form.dataset.soruMetni=kart.dataset.soruMetni||'';
   }
 };
-window.yanitGonder=async(anaId)=>{if(!window.kullanici){document.getElementById('auth-kutu').scrollIntoView({behavior:'smooth'});return;}const ta=document.getElementById(`yanit-form-${anaId}`).querySelector('textarea');if(ta.value.trim().length<5){gosterToast('Lütfen daha uzun bir yanıt yazın.','uyari');return;}try{const soruMetni=document.getElementById(`yanit-form-${anaId}`).dataset.soruMetni||'';await addDoc(collection(db,'gonderiler'),{metin:ta.value.trim(),tip:'yanit',anaId:anaId,soruMetni:soruMetni,hastalik:window.aktifH,kullaniciAdi:window.kullanici.displayName||'Kullanıcı',kullaniciFoto:window.kullanici.photoURL||null,kullaniciId:window.kullanici.uid,durum:'beklemede',begeni:0,yanitSayisi:0,tarih:serverTimestamp()});await updateDoc(doc(db,'gonderiler',anaId),{yanitSayisi:increment(1)});await window._yanitBildirimi(anaId, window.kullanici.displayName||'Biri');ta.value='';document.getElementById(`yanit-form-${anaId}`).classList.remove('acik');gosterToast('Yanıtınız alındı! Onaylandıktan sonra görünecek.','basari');}catch(e){gosterToast('Yanıt gönderilemedi.','hata');}};
+window.yanitGonder=async(anaId)=>{if(!window.kullanici){document.getElementById('auth-kutu').scrollIntoView({behavior:'smooth'});return;}const ta=document.getElementById(`yanit-form-${anaId}`).querySelector('textarea');if(ta.value.trim().length<5){gosterToast('Lütfen daha uzun bir yanıt yazın.','uyari');return;}try{const soruMetni=document.getElementById(`yanit-form-${anaId}`).dataset.soruMetni||'';await addDoc(collection(db,'gonderiler'),{metin:ta.value.trim(),tip:'yanit',anaId:anaId,soruMetni:soruMetni,hastalik:window.aktifH,kullaniciAdi:window.kullanici.displayName||'Kullanıcı',kullaniciFoto:window.kullanici.photoURL||null,kullaniciId:window.kullanici.uid,durum:'beklemede',begeni:0,yanitSayisi:0,tarih:serverTimestamp()});await updateDoc(doc(db,'gonderiler',anaId),{yanitSayisi:increment(1)});await window._yanitBildirimi(anaId, window.kullanici.displayName||'Biri');ta.value='';document.getElementById(`yanit-form-${anaId}`).classList.remove('acik');gosterToast('✅ Yanıtınız alındı! Ekibimiz inceledikten sonra yayınlanacak.','basari',5000);}catch(e){gosterToast('Yanıt gönderilemedi.','hata');}};
 window.begeni=async(id,btn,m)=>{if(btn.classList.contains('liked'))return;btn.classList.add('liked');btn.innerHTML=`♡ ${m+1}`;try{await updateDoc(doc(db,'gonderiler',id),{begeni:increment(1)});}catch(e){}};
 async function gonderiEkle(tip,metin,anonim){if(!window.kullanici){document.getElementById('auth-kutu').scrollIntoView({behavior:'smooth'});return false;}if(metin.length<10){gosterToast('Daha uzun yazın.','uyari');return false;}try{await addDoc(collection(db,'gonderiler'),{metin,tip,hastalik:window.aktifH,kullaniciAdi:anonim?'Anonim':window.kullanici.displayName||'Kullanıcı',kullaniciFoto:anonim?null:window.kullanici.photoURL||null,kullaniciId:window.kullanici.uid,gercekAd:window.kullanici.displayName||'',gercekMail:window.kullanici.email||'',anonim:anonim||false,durum:'beklemede',begeni:0,yanitSayisi:0,tarih:serverTimestamp()});return true;}catch(e){gosterToast('Gönderilemedi.','hata');return false;}}
 window.yanitaYanitToggle=(yanitId,anaId)=>{
@@ -837,7 +837,7 @@ window.yanitaYanitGonder=async(yanitId,soruId)=>{
     });
     await updateDoc(doc(db,'gonderiler',soruId),{yanitSayisi:increment(1)});
     ta.value='';form.classList.remove('acik');
-    gosterToast('Yanıtınız alındı! Onaylandıktan sonra görünecek.','basari');
+    gosterToast('✅ Yanıtınız alındı! Ekibimiz inceledikten sonra yayınlanacak.','basari',5000);
   }catch(e){gosterToast('Gönderilemedi.','hata');}
 };
 
@@ -1032,8 +1032,8 @@ window.profilListeYukle=async function(tip, listeId){
   }catch(e){liste.innerHTML=`<div class="bos">Yüklenemedi: ${e.message}</div>`;}
 }
 
-window.soruGonder=async()=>{const i=document.getElementById('soru-input');const anonim=document.getElementById('soru-anonim')?.checked||false;const ok=await gonderiEkle('soru',i.value.trim(),anonim);if(ok){i.value='';document.getElementById('soru-anonim').checked=false;gosterToast('Sorunuz alındı! Onaylandıktan sonra görünecek.','basari');}};
-window.yorumGonder=async()=>{const i=document.getElementById('yorum-input');const anonim=document.getElementById('yorum-anonim')?.checked||false;const ok=await gonderiEkle('yorum',i.value.trim(),anonim);if(ok){i.value='';document.getElementById('yorum-anonim').checked=false;gosterToast('Yorumunuz alındı! Onaylandıktan sonra görünecek.','basari');}};
+window.soruGonder=async()=>{const i=document.getElementById('soru-input');const anonim=document.getElementById('soru-anonim')?.checked||false;const ok=await gonderiEkle('soru',i.value.trim(),anonim);if(ok){i.value='';document.getElementById('soru-anonim').checked=false;gosterToast('✅ Sorunuz alındı! Ekibimiz inceledikten sonra yayınlanacak.','basari',5000);}};
+window.yorumGonder=async()=>{const i=document.getElementById('yorum-input');const anonim=document.getElementById('yorum-anonim')?.checked||false;const ok=await gonderiEkle('yorum',i.value.trim(),anonim);if(ok){i.value='';document.getElementById('yorum-anonim').checked=false;gosterToast('✅ Yorumunuz alındı! Ekibimiz inceledikten sonra yayınlanacak.','basari',5000);}};
 window.tabAc=(id,btn)=>{document.querySelectorAll('.stab').forEach(b=>b.classList.remove('ak'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('ak'));btn.classList.add('ak');document.getElementById(`tab-${id}`).classList.add('ak');};
 
 // Deneyimler - Firebase
