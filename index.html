@@ -205,6 +205,27 @@ footer{background:var(--terra);margin-top:4rem;}
 hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 .yukl{text-align:center;padding:3rem;color:var(--soft);font-size:14px;}
 .toast-wrap{position:fixed;bottom:2rem;right:2rem;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
+/* BİLDİRİM */
+.bil-btn{position:relative;background:none;border:none;cursor:pointer;padding:4px 6px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background 0.2s;}
+.bil-btn:hover{background:var(--terra-pale);}
+.bil-btn svg{width:22px;height:22px;stroke:var(--terra);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.bil-badge{position:absolute;top:0px;right:0px;background:#d9534f;color:white;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 3px;line-height:1;}
+.bil-panel{position:fixed;top:68px;right:1rem;width:340px;max-height:480px;background:var(--cream);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.12);z-index:400;overflow:hidden;display:none;flex-direction:column;}
+.bil-panel.acik{display:flex;}
+.bil-panel-ust{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.bil-panel-ust h3{font-size:15px;font-weight:500;color:var(--dark);}
+.bil-tamami-oku{font-size:12px;color:var(--terra);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;padding:0;}
+.bil-liste{overflow-y:auto;flex:1;}
+.bil-item{padding:0.9rem 1.25rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;display:flex;gap:10px;align-items:flex-start;}
+.bil-item:hover{background:var(--warm);}
+.bil-item.okunmadi{background:#fff8f5;}
+.bil-item.okunmadi:hover{background:#fff0e8;}
+.bil-ikon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:2px;}
+.bil-ic{flex:1;min-width:0;}
+.bil-ic-metin{font-size:13px;color:var(--dark);line-height:1.5;margin-bottom:3px;}
+.bil-ic-metin strong{font-weight:500;}
+.bil-ic-sure{font-size:11px;color:var(--soft);}
+.bil-bos{padding:2.5rem;text-align:center;color:var(--soft);font-size:14px;}
 .toast{background:var(--dark);color:white;padding:12px 20px;border-radius:12px;font-size:14px;font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.2);opacity:0;transform:translateY(20px);transition:all 0.3s;pointer-events:none;max-width:320px;line-height:1.5;}
 .toast.goster{opacity:1;transform:translateY(0);}
 .toast.basari{background:#2d7a2d;}
@@ -244,6 +265,10 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
         <a onclick="sayfaGit('giris')" style="font-size:13px;color:var(--terra);font-weight:500;cursor:pointer;border:1.5px solid var(--terra);padding:6px 16px;border-radius:100px;transition:all 0.2s;" onmouseover="this.style.background='var(--terra-pale)'" onmouseout="this.style.background='transparent'">Giriş Yap</a>
       </div>
       <div id="nav-profil" style="display:none;align-items:center;gap:8px;">
+        <button class="bil-btn" id="bil-btn" onclick="bildirimPanelToggle()" style="display:none;" title="Bildirimler">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="bil-badge" id="bil-badge" style="display:none;">0</span>
+        </button>
         <div id="nav-av" onclick="profilYukle();sayfaGit('profil')" style="width:32px;height:32px;border-radius:50%;background:var(--terra-pale);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--terra);overflow:hidden;cursor:pointer;border:2px solid var(--terra-pale);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--terra)'" onmouseout="this.style.borderColor='var(--terra-pale)'"></div>
         <button onclick="cikisYap()" style="font-size:12px;color:var(--soft);background:none;border:1px solid var(--border);padding:5px 12px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;">Çıkış</button>
       </div>
@@ -633,7 +658,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import{getAuth,signInWithPopup,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import{getFirestore,collection,addDoc,getDocs,query,where,orderBy,doc,updateDoc,increment,serverTimestamp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import{getFirestore,collection,addDoc,getDocs,query,where,orderBy,doc,updateDoc,increment,serverTimestamp,onSnapshot,limit}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const app=initializeApp({apiKey:"AIzaSyBwN1isDXSLczxnWf3bsckm9vT7U5obbF0",authDomain:"kadin-sagligi-etg.firebaseapp.com",projectId:"kadin-sagligi-etg",storageBucket:"kadin-sagligi-etg.firebasestorage.app",messagingSenderId:"819397753328",appId:"1:819397753328:web:b5804e809de21dc18ec535"});
 const auth=getAuth(app),db=getFirestore(app),gp=new GoogleAuthProvider();
@@ -700,6 +725,8 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('soru-yaz-form').style.display='block';
     document.getElementById('yorum-giris-uyari').style.display='none';
     document.getElementById('yorum-yaz-form').style.display='block';
+    // Bildirimleri dinlemeye başla
+    window._bildirimBaslat(user.uid);
   }else{
     document.getElementById('auth-giris').style.display='block';
     document.getElementById('auth-profil').style.display='none';
@@ -760,7 +787,7 @@ window.yanitToggle=(id)=>{
     if(kart) form.dataset.soruMetni=kart.dataset.soruMetni||'';
   }
 };
-window.yanitGonder=async(anaId)=>{if(!window.kullanici){document.getElementById('auth-kutu').scrollIntoView({behavior:'smooth'});return;}const ta=document.getElementById(`yanit-form-${anaId}`).querySelector('textarea');if(ta.value.trim().length<5){gosterToast('Lütfen daha uzun bir yanıt yazın.','uyari');return;}try{const soruMetni=document.getElementById(`yanit-form-${anaId}`).dataset.soruMetni||'';await addDoc(collection(db,'gonderiler'),{metin:ta.value.trim(),tip:'yanit',anaId:anaId,soruMetni:soruMetni,hastalik:window.aktifH,kullaniciAdi:window.kullanici.displayName||'Kullanıcı',kullaniciFoto:window.kullanici.photoURL||null,kullaniciId:window.kullanici.uid,durum:'beklemede',begeni:0,yanitSayisi:0,tarih:serverTimestamp()});await updateDoc(doc(db,'gonderiler',anaId),{yanitSayisi:increment(1)});ta.value='';document.getElementById(`yanit-form-${anaId}`).classList.remove('acik');gosterToast('Yanıtınız alındı! Onaylandıktan sonra görünecek.','basari');}catch(e){gosterToast('Yanıt gönderilemedi.','hata');}};
+window.yanitGonder=async(anaId)=>{if(!window.kullanici){document.getElementById('auth-kutu').scrollIntoView({behavior:'smooth'});return;}const ta=document.getElementById(`yanit-form-${anaId}`).querySelector('textarea');if(ta.value.trim().length<5){gosterToast('Lütfen daha uzun bir yanıt yazın.','uyari');return;}try{const soruMetni=document.getElementById(`yanit-form-${anaId}`).dataset.soruMetni||'';await addDoc(collection(db,'gonderiler'),{metin:ta.value.trim(),tip:'yanit',anaId:anaId,soruMetni:soruMetni,hastalik:window.aktifH,kullaniciAdi:window.kullanici.displayName||'Kullanıcı',kullaniciFoto:window.kullanici.photoURL||null,kullaniciId:window.kullanici.uid,durum:'beklemede',begeni:0,yanitSayisi:0,tarih:serverTimestamp()});await updateDoc(doc(db,'gonderiler',anaId),{yanitSayisi:increment(1)});await window._yanitBildirimi(anaId, window.kullanici.displayName||'Biri');ta.value='';document.getElementById(`yanit-form-${anaId}`).classList.remove('acik');gosterToast('Yanıtınız alındı! Onaylandıktan sonra görünecek.','basari');}catch(e){gosterToast('Yanıt gönderilemedi.','hata');}};
 window.begeni=async(id,btn,m)=>{if(btn.classList.contains('liked'))return;btn.classList.add('liked');btn.innerHTML=`♡ ${m+1}`;try{await updateDoc(doc(db,'gonderiler',id),{begeni:increment(1)});}catch(e){}};
 async function gonderiEkle(tip,metin,anonim){if(!window.kullanici){document.getElementById('auth-kutu').scrollIntoView({behavior:'smooth'});return false;}if(metin.length<10){gosterToast('Daha uzun yazın.','uyari');return false;}try{await addDoc(collection(db,'gonderiler'),{metin,tip,hastalik:window.aktifH,kullaniciAdi:anonim?'Anonim':window.kullanici.displayName||'Kullanıcı',kullaniciFoto:anonim?null:window.kullanici.photoURL||null,kullaniciId:window.kullanici.uid,gercekAd:window.kullanici.displayName||'',gercekMail:window.kullanici.email||'',anonim:anonim||false,durum:'beklemede',begeni:0,yanitSayisi:0,tarih:serverTimestamp()});return true;}catch(e){gosterToast('Gönderilemedi.','hata');return false;}}
 window.yanitaYanitToggle=(yanitId,anaId)=>{
@@ -1050,6 +1077,126 @@ window.gonder=async()=>{
 };
 yukle();
 
+// ===== BİLDİRİM SİSTEMİ =====
+let bildirimUnsub = null;
+
+// Giriş yapınca bildirimleri dinle
+window._bildirimBaslat = function(uid){
+  if(bildirimUnsub) bildirimUnsub();
+  const q = query(
+    collection(db,'bildirimler'),
+    where('kullaniciId','==',uid),
+    orderBy('tarih','desc'),
+    limit(30)
+  );
+  bildirimUnsub = onSnapshot(q, snap => {
+    const tumBildirimler = [];
+    snap.forEach(d => tumBildirimler.push({id:d.id,...d.data()}));
+    const okunmamisSayi = tumBildirimler.filter(b=>!b.okundu).length;
+    // Badge güncelle
+    const badge = document.getElementById('bil-badge');
+    const bilBtn = document.getElementById('bil-btn');
+    if(badge && bilBtn){
+      bilBtn.style.display = 'flex';
+      if(okunmamisSayi > 0){
+        badge.style.display = 'flex';
+        badge.textContent = okunmamisSayi > 9 ? '9+' : okunmamisSayi;
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+    // Panel listesini güncelle
+    _bildirimListeGuncelle(tumBildirimler);
+  });
+};
+
+function _bildirimListeGuncelle(bildirimler){
+  const liste = document.getElementById('bil-liste');
+  if(!liste) return;
+  if(!bildirimler.length){
+    liste.innerHTML = '<div class="bil-bos">Henüz bildirim yok.</div>';
+    return;
+  }
+  liste.innerHTML = bildirimler.map(b => {
+    const ikon = b.tip==='onaylandi'?'✅':b.tip==='reddedildi'?'❌':b.tip==='yanit_geldi'?'💬':'🔔';
+    const bg = b.tip==='onaylandi'?'#f0faf0':b.tip==='reddedildi'?'#fdf0f0':b.tip==='yanit_geldi'?'#f0f4ff':'#f9f5f2';
+    let ms = 0;
+    try{ ms = b.tarih?.toMillis?.()||b.tarih?.seconds*1000||0; }catch(e){}
+    const sure = ms ? zaman({toMillis:()=>ms}) : '';
+    return `<div class="bil-item${b.okundu?'':' okunmadi'}" onclick="bildirimTikla('${b.id}','${b.sayfaId||''}','${b.hastalik||''}')">
+      <div class="bil-ikon" style="background:${bg}">${ikon}</div>
+      <div class="bil-ic">
+        <div class="bil-ic-metin">${b.metin||''}</div>
+        <div class="bil-ic-sure">${sure}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.bildirimTikla = async function(bildirimId, sayfaId, hastalik){
+  // Okundu işaretle
+  try{ await updateDoc(doc(db,'bildirimler',bildirimId),{okundu:true}); }catch(e){}
+  // İlgili sayfaya git
+  bildirimPanelKapat();
+  if(hastalik) window.hastalıkAc(hastalik);
+};
+
+window.tumunuOku = async function(){
+  if(!window.kullanici) return;
+  const q = query(collection(db,'bildirimler'),where('kullaniciId','==',window.kullanici.uid),where('okundu','==',false));
+  try{
+    const snap = await getDocs(q);
+    const islemler = snap.docs.map(d => updateDoc(doc(db,'bildirimler',d.id),{okundu:true}));
+    await Promise.all(islemler);
+  }catch(e){}
+};
+
+// Admin onaylayınca/reddedince bildirim yaz
+window._bildirimGonder = async function(gonderiId, tip){
+  try{
+    const gonderiDoc = tumGonderiler.find(r=>r.id===gonderiId);
+    if(!gonderiDoc || !gonderiDoc.kullaniciId) return;
+    // Admin kendi gönderisini onaylıyorsa bildirim gitmesin
+    if(gonderiDoc.kullaniciId === window.kullanici?.uid) return;
+    const tipMetin = gonderiDoc.tip==='soru'?'sorunuz':gonderiDoc.tip==='yorum'?'yorumunuz':'yanıtınız';
+    const metin = tip==='onaylandi'
+      ? `${tipMetin.charAt(0).toUpperCase()+tipMetin.slice(1)} yayınlandı! ✅`
+      : `${tipMetin.charAt(0).toUpperCase()+tipMetin.slice(1)} incelendi ancak yayınlanamadı.`;
+    await addDoc(collection(db,'bildirimler'),{
+      kullaniciId: gonderiDoc.kullaniciId,
+      tip: tip,
+      metin: metin,
+      gonderiMetni: (gonderiDoc.metin||'').slice(0,80),
+      hastalik: gonderiDoc.hastalik||'',
+      sayfaId: gonderiDoc.hastalik||'',
+      okundu: false,
+      tarih: serverTimestamp()
+    });
+  }catch(e){ console.warn('Bildirim gönderilemedi:',e); }
+};
+
+// Yanıt gelince soru/yorum sahibine bildirim yaz
+window._yanitBildirimi = async function(anaId, yanitYazanAdi){
+  try{
+    const q = query(collection(db,'gonderiler'),where('__name__','==',anaId));
+    const snap = await getDocs(collection(db,'gonderiler'));
+    let anaSahibi = null;
+    snap.forEach(d=>{ if(d.id===anaId) anaSahibi=d.data(); });
+    if(!anaSahibi || !anaSahibi.kullaniciId) return;
+    if(anaSahibi.kullaniciId === window.kullanici?.uid) return;
+    await addDoc(collection(db,'bildirimler'),{
+      kullaniciId: anaSahibi.kullaniciId,
+      tip: 'yanit_geldi',
+      metin: `${yanitYazanAdi||'Biri'} sorunuzu yanıtladı 💬`,
+      gonderiMetni: (anaSahibi.metin||'').slice(0,80),
+      hastalik: anaSahibi.hastalik||'',
+      sayfaId: anaSahibi.hastalik||'',
+      okundu: false,
+      tarih: serverTimestamp()
+    });
+  }catch(e){ console.warn('Yanıt bildirimi gönderilemedi:',e); }
+};
+
 // YÖNETİCİ (Firebase erişimi gerektiği için module bloğunda)
 let tumGonderiler = [];
 let admFiltreAktif = 'beklemede';
@@ -1121,6 +1268,8 @@ window.admDurum = async function admDurum(id, yeniDurum){
     await updateDoc(doc(db,'gonderiler',id),{durum:yeniDurum});
     const kayit=tumGonderiler.find(r=>r.id===id);
     if(kayit)kayit.durum=yeniDurum;
+    // Bildirim gönder
+    await window._bildirimGonder(id, yeniDurum);
     admIstatistik();admListele();
   }catch(e){alert('Güncelleme başarısız.');}
 };
@@ -1225,6 +1374,9 @@ function mmToggle(id){
   if(ok) ok.textContent=el.classList.contains('acik')?'∨':'›';
 }
 function menuKapat(){document.getElementById('hbtn').classList.remove('acik');document.getElementById('mobil-menu').classList.remove('acik');document.body.style.overflow='';}
+function bildirimPanelToggle(){document.getElementById('bil-panel').classList.toggle('acik');}
+function bildirimPanelKapat(){document.getElementById('bil-panel').classList.remove('acik');}
+document.addEventListener('click',e=>{const panel=document.getElementById('bil-panel');const btn=document.getElementById('bil-btn');if(panel&&btn&&!panel.contains(e.target)&&!btn.contains(e.target))bildirimPanelKapat();});
 let aktifKat='hepsi';
 function aramaYap(){const q=document.getElementById('arama-inp').value.toLowerCase();document.querySelectorAll('.hkart').forEach(k=>{const txt=(k.dataset.q||'')+k.querySelector('h3').textContent.toLowerCase();const katOk=aktifKat==='hepsi'||txt.includes(aktifKat);k.classList.toggle('gizli',!(katOk&&(!q||txt.includes(q))));});}
 function katFilt(kat,btn){
@@ -1247,5 +1399,14 @@ function katFilt(kat,btn){
 function denFilt(kat,btn){document.querySelectorAll('#den-filtreler .fp').forEach(b=>{b.style.background='rgba(255,255,255,0.6)';b.style.color='var(--terra)';b.style.borderColor='rgba(139,58,31,0.3)';});btn.style.background='var(--terra)';btn.style.color='white';btn.style.borderColor='var(--terra)';document.querySelectorAll('.dkart').forEach(k=>{k.style.display=(kat==='hepsi'||k.dataset.kat===kat)?'':'none';});}
 </script>
 <div class="toast-wrap" id="toast-wrap"></div>
+
+<!-- BİLDİRİM PANELİ -->
+<div class="bil-panel" id="bil-panel">
+  <div class="bil-panel-ust">
+    <h3>🔔 Bildirimler</h3>
+    <button class="bil-tamami-oku" onclick="tumunuOku()">Tümünü okundu işaretle</button>
+  </div>
+  <div class="bil-liste" id="bil-liste"><div class="bil-bos">Henüz bildirim yok.</div></div>
+</div>
 </body>
 </html>
