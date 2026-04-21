@@ -1141,7 +1141,7 @@ function _bildirimListeGuncelle(bildirimler){
     return `<div class="bil-item${b.okundu?'':' okunmadi'}" onclick="bildirimTikla('${b.id}','${b.sayfaId||''}','${b.hastalik||''}')">
       <div class="bil-ikon" style="background:${bg}">${ikon}</div>
       <div class="bil-ic">
-        <div class="bil-ic-metin">${b.metin||''}</div>
+        <div class="bil-ic-metin">${(b.metin||'').replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:var(--terra);text-decoration:underline;">$1</a>')}</div>
         <div class="bil-ic-sure">${sure}</div>
       </div>
     </div>`;
