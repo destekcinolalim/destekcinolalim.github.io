@@ -239,6 +239,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       <a onclick="sayfaGit('ana');git('paylasim')" class="nav-cta">Deneyim Paylaş</a>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
+      <a id="nav-admin-btn" onclick="adminAc()" style="display:none;font-size:13px;color:var(--terra);font-weight:500;cursor:pointer;background:var(--terra-pale);padding:6px 14px;border-radius:100px;">⚙ Yönetici</a>
       <div id="nav-giris-btn">
         <a onclick="sayfaGit('giris')" style="font-size:13px;color:var(--terra);font-weight:500;cursor:pointer;border:1.5px solid var(--terra);padding:6px 16px;border-radius:100px;transition:all 0.2s;" onmouseover="this.style.background='var(--terra-pale)'" onmouseout="this.style.background='transparent'">Giriş Yap</a>
       </div>
@@ -641,6 +642,8 @@ const DIGER=[{id:'endometriozis',ad:'Endometriozis',ico:'🌸'},{id:'pkos',ad:'P
 window.aktifH=null,window.window.kullanici=null;
     const denGirisUyari2=document.getElementById('den-giris-uyari');
     if(denGirisUyari2) denGirisUyari2.style.display='block';
+    const adminBtn2=document.getElementById('nav-admin-btn');
+    if(adminBtn2) adminBtn2.style.display='none';
 
 window.hastalıkAc=(id, pushHistory=true)=>{
   window.aktifH=id;const h=H[id];if(!h)return;
@@ -676,17 +679,10 @@ onAuthStateChanged(auth,user=>{
     // Deneyim formu giriş kontrolü
     const denGirisUyari=document.getElementById('den-giris-uyari');
     if(denGirisUyari) denGirisUyari.style.display='none';
-    // Admin kontrolü - admin maili ile giriş yapıldıysa yönetici panelini aç
+    // Admin kontrolü - admin ise nav'da yönetici butonu göster
     if(ADMIN_MAILLER.includes(user.email)){
-      setTimeout(()=>{
-        if(!admGirisYapildi){
-          admGirisYapildi=true;
-          sayfaGit('yonetici');
-          document.getElementById('admin-giris-ekrani').style.display='none';
-          document.getElementById('admin-panel').style.display='block';
-          admYukle();
-        }
-      }, 500);
+      const adminBtn=document.getElementById('nav-admin-btn');
+      if(adminBtn) adminBtn.style.display='block';
     }
     const av=document.getElementById('profil-av');av.onclick=()=>{ profilYukle();sayfaGit('profil'); };
     av.innerHTML=user.photoURL?`<img src="${user.photoURL}" alt="">`:(user.displayName||user.email||'?')[0].toUpperCase();
@@ -1057,7 +1053,14 @@ let admGirisYapildi = false;
 let tumGonderiler = [];
 let admFiltreAktif = 'beklemede';
 
-function adminAc(){sayfaGit('yonetici');window.scrollTo(0,0);}
+function adminAc(){
+  if(!window.kullanici || !ADMIN_MAILLER.includes(window.kullanici.email)){
+    gosterToast('Bu sayfaya erişim yetkiniz yok.','hata');
+    sayfaGit('ana');
+    return;
+  }
+  sayfaGit('yonetici');window.scrollTo(0,0);
+}
 function adminCikis(){admGirisYapildi=false;document.getElementById('admin-giris-ekrani').style.display='flex';document.getElementById('admin-panel').style.display='none';document.getElementById('admin-sifre').value='';sayfaGit('ana');}
 
 
@@ -1189,7 +1192,10 @@ window.addEventListener('load', function(){
     if(id) window.hastalıkAc(id);
   } else if(hash === '#yonetici'){
     history.replaceState({sayfa:'ana', hastalik:null}, '', '#ana');
-    adminAc();
+    // Sadece admin ise aç
+    if(window.kullanici && ADMIN_MAILLER.includes(window.kullanici.email)){
+      adminAc();
+    }
   } else {
     history.replaceState({sayfa:'ana', hastalik:null}, '', '#ana');
   }
