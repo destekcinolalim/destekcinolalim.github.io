@@ -715,6 +715,9 @@ window.cikisYap=()=>{
   signOut(auth).then(()=>{
     document.getElementById('nav-giris-btn').style.display='block';
     document.getElementById('nav-profil').style.display='none';
+    const adminBtn=document.getElementById('nav-admin-btn');
+    if(adminBtn) adminBtn.style.display='none';
+    admGirisYapildi=false;
     sayfaGit('ana');
   });
 };
@@ -1059,7 +1062,10 @@ function adminAc(){
     sayfaGit('ana');
     return;
   }
-  sayfaGit('yonetici');window.scrollTo(0,0);
+  sayfaGit('yonetici');
+  document.getElementById('admin-panel').style.display='block';
+  admYukle();
+  window.scrollTo(0,0);
 }
 function adminCikis(){admGirisYapildi=false;document.getElementById('admin-giris-ekrani').style.display='flex';document.getElementById('admin-panel').style.display='none';document.getElementById('admin-sifre').value='';sayfaGit('ana');}
 
@@ -1068,12 +1074,7 @@ async function admYukle(){
   const liste=document.getElementById('adm-liste');
   liste.innerHTML='<div class="yukl">Yükleniyor...</div>';
   try{
-    const {getFirestore,collection,getDocs,orderBy,query}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    const {initializeApp,getApps}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    const apps=getApps();
-    const app=apps.length?apps[0]:initializeApp({apiKey:"AIzaSyBwN1isDXSLczxnWf3bsckm9vT7U5obbF0",authDomain:"kadin-sagligi-etg.firebaseapp.com",projectId:"kadin-sagligi-etg",storageBucket:"kadin-sagligi-etg.firebasestorage.app",messagingSenderId:"819397753328",appId:"1:819397753328:web:b5804e809de21dc18ec535"});
-    const db2=getFirestore(app);
-    const q=query(collection(db2,'gonderiler'),orderBy('tarih','desc'));
+    const q=query(collection(db,'gonderiler'),orderBy('tarih','desc'));
     const snap=await getDocs(q);
     tumGonderiler=[];
     snap.forEach(d=>tumGonderiler.push({id:d.id,...d.data()}));
