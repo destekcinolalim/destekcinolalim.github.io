@@ -204,9 +204,6 @@ footer{background:var(--terra);margin-top:4rem;}
 .admin-float:hover{color:white;background:var(--dark);}
 hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 .yukl{text-align:center;padding:3rem;color:var(--soft);font-size:14px;}
-.stab{background:none;border:none;border-bottom:2px solid transparent;padding:10px 20px;font-size:14px;font-weight:500;color:var(--soft);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-bottom:-2px;}
-.stab.ak{color:var(--terra);border-bottom-color:var(--terra);}
-.stab:hover{color:var(--terra);}
 .bos{text-align:center;padding:2rem;color:var(--soft);font-size:14px;background:var(--warm);border-radius:12px;border:1px solid var(--border);}
 @media(max-width:900px){.has-body{grid-template-columns:1fr;}.sidebar{order:-1;}}
 @media(max-width:768px){
@@ -236,7 +233,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
         <a onclick="sayfaGit('giris')" style="font-size:13px;color:var(--terra);font-weight:500;cursor:pointer;border:1.5px solid var(--terra);padding:6px 16px;border-radius:100px;transition:all 0.2s;" onmouseover="this.style.background='var(--terra-pale)'" onmouseout="this.style.background='transparent'">Giriş Yap</a>
       </div>
       <div id="nav-profil" style="display:none;align-items:center;gap:8px;">
-        <div id="nav-av" onclick="profilYukle();sayfaGit('profil')" style="width:32px;height:32px;border-radius:50%;background:var(--terra-pale);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--terra);overflow:hidden;cursor:pointer;border:2px solid var(--terra-pale);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--terra)'" onmouseout="this.style.borderColor='var(--terra-pale)'"></div>
+        <div id="nav-av" style="width:32px;height:32px;border-radius:50%;background:var(--terra-pale);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--terra);overflow:hidden;cursor:pointer;"></div>
         <button onclick="cikisYap()" style="font-size:12px;color:var(--soft);background:none;border:1px solid var(--border);padding:5px 12px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;">Çıkış</button>
       </div>
       <button class="hamburger" id="hbtn" onclick="menuToggle()"><span></span><span></span><span></span></button>
@@ -403,34 +400,6 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 </div>
 
 
-
-<!-- PROFİL SAYFASI -->
-<div class="sayfa" id="sayfa-profil">
-  <div style="max-width:800px;margin:0 auto;padding:3rem 2rem;">
-    <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:2.5rem;padding:1.5rem;background:var(--warm);border:1px solid var(--border);border-radius:16px;">
-      <div id="profil-buyuk-av" style="width:64px;height:64px;border-radius:50%;background:var(--terra-pale);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:500;color:var(--terra);flex-shrink:0;overflow:hidden;"></div>
-      <div style="flex:1;">
-        <div id="profil-buyuk-isim" style="font-family:'Playfair Display',serif;font-size:22px;color:var(--terra);font-weight:500;"></div>
-        <div id="profil-buyuk-mail" style="font-size:13px;color:var(--soft);margin-top:2px;"></div>
-      </div>
-      <button onclick="cikisYap();sayfaGit('ana')" style="background:none;border:1px solid var(--border);padding:8px 16px;border-radius:100px;font-size:13px;color:var(--soft);cursor:pointer;font-family:'DM Sans',sans-serif;">Çıkış Yap</button>
-    </div>
-
-    <div style="display:flex;gap:4px;border-bottom:2px solid var(--border);margin-bottom:2rem;">
-      <button class="stab ak" id="ptab-sorular" onclick="profilTab('sorular',this)">Sorularım</button>
-      <button class="stab" id="ptab-yorumlar" onclick="profilTab('yorumlar',this)">Yorumlarım</button>
-    </div>
-
-    <div id="profil-sorular-panel">
-      <div id="profil-sorular-liste"><div class="yukl">Yükleniyor...</div></div>
-    </div>
-    <div id="profil-yorumlar-panel" style="display:none;">
-      <div id="profil-yorumlar-liste"><div class="yukl">Yükleniyor...</div></div>
-    </div>
-  </div>
-  <footer><div class="footer-ic"><div class="footer-logo">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div></div></footer>
-</div>
-
 <!-- GİRİŞ SAYFASI -->
 <div class="sayfa" id="sayfa-giris">
   <div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
@@ -454,8 +423,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
         <input type="email" id="g-mail" placeholder="E-posta adresi" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
         <input type="password" id="g-sifre" placeholder="Şifre" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:12px;background:var(--cream);color:var(--dark);">
         <button onclick="girisMailGiris()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;margin-bottom:12px;">Giriş Yap</button>
-        <p style="font-size:13px;color:var(--soft);margin-bottom:8px;">Hesabın yok mu? <a onclick="girisFormToggle()" style="color:var(--terra);cursor:pointer;font-weight:500;">Kayıt ol</a></p>
-        <p style="font-size:13px;color:var(--soft);">Şifreni mi unuttun? <a onclick="sifreSifirla()" style="color:var(--terra);cursor:pointer;font-weight:500;">Sıfırla</a></p>
+        <p style="font-size:13px;color:var(--soft);">Hesabın yok mu? <a onclick="girisFormToggle()" style="color:var(--terra);cursor:pointer;font-weight:500;">Kayıt ol</a></p>
       </div>
 
       <div id="giris-form-kayit" style="display:none;">
@@ -591,7 +559,15 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     <button onclick="adminCikis()" style="background:rgba(255,255,255,0.15);color:white;border:none;padding:6px 14px;border-radius:100px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">Çıkış</button>
   </div>
 </div>
-<div id="admin-giris-ekrani" style="display:none;"></div>
+<div id="admin-giris-ekrani" style="min-height:80vh;display:flex;align-items:center;justify-content:center;">
+  <div style="background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:380px;text-align:center;">
+    <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--terra);margin-bottom:6px;">Yönetici Girişi</div>
+    <p style="font-size:13px;color:var(--soft);margin-bottom:1.5rem;">Devam etmek için şifreyi girin</p>
+    <input type="password" id="admin-sifre" placeholder="••••••••" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;text-align:center;letter-spacing:3px;margin-bottom:12px;background:var(--cream);" onkeydown="if(event.key==='Enter')adminGiris()">
+    <button onclick="adminGiris()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">Giriş Yap</button>
+    <div id="admin-giris-hata" style="color:#d9534f;font-size:12px;margin-top:8px;display:none;">Hatalı şifre.</div>
+  </div>
+</div>
 <div id="admin-panel" style="display:none;max-width:960px;margin:0 auto;padding:2rem;">
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;">
     <div style="background:var(--warm);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;"><div style="font-size:28px;font-weight:500;color:#7a5800;" id="adm-beklemede">—</div><div style="font-size:12px;color:var(--soft);">Beklemede</div></div>
@@ -664,16 +640,10 @@ onAuthStateChanged(auth,user=>{
         }
       }, 500);
     }
-    const av=document.getElementById('profil-av');av.onclick=()=>{ profilYukle();sayfaGit('profil'); };
+    const av=document.getElementById('profil-av');
     av.innerHTML=user.photoURL?`<img src="${user.photoURL}" alt="">`:(user.displayName||user.email||'?')[0].toUpperCase();
     document.getElementById('profil-isim').textContent=user.displayName||'Kullanıcı';
     document.getElementById('profil-mail').textContent=user.email||'';
-    // Nav avatar güncelle
-    const navAv=document.getElementById('nav-av');
-    if(navAv){
-      if(user.photoURL) navAv.innerHTML=`<img src="${user.photoURL}" style="width:32px;height:32px;object-fit:cover;border-radius:50%;">`;
-      else navAv.textContent=(user.displayName||user.email||'?')[0].toUpperCase();
-    }
     document.getElementById('soru-giris-uyari').style.display='none';
     document.getElementById('soru-yaz-form').style.display='block';
     document.getElementById('yorum-giris-uyari').style.display='none';
@@ -764,29 +734,6 @@ window.yanitaYanitGonder=async(yanitId,soruId)=>{
 };
 
 // GİRİŞ SAYFASI FONKSİYONLARI
-window.sifreSifirla=async()=>{
-  const mail=document.getElementById('g-mail').value.trim();
-  if(!mail){
-    const el=document.getElementById('giris-hata');
-    el.textContent='Lütfen önce e-posta adresinizi girin.';
-    el.style.display='block';
-    return;
-  }
-  try{
-    const {sendPasswordResetEmail}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
-    await sendPasswordResetEmail(auth,mail);
-    const el=document.getElementById('giris-hata');
-    el.textContent='Şifre sıfırlama maili gönderildi! Gelen kutunuzu kontrol edin.';
-    el.style.color='#2d7a2d';
-    el.style.display='block';
-  }catch(e){
-    const el=document.getElementById('giris-hata');
-    el.textContent='Bu e-posta ile kayıtlı hesap bulunamadı.';
-    el.style.color='#d9534f';
-    el.style.display='block';
-  }
-};
-
 window.girisFormToggle=()=>{
   const l=document.getElementById('giris-form-login');
   const k=document.getElementById('giris-form-kayit');
@@ -840,67 +787,6 @@ window.gonderiSil=async(id)=>{
   }catch(e){alert('Silinemedi.');}
 };
 
-
-// PROFİL SAYFASI
-window.profilTab=(tip,btn)=>{
-  document.querySelectorAll('#sayfa-profil .stab').forEach(b=>b.classList.remove('ak'));
-  btn.classList.add('ak');
-  document.getElementById('profil-sorular-panel').style.display=tip==='sorular'?'block':'none';
-  document.getElementById('profil-yorumlar-panel').style.display=tip==='yorumlar'?'block':'none';
-};
-
-async function profilYukle(){
-  if(!window.kullanici) return;
-  const u=window.kullanici;
-
-  // Avatar güncelle
-  const av=document.getElementById('profil-buyuk-av');
-  if(u.photoURL) av.innerHTML=`<img src="${u.photoURL}" style="width:64px;height:64px;object-fit:cover;border-radius:50%;">`;
-  else av.textContent=(u.displayName||u.email||'?')[0].toUpperCase();
-  document.getElementById('profil-buyuk-isim').textContent=u.displayName||'Kullanıcı';
-  document.getElementById('profil-buyuk-mail').textContent=u.email||'';
-
-  // Soruları yükle
-  await profilListeYukle('soru','profil-sorular-liste');
-  await profilListeYukle('yorum','profil-yorumlar-liste');
-}
-
-async function profilListeYukle(tip, listeId){
-  const liste=document.getElementById(listeId);
-  liste.innerHTML='<div class="yukl">Yükleniyor...</div>';
-  try{
-    const isAdmin=ADMIN_MAILLER.includes(window.kullanici?.email);
-    const q=query(
-      collection(db,'gonderiler'),
-      where('kullaniciId','==',window.kullanici.uid),
-      where('tip','==',tip),
-      orderBy('tarih','desc')
-    );
-    const snap=await getDocs(q);
-    if(snap.empty){liste.innerHTML=`<div class="bos">Henüz ${tip==='soru'?'soru sormadınız':'yorum yazmadınız'}.</div>`;return;}
-    liste.innerHTML='';
-    snap.forEach(d=>{
-      const r=d.data();
-      const durumRenk=r.durum==='onaylandi'?'#2d7a2d':r.durum==='reddedildi'?'#a32d2d':'#7a5800';
-      const durumAd=r.durum==='onaylandi'?'Onaylandı':r.durum==='reddedildi'?'Reddedildi':'Beklemede';
-      const anonBadge=r.anonim?'<span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;margin-left:6px;">Anonim</span>':'';
-      liste.innerHTML+=`<div style="background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:12px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-          <span style="font-size:11px;background:var(--terra-pale);color:var(--terra);padding:3px 10px;border-radius:100px;">${r.hastalik||''}</span>
-          <span style="font-size:11px;color:${durumRenk};font-weight:500;">${durumAd}</span>
-          ${anonBadge}
-          <span style="font-size:11px;color:var(--soft);margin-left:auto;">${r.tarih?new Date(r.tarih.toMillis()).toLocaleDateString('tr-TR'):''}</span>
-        </div>
-        <div style="font-size:14px;color:var(--mid);line-height:1.7;font-weight:300;margin-bottom:10px;">${r.metin||''}</div>
-        ${r.yanitSayisi>0?`<div style="font-size:12px;color:var(--terra-mid);cursor:pointer;" onclick="hastalıkAc('${r.hastalik}')">↩ ${r.yanitSayisi} yanıt var → Sayfaya git</div>`:''}
-        <div style="margin-top:8px;">
-          <button onclick="gonderiSil('${d.id}')" style="font-size:12px;color:#d9534f;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Sil</button>
-        </div>
-      </div>`;
-    });
-  }catch(e){liste.innerHTML='<div class="bos">Yüklenemedi.</div>';}
-}
-
 window.soruGonder=async()=>{const i=document.getElementById('soru-input');const anonim=document.getElementById('soru-anonim')?.checked||false;const ok=await gonderiEkle('soru',i.value.trim(),anonim);if(ok){i.value='';document.getElementById('soru-anonim').checked=false;alert('Sorunuz alındı! Onaylandıktan sonra görünecek.');}};
 window.yorumGonder=async()=>{const i=document.getElementById('yorum-input');const anonim=document.getElementById('yorum-anonim')?.checked||false;const ok=await gonderiEkle('yorum',i.value.trim(),anonim);if(ok){i.value='';document.getElementById('yorum-anonim').checked=false;alert('Yorumunuz alındı! Onaylandıktan sonra görünecek.');}};
 window.tabAc=(id,btn)=>{document.querySelectorAll('.stab').forEach(b=>b.classList.remove('ak'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('ak'));btn.classList.add('ak');document.getElementById(`tab-${id}`).classList.add('ak');};
@@ -934,6 +820,7 @@ yukle();
 
 <script>
 // YÖNETİCİ
+const ADMIN_SIFRE = 'etg2024';
 const ADMIN_MAILLER = ['destekcinolalim@gmail.com'];
 let admGirisYapildi = false;
 let tumGonderiler = [];
@@ -941,7 +828,18 @@ let admFiltreAktif = 'beklemede';
 
 function adminAc(){sayfaGit('yonetici');window.scrollTo(0,0);}
 function adminCikis(){admGirisYapildi=false;document.getElementById('admin-giris-ekrani').style.display='flex';document.getElementById('admin-panel').style.display='none';document.getElementById('admin-sifre').value='';sayfaGit('ana');}
-
+function adminGiris(){
+  const s=document.getElementById('admin-sifre').value;
+  if(s===ADMIN_SIFRE){
+    admGirisYapildi=true;
+    document.getElementById('admin-giris-ekrani').style.display='none';
+    document.getElementById('admin-panel').style.display='block';
+    admYukle();
+  } else {
+    document.getElementById('admin-giris-hata').style.display='block';
+    document.getElementById('admin-sifre').value='';
+  }
+}
 
 async function admYukle(){
   const liste=document.getElementById('adm-liste');
