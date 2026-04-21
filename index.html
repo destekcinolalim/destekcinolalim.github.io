@@ -1049,14 +1049,87 @@ window.gonder=async()=>{
   }
 };
 yukle();
+
+// YÖNETİCİ (Firebase erişimi gerektiği için module bloğunda)
+let tumGonderiler = [];
+let admFiltreAktif = 'beklemede';
+// İkinci script'ten erişim için window'a bağla
+Object.defineProperty(window,'tumGonderiler',{get:()=>tumGonderiler,set:v=>{tumGonderiler=v;}});
+Object.defineProperty(window,'admFiltreAktif',{get:()=>admFiltreAktif,set:v=>{admFiltreAktif=v;}});
+
+window.admYukle = async function admYukle(){
+  const liste=document.getElementById('adm-liste');
+  liste.innerHTML='<div class="yukl">Yükleniyor...</div>';
+  try{
+    let tumSnap=[];
+    try{
+      const q=query(collection(db,'gonderiler'),orderBy('tarih','desc'));
+      const snap=await getDocs(q);
+      snap.forEach(d=>tumSnap.push({id:d.id,...d.data()}));
+    }catch(indexErr){
+      console.warn('orderBy başarısız, sırasız yükleniyor:',indexErr.message);
+      const snap=await getDocs(collection(db,'gonderiler'));
+      snap.forEach(d=>tumSnap.push({id:d.id,...d.data()}));
+      tumSnap.sort((a,b)=>{
+        const ta=a.tarih?.toMillis?.()||a.tarih?.seconds*1000||0;
+        const tb=b.tarih?.toMillis?.()||b.tarih?.seconds*1000||0;
+        return tb-ta;
+      });
+    }
+    tumGonderiler=tumSnap;
+    admIstatistik();admListele();
+  }catch(e){liste.innerHTML='<div class="bos">Yüklenemedi: '+e.message+'</div>';}
+};
+
+window.admIstatistik = function admIstatistik(){
+  document.getElementById('adm-beklemede').textContent=tumGonderiler.filter(r=>r.durum==='beklemede').length;
+  document.getElementById('adm-onaylandi').textContent=tumGonderiler.filter(r=>r.durum==='onaylandi').length;
+  document.getElementById('adm-reddedildi').textContent=tumGonderiler.filter(r=>r.durum==='reddedildi').length;
+}
+
+window.admListele = function admListele(){
+  const liste=document.getElementById('adm-liste');
+  const kayitlar=admFiltreAktif==='hepsi'?tumGonderiler:tumGonderiler.filter(r=>r.durum===admFiltreAktif);
+  if(!kayitlar.length){liste.innerHTML='<div class="bos">Bu kategoride kayıt yok.</div>';return;}
+  liste.innerHTML=kayitlar.map(r=>{
+    const anaSoru = r.tip==='yanit' && r.anaId ? tumGonderiler.find(g=>g.id===r.anaId) : null;
+    const durumRenk=r.durum==='onaylandi'?'#2d7a2d':r.durum==='reddedildi'?'#a32d2d':'#7a5800';
+    const durumBg=r.durum==='onaylandi'?'#f0faf0':r.durum==='reddedildi'?'#faf0f0':'#fff8e6';
+    const durumAd=r.durum==='onaylandi'?'Onaylandı':r.durum==='reddedildi'?'Reddedildi':'Beklemede';const tipAd=r.tip==='soru'?'Soru':r.tip==='yorum'?'Yorum':'Yanıt';
+    let tarihStr='—';
+    try{tarihStr=r.tarih?new Date(r.tarih.toMillis?r.tarih.toMillis():r.tarih.seconds*1000).toLocaleString('tr-TR'):'—';}catch(e){}
+    return `<div class="adm-kart" data-metin="${(r.metin||'').toLowerCase()}" data-kullanici="${(r.kullaniciAdi||'').toLowerCase()}" style="background:var(--warm);border:1px solid var(--border);border-left:3px solid ${durumRenk};border-radius:14px;padding:1.25rem;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+        <span style="font-size:13px;font-weight:500;">${r.kullaniciAdi||'Anonim'}</span>${r.anonim?` <span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;">Anonim — Gerçek: ${r.gercekAd} (${r.gercekMail})</span>`:''}
+        <span style="font-size:11px;background:var(--terra-pale);color:var(--terra);padding:3px 10px;border-radius:100px;">${r.hastalik||''}</span>
+        <span style="font-size:11px;background:var(--terra-pale);color:var(--mid);padding:3px 10px;border-radius:100px;">${r.tip==='soru'?'Soru':'Yorum'}</span>
+        <span style="font-size:11px;background:${durumBg};color:${durumRenk};padding:3px 10px;border-radius:100px;font-weight:500;margin-left:auto;">${durumAd}</span>
+      </div>
+      ${r.tip==='yanit' ? `<div style="margin-bottom:8px;"><div style="font-size:10px;font-weight:500;color:var(--soft);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Yanıt verilen soru:</div><div style="font-size:13px;color:var(--mid);padding:8px 12px;background:#f0ebe6;border-radius:8px;border-left:3px solid var(--terra-mid);font-style:italic;">${anaSoru ? anaSoru.metin : (r.soruMetni||'Soru bulunamadı')}</div></div>` : ''}
+      <div style="font-size:14px;color:var(--mid);line-height:1.7;font-weight:300;padding:10px 14px;background:var(--cream);border-radius:8px;margin-bottom:10px;">${r.metin||''}</div>
+      <div style="font-size:11px;color:var(--soft);margin-bottom:10px;">${tarihStr}</div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="admDurum('${r.id}','onaylandi')" ${r.durum==='onaylandi'?'disabled':''} style="background:#f0faf0;color:#2d7a2d;border:none;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">✓ Onayla</button>
+        <button onclick="admDurum('${r.id}','reddedildi')" ${r.durum==='reddedildi'?'disabled':''} style="background:#faf0f0;color:#a32d2d;border:none;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Reddet</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.admDurum = async function admDurum(id, yeniDurum){
+  try{
+    await updateDoc(doc(db,'gonderiler',id),{durum:yeniDurum});
+    const kayit=tumGonderiler.find(r=>r.id===id);
+    if(kayit)kayit.durum=yeniDurum;
+    admIstatistik();admListele();
+  }catch(e){alert('Güncelleme başarısız.');}
+};
 </script>
 
 <script>
-// YÖNETİCİ
+// YÖNETİCİ (Firebase gerektirmeyen fonksiyonlar)
 const ADMIN_MAILLER = ['destekcinolalim@gmail.com'];
 let admGirisYapildi = false;
-let tumGonderiler = [];
-let admFiltreAktif = 'beklemede';
 
 function adminAc(){
   if(!window.kullanici || !ADMIN_MAILLER.includes(window.kullanici.email)){
@@ -1071,39 +1144,6 @@ function adminAc(){
 }
 function adminCikis(){admGirisYapildi=false;document.getElementById('admin-giris-ekrani').style.display='flex';document.getElementById('admin-panel').style.display='none';document.getElementById('admin-sifre').value='';sayfaGit('ana');}
 
-
-async function admYukle(){
-  const liste=document.getElementById('adm-liste');
-  liste.innerHTML='<div class="yukl">Yükleniyor...</div>';
-  try{
-    let tumSnap=[];
-    // Önce tarih alanı olan kayıtları sıralı getir
-    try{
-      const q=query(collection(db,'gonderiler'),orderBy('tarih','desc'));
-      const snap=await getDocs(q);
-      snap.forEach(d=>tumSnap.push({id:d.id,...d.data()}));
-    }catch(indexErr){
-      // Index hatası veya orderBy başarısız olursa sırasız getir
-      console.warn('orderBy başarısız, sırasız yükleniyor:',indexErr.message);
-      const snap=await getDocs(collection(db,'gonderiler'));
-      snap.forEach(d=>tumSnap.push({id:d.id,...d.data()}));
-      // Tarih alanına göre manuel sırala (tarih yoksa en sona koy)
-      tumSnap.sort((a,b)=>{
-        const ta=a.tarih?.toMillis?.()||a.tarih?.seconds*1000||0;
-        const tb=b.tarih?.toMillis?.()||b.tarih?.seconds*1000||0;
-        return tb-ta;
-      });
-    }
-    tumGonderiler=tumSnap;
-    admIstatistik();admListele();
-  }catch(e){liste.innerHTML='<div class="bos">Yüklenemedi: '+e.message+'</div>';}
-}
-
-function admIstatistik(){
-  document.getElementById('adm-beklemede').textContent=tumGonderiler.filter(r=>r.durum==='beklemede').length;
-  document.getElementById('adm-onaylandi').textContent=tumGonderiler.filter(r=>r.durum==='onaylandi').length;
-  document.getElementById('adm-reddedildi').textContent=tumGonderiler.filter(r=>r.durum==='reddedildi').length;
-}
 
 function admFilt(d,btn){
   admFiltreAktif=d;
@@ -1132,44 +1172,6 @@ function admArama(){
     const kullanici = k.dataset.kullanici||'';
     k.style.display = (!q || metin.includes(q) || kullanici.includes(q)) ? '' : 'none';
   });
-}
-
-function admListele(){
-  const liste=document.getElementById('adm-liste');
-  const kayitlar=admFiltreAktif==='hepsi'?tumGonderiler:tumGonderiler.filter(r=>r.durum===admFiltreAktif);
-  if(!kayitlar.length){liste.innerHTML='<div class="bos">Bu kategoride kayıt yok.</div>';return;}
-  liste.innerHTML=kayitlar.map(r=>{
-    // Yanıt ise ana soruyu bul
-    const anaSoru = r.tip==='yanit' && r.anaId ? tumGonderiler.find(g=>g.id===r.anaId) : null;
-    const durumRenk=r.durum==='onaylandi'?'#2d7a2d':r.durum==='reddedildi'?'#a32d2d':'#7a5800';
-    const durumBg=r.durum==='onaylandi'?'#f0faf0':r.durum==='reddedildi'?'#faf0f0':'#fff8e6';
-    const durumAd=r.durum==='onaylandi'?'Onaylandı':r.durum==='reddedildi'?'Reddedildi':'Beklemede';const tipAd=r.tip==='soru'?'Soru':r.tip==='yorum'?'Yorum':'Yanıt';
-    const tarih=r.tarih?new Date(r.tarih.toMillis()).toLocaleString('tr-TR'):'—';
-    return `<div class="adm-kart" data-metin="${(r.metin||'').toLowerCase()}" data-kullanici="${(r.kullaniciAdi||'').toLowerCase()}" style="background:var(--warm);border:1px solid var(--border);border-left:3px solid ${durumRenk};border-radius:14px;padding:1.25rem;margin-bottom:12px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
-        <span style="font-size:13px;font-weight:500;">${r.kullaniciAdi||'Anonim'}</span>${r.anonim?` <span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;">Anonim — Gerçek: ${r.gercekAd} (${r.gercekMail})</span>`:''}
-        <span style="font-size:11px;background:var(--terra-pale);color:var(--terra);padding:3px 10px;border-radius:100px;">${r.hastalik||''}</span>
-        <span style="font-size:11px;background:var(--terra-pale);color:var(--mid);padding:3px 10px;border-radius:100px;">${r.tip==='soru'?'Soru':'Yorum'}</span>
-        <span style="font-size:11px;background:${durumBg};color:${durumRenk};padding:3px 10px;border-radius:100px;font-weight:500;margin-left:auto;">${durumAd}</span>
-      </div>
-      ${r.tip==='yanit' ? `<div style="margin-bottom:8px;"><div style="font-size:10px;font-weight:500;color:var(--soft);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Yanıt verilen soru:</div><div style="font-size:13px;color:var(--mid);padding:8px 12px;background:#f0ebe6;border-radius:8px;border-left:3px solid var(--terra-mid);font-style:italic;">${anaSoru ? anaSoru.metin : (r.soruMetni||'Soru bulunamadı')}</div></div>` : ''}
-      <div style="font-size:14px;color:var(--mid);line-height:1.7;font-weight:300;padding:10px 14px;background:var(--cream);border-radius:8px;margin-bottom:10px;">${r.metin||''}</div>
-      <div style="font-size:11px;color:var(--soft);margin-bottom:10px;">${tarih}</div>
-      <div style="display:flex;gap:8px;">
-        <button onclick="admDurum('${r.id}','onaylandi')" ${r.durum==='onaylandi'?'disabled':''} style="background:#f0faf0;color:#2d7a2d;border:none;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">✓ Onayla</button>
-        <button onclick="admDurum('${r.id}','reddedildi')" ${r.durum==='reddedildi'?'disabled':''} style="background:#faf0f0;color:#a32d2d;border:none;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Reddet</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-async function admDurum(id, yeniDurum){
-  try{
-    await updateDoc(doc(db,'gonderiler',id),{durum:yeniDurum});
-    const kayit=tumGonderiler.find(r=>r.id===id);
-    if(kayit)kayit.durum=yeniDurum;
-    admIstatistik();admListele();
-  }catch(e){alert('Güncelleme başarısız.');}
 }
 
 function sayfaGit(id, pushHistory=true){
