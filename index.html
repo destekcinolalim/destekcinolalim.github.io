@@ -726,7 +726,7 @@ window.cikisYap=()=>{
 window.formToggle=()=>{const l=document.getElementById('auth-form-login'),k=document.getElementById('auth-form-kayit');l.style.display=l.style.display==='none'?'block':'none';k.style.display=k.style.display==='none'?'block':'none';};
 function hataGoster(m){const e=document.getElementById('auth-hata');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',4000);}
 
-function zaman(ts){if(!ts)return'';const f=(Date.now()-ts.toMillis())/1000;if(f<3600)return`${Math.floor(f/60)} dk önce`;if(f<86400)return`${Math.floor(f/3600)} saat önce`;return`${Math.floor(f/86400)} gün önce`;}
+function zaman(ts){if(!ts)return'';try{const ms=ts.toMillis?ts.toMillis():ts.seconds?ts.seconds*1000:typeof ts==='number'?ts:typeof ts==='string'?new Date(ts).getTime():0;if(!ms)return'';const f=(Date.now()-ms)/1000;if(f<60)return'Az önce';if(f<3600)return`${Math.floor(f/60)} dk önce`;if(f<86400)return`${Math.floor(f/3600)} saat önce`;return`${Math.floor(f/86400)} gün önce`;}catch(e){return''}}
 function rc(i){return['#8B3A1F','#C45C2E','#D4850A','#5c7a2d','#2d5c7a','#7a2d5c'][i%6];}
 
 async function soruYorumYukle(tip){
@@ -991,7 +991,7 @@ window.tabAc=(id,btn)=>{document.querySelectorAll('.stab').forEach(b=>b.classLis
 
 // Deneyimler - Firebase
 const RK=['#8B3A1F','#C45C2E','#D4850A','#5c7a2d','#2d5c7a','#7a2d5c'];
-function zamanAt(t){if(!t)return'';const f=(Date.now()-t.toMillis())/1000;if(f<3600)return`${Math.floor(f/60)} dk önce`;if(f<86400)return`${Math.floor(f/3600)} saat önce`;return`${Math.floor(f/86400)} gün önce`;}
+function zamanAt(t){if(!t)return'';try{const ms=t.toMillis?t.toMillis():t.seconds?t.seconds*1000:typeof t==='number'?t:typeof t==='string'?new Date(t).getTime():0;if(!ms)return'';const f=(Date.now()-ms)/1000;if(f<60)return'Az önce';if(f<3600)return`${Math.floor(f/60)} dk önce`;if(f<86400)return`${Math.floor(f/3600)} saat önce`;return`${Math.floor(f/86400)} gün önce`;}catch(e){return''}}
 function ini(n){if(!n||n.toLowerCase()==='anonim')return'A';return n.split(' ').map(k=>k[0]).join('').toUpperCase().slice(0,2);}
 async function yukle(){
   const L=document.getElementById('den-liste');
@@ -1076,10 +1076,25 @@ async function admYukle(){
   const liste=document.getElementById('adm-liste');
   liste.innerHTML='<div class="yukl">Yükleniyor...</div>';
   try{
-    const q=query(collection(db,'gonderiler'),orderBy('tarih','desc'));
-    const snap=await getDocs(q);
-    tumGonderiler=[];
-    snap.forEach(d=>tumGonderiler.push({id:d.id,...d.data()}));
+    let tumSnap=[];
+    // Önce tarih alanı olan kayıtları sıralı getir
+    try{
+      const q=query(collection(db,'gonderiler'),orderBy('tarih','desc'));
+      const snap=await getDocs(q);
+      snap.forEach(d=>tumSnap.push({id:d.id,...d.data()}));
+    }catch(indexErr){
+      // Index hatası veya orderBy başarısız olursa sırasız getir
+      console.warn('orderBy başarısız, sırasız yükleniyor:',indexErr.message);
+      const snap=await getDocs(collection(db,'gonderiler'));
+      snap.forEach(d=>tumSnap.push({id:d.id,...d.data()}));
+      // Tarih alanına göre manuel sırala (tarih yoksa en sona koy)
+      tumSnap.sort((a,b)=>{
+        const ta=a.tarih?.toMillis?.()||a.tarih?.seconds*1000||0;
+        const tb=b.tarih?.toMillis?.()||b.tarih?.seconds*1000||0;
+        return tb-ta;
+      });
+    }
+    tumGonderiler=tumSnap;
     admIstatistik();admListele();
   }catch(e){liste.innerHTML='<div class="bos">Yüklenemedi: '+e.message+'</div>';}
 }
