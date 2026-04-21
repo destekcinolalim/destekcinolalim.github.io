@@ -439,7 +439,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       <h1 style="font-family:'Playfair Display',serif;font-size:26px;color:var(--terra);margin-bottom:8px;font-weight:500;">Hoş geldin</h1>
       <p style="font-size:14px;color:var(--soft);font-weight:300;margin-bottom:2rem;line-height:1.7;">Soru sormak, yorum yazmak veya deneyim paylaşmak için giriş yap.</p>
       
-      <button onclick="googleGiris();sayfaGit('hastalik',false)" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:white;color:var(--dark);border:1px solid var(--border);padding:12px 16px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:12px;transition:all 0.2s;">
+      <button onclick="googleGiris()" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:white;color:var(--dark);border:1px solid var(--border);padding:12px 16px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:12px;transition:all 0.2s;">
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
         Google ile Giriş Yap
       </button>
@@ -453,7 +453,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       <div id="giris-form-login">
         <input type="email" id="g-mail" placeholder="E-posta adresi" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
         <input type="password" id="g-sifre" placeholder="Şifre" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:12px;background:var(--cream);color:var(--dark);">
-        <button onclick="girisMailGiris()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;margin-bottom:12px;">Giriş Yap</button>
+        <button onclick="girisYapSayfasi()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;margin-bottom:12px;">Giriş Yap</button>
         <p style="font-size:13px;color:var(--soft);margin-bottom:8px;">Hesabın yok mu? <a onclick="girisFormToggle()" style="color:var(--terra);cursor:pointer;font-weight:500;">Kayıt ol</a></p>
         <p style="font-size:13px;color:var(--soft);">Şifreni mi unuttun? <a onclick="sifreSifirla()" style="color:var(--terra);cursor:pointer;font-weight:500;">Sıfırla</a></p>
       </div>
@@ -462,7 +462,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
         <input type="text" id="g-ad" placeholder="Adın veya takma adın" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
         <input type="email" id="g-mail2" placeholder="E-posta adresi" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
         <input type="password" id="g-sifre2" placeholder="Şifre (en az 6 karakter)" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:12px;background:var(--cream);color:var(--dark);">
-        <button onclick="girisKayitOl()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:12px;">Hesap Oluştur</button>
+        <button onclick="kayitOlSayfasi()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:12px;">Hesap Oluştur</button>
         <p style="font-size:13px;color:var(--soft);">Zaten hesabın var mı? <a onclick="girisFormToggle()" style="color:var(--terra);cursor:pointer;font-weight:500;">Giriş yap</a></p>
       </div>
 
@@ -669,7 +669,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('profil-isim').textContent=user.displayName||'Kullanıcı';
     document.getElementById('profil-mail').textContent=user.email||'';
     // Nav avatar güncelle
-    const navAv=document.getElementById('nav-av');
+    const navAv2=document.getElementById('nav-av');
     if(navAv){
       if(user.photoURL) navAv.innerHTML=`<img src="${user.photoURL}" style="width:32px;height:32px;object-fit:cover;border-radius:50%;">`;
       else navAv.textContent=(user.displayName||user.email||'?')[0].toUpperCase();
@@ -764,6 +764,43 @@ window.yanitaYanitGonder=async(yanitId,soruId)=>{
 };
 
 // GİRİŞ SAYFASI FONKSİYONLARI
+window.girisYapSayfasi=async()=>{
+  const mail=document.getElementById('g-mail').value;
+  const sifre=document.getElementById('g-sifre').value;
+  try{
+    await signInWithEmailAndPassword(auth,mail,sifre);
+    history.back();
+  }catch(e){
+    const el=document.getElementById('giris-hata');
+    el.textContent='E-posta veya şifre hatalı.';
+    el.style.color='#d9534f';
+    el.style.display='block';
+  }
+};
+
+window.kayitOlSayfasi=async()=>{
+  const ad=document.getElementById('g-ad').value.trim();
+  const mail=document.getElementById('g-mail2').value;
+  const sifre=document.getElementById('g-sifre2').value;
+  if(!ad){
+    const el=document.getElementById('giris-hata');
+    el.textContent='Lütfen isim girin.';
+    el.style.color='#d9534f';
+    el.style.display='block';
+    return;
+  }
+  try{
+    const c=await createUserWithEmailAndPassword(auth,mail,sifre);
+    await updateProfile(c.user,{displayName:ad});
+    history.back();
+  }catch(e){
+    const el=document.getElementById('giris-hata');
+    el.textContent='Kayıt başarısız. Şifre en az 6 karakter olmalı.';
+    el.style.color='#d9534f';
+    el.style.display='block';
+  }
+};
+
 window.sifreSifirla=async()=>{
   const mail=document.getElementById('g-mail').value.trim();
   if(!mail){
