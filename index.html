@@ -1425,7 +1425,7 @@ function mmToggle(id){
   if(ok) ok.textContent=el.classList.contains('acik')?'∨':'›';
 }
 function menuKapat(){document.getElementById('hbtn').classList.remove('acik');document.getElementById('mobil-menu').classList.remove('acik');document.body.style.overflow='';}
-function bildirimPanelToggle(){document.getElementById('bil-panel').classList.toggle('acik');}
+function bildirimPanelToggle(){const p=document.getElementById('bil-panel');p.classList.toggle('acik');if(p.classList.contains('acik'))window.tumunuOku();}
 function bildirimPanelKapat(){document.getElementById('bil-panel').classList.remove('acik');}
 document.addEventListener('click',e=>{const panel=document.getElementById('bil-panel');const btn=document.getElementById('bil-btn');if(panel&&btn&&!panel.contains(e.target)&&!btn.contains(e.target))bildirimPanelKapat();});
 let aktifKat='hepsi';
