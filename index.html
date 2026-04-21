@@ -454,6 +454,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     <div style="display:flex;gap:4px;border-bottom:2px solid var(--border);margin-bottom:2rem;">
       <button class="stab ak" id="ptab-sorular" onclick="profilTab('sorular',this)">Sorularım</button>
       <button class="stab" id="ptab-yorumlar" onclick="profilTab('yorumlar',this)">Yorumlarım</button>
+      <button class="stab" id="ptab-yanitlar" onclick="profilTab('yanitlar',this)">Yanıtlarım</button>
     </div>
 
     <div id="profil-sorular-panel">
@@ -461,6 +462,9 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     </div>
     <div id="profil-yorumlar-panel" style="display:none;">
       <div id="profil-yorumlar-liste"><div class="yukl">Yükleniyor...</div></div>
+    </div>
+    <div id="profil-yanitlar-panel" style="display:none;">
+      <div id="profil-yanitlar-liste"><div class="yukl">Yükleniyor...</div></div>
     </div>
   </div>
   <footer><div class="footer-ic"><div class="footer-logo">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div></div></footer>
@@ -958,58 +962,58 @@ window.profilTab=(tip,btn)=>{
   btn.classList.add('ak');
   document.getElementById('profil-sorular-panel').style.display=tip==='sorular'?'block':'none';
   document.getElementById('profil-yorumlar-panel').style.display=tip==='yorumlar'?'block':'none';
+  document.getElementById('profil-yanitlar-panel').style.display=tip==='yanitlar'?'block':'none';
 };
 
 window.profilYukle=async function(){
   if(!window.kullanici) return;
   const u=window.kullanici;
-
-  // Avatar güncelle
   const av=document.getElementById('profil-buyuk-av');
   if(u.photoURL) av.innerHTML=`<img src="${u.photoURL}" style="width:64px;height:64px;object-fit:cover;border-radius:50%;">`;
   else av.textContent=(u.displayName||u.email||'?')[0].toUpperCase();
   document.getElementById('profil-buyuk-isim').textContent=u.displayName||'Kullanıcı';
   document.getElementById('profil-buyuk-mail').textContent=u.email||'';
-
-  // Soruları yükle
   await window.profilListeYukle('soru','profil-sorular-liste');
   await window.profilListeYukle('yorum','profil-yorumlar-liste');
+  await window.profilListeYukle('yanit','profil-yanitlar-liste');
 }
 
 window.profilListeYukle=async function(tip, listeId){
   const liste=document.getElementById(listeId);
   liste.innerHTML='<div class="yukl">Yükleniyor...</div>';
   try{
-    const isAdmin=ADMIN_MAILLER.includes(window.kullanici?.email);
-    const q=query(
-      collection(db,'gonderiler'),
-      where('kullaniciId','==',window.kullanici.uid),
-      where('tip','==',tip),
-      orderBy('tarih','desc')
-    );
-    const snap=await getDocs(q);
-    if(snap.empty){liste.innerHTML=`<div class="bos">Henüz ${tip==='soru'?'soru sormadınız':'yorum yazmadınız'}.</div>`;return;}
+    let snap;
+    try{
+      const q=query(collection(db,'gonderiler'),where('kullaniciId','==',window.kullanici.uid),where('tip','==',tip),orderBy('tarih','desc'));
+      snap=await getDocs(q);
+    }catch(e){
+      const q=query(collection(db,'gonderiler'),where('kullaniciId','==',window.kullanici.uid),where('tip','==',tip));
+      snap=await getDocs(q);
+    }
+    const bosMetin=tip==='soru'?'Henüz soru sormadınız.':tip==='yorum'?'Henüz yorum yazmadınız.':'Henüz yanıt vermediniz.';
+    if(snap.empty){liste.innerHTML=`<div class="bos">${bosMetin}</div>`;return;}
     liste.innerHTML='';
     snap.forEach(d=>{
       const r=d.data();
       const durumRenk=r.durum==='onaylandi'?'#2d7a2d':r.durum==='reddedildi'?'#a32d2d':'#7a5800';
       const durumAd=r.durum==='onaylandi'?'Onaylandı':r.durum==='reddedildi'?'Reddedildi':'Beklemede';
+      let tarihStr='';
+      try{tarihStr=r.tarih?new Date(r.tarih.toMillis?r.tarih.toMillis():r.tarih.seconds*1000).toLocaleDateString('tr-TR'):'';}catch(e){}
       const anonBadge=r.anonim?'<span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;margin-left:6px;">Anonim</span>':'';
+      const altBilgi=tip==='yanit'&&r.soruMetni?`<div style="font-size:12px;color:var(--soft);margin-bottom:8px;padding:6px 10px;background:#f0ebe6;border-radius:8px;border-left:3px solid var(--terra-mid);font-style:italic;">${r.soruMetni}</div>`:'';
       liste.innerHTML+=`<div style="background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:12px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
           <span style="font-size:11px;background:var(--terra-pale);color:var(--terra);padding:3px 10px;border-radius:100px;">${r.hastalik||''}</span>
           <span style="font-size:11px;color:${durumRenk};font-weight:500;">${durumAd}</span>
           ${anonBadge}
-          <span style="font-size:11px;color:var(--soft);margin-left:auto;">${r.tarih?new Date(r.tarih.toMillis()).toLocaleDateString('tr-TR'):''}</span>
+          <span style="font-size:11px;color:var(--soft);margin-left:auto;">${tarihStr}</span>
         </div>
+        ${altBilgi}
         <div style="font-size:14px;color:var(--mid);line-height:1.7;font-weight:300;margin-bottom:10px;">${r.metin||''}</div>
-        ${r.yanitSayisi>0?`<div style="font-size:12px;color:var(--terra-mid);cursor:pointer;" onclick="hastalıkAc('${r.hastalik}')">↩ ${r.yanitSayisi} yanıt var → Sayfaya git</div>`:''}
-        <div style="margin-top:8px;">
-          <button onclick="gonderiSil('${d.id}')" style="font-size:12px;color:#d9534f;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Sil</button>
-        </div>
+        <button onclick="gonderiSil('${d.id}')" style="font-size:12px;color:#d9534f;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Sil</button>
       </div>`;
     });
-  }catch(e){liste.innerHTML='<div class="bos">Yüklenemedi.</div>';}
+  }catch(e){liste.innerHTML=`<div class="bos">Yüklenemedi: ${e.message}</div>`;}
 }
 
 window.soruGonder=async()=>{const i=document.getElementById('soru-input');const anonim=document.getElementById('soru-anonim')?.checked||false;const ok=await gonderiEkle('soru',i.value.trim(),anonim);if(ok){i.value='';document.getElementById('soru-anonim').checked=false;gosterToast('Sorunuz alındı! Onaylandıktan sonra görünecek.','basari');}};
@@ -1083,30 +1087,25 @@ let bildirimUnsub = null;
 // Giriş yapınca bildirimleri dinle
 window._bildirimBaslat = function(uid){
   if(bildirimUnsub) bildirimUnsub();
-  const q = query(
-    collection(db,'bildirimler'),
-    where('kullaniciId','==',uid),
-    orderBy('tarih','desc'),
-    limit(30)
-  );
-  bildirimUnsub = onSnapshot(q, snap => {
-    const tumBildirimler = [];
-    snap.forEach(d => tumBildirimler.push({id:d.id,...d.data()}));
-    const okunmamisSayi = tumBildirimler.filter(b=>!b.okundu).length;
-    // Badge güncelle
+  const q = query(collection(db,'bildirimler'),where('kullaniciId','==',uid),orderBy('tarih','desc'),limit(30));
+  const _guncelle = (liste) => {
+    const okunmamis = liste.filter(b=>!b.okundu).length;
     const badge = document.getElementById('bil-badge');
     const bilBtn = document.getElementById('bil-btn');
-    if(badge && bilBtn){
-      bilBtn.style.display = 'flex';
-      if(okunmamisSayi > 0){
-        badge.style.display = 'flex';
-        badge.textContent = okunmamisSayi > 9 ? '9+' : okunmamisSayi;
-      } else {
-        badge.style.display = 'none';
-      }
-    }
-    // Panel listesini güncelle
-    _bildirimListeGuncelle(tumBildirimler);
+    if(bilBtn) bilBtn.style.display='flex';
+    if(badge){ badge.style.display=okunmamis>0?'flex':'none'; badge.textContent=okunmamis>9?'9+':okunmamis; }
+    _bildirimListeGuncelle(liste);
+  };
+  bildirimUnsub = onSnapshot(q, snap => {
+    const liste=[];snap.forEach(d=>liste.push({id:d.id,...d.data()}));_guncelle(liste);
+  }, async err => {
+    console.warn('Bildirim index yok, fallback:', err.message);
+    try{
+      const snap2=await getDocs(query(collection(db,'bildirimler'),where('kullaniciId','==',uid)));
+      const liste=[];snap2.forEach(d=>liste.push({id:d.id,...d.data()}));
+      liste.sort((a,b)=>(b.tarih?.toMillis?.()||b.tarih?.seconds*1000||0)-(a.tarih?.toMillis?.()||a.tarih?.seconds*1000||0));
+      _guncelle(liste);
+    }catch(e2){}
   });
 };
 
