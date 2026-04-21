@@ -452,7 +452,10 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 
       <div id="giris-form-login">
         <input type="email" id="g-mail" placeholder="E-posta adresi" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
-        <input type="password" id="g-sifre" placeholder="Şifre" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:12px;background:var(--cream);color:var(--dark);">
+        <div style="position:relative;margin-bottom:12px;">
+          <input type="password" id="g-sifre" placeholder="Şifre" style="width:100%;padding:10px 44px 10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);box-sizing:border-box;">
+          <button type="button" onclick="toggleSifre('g-sifre',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--soft);font-size:16px;padding:0;">👁</button>
+        </div>
         <button onclick="girisYapSayfasi()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;margin-bottom:12px;">Giriş Yap</button>
         <p style="font-size:13px;color:var(--soft);margin-bottom:8px;">Hesabın yok mu? <a onclick="girisFormToggle()" style="color:var(--terra);cursor:pointer;font-weight:500;">Kayıt ol</a></p>
         <p style="font-size:13px;color:var(--soft);">Şifreni mi unuttun? <a onclick="sifreSifirla()" style="color:var(--terra);cursor:pointer;font-weight:500;">Sıfırla</a></p>
@@ -461,7 +464,10 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       <div id="giris-form-kayit" style="display:none;">
         <input type="text" id="g-ad" placeholder="Adın veya takma adın" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
         <input type="email" id="g-mail2" placeholder="E-posta adresi" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:8px;background:var(--cream);color:var(--dark);">
-        <input type="password" id="g-sifre2" placeholder="Şifre (en az 6 karakter)" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:12px;background:var(--cream);color:var(--dark);">
+        <div style="position:relative;margin-bottom:12px;">
+          <input type="password" id="g-sifre2" placeholder="Şifre (en az 6 karakter)" style="width:100%;padding:10px 44px 10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);box-sizing:border-box;">
+          <button type="button" onclick="toggleSifre('g-sifre2',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--soft);font-size:16px;padding:0;">👁</button>
+        </div>
         <button onclick="kayitOlSayfasi()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:12px;">Hesap Oluştur</button>
         <p style="font-size:13px;color:var(--soft);">Zaten hesabın var mı? <a onclick="girisFormToggle()" style="color:var(--terra);cursor:pointer;font-weight:500;">Giriş yap</a></p>
       </div>
@@ -764,6 +770,12 @@ window.yanitaYanitGonder=async(yanitId,soruId)=>{
 };
 
 // GİRİŞ SAYFASI FONKSİYONLARI
+window.toggleSifre=(id,btn)=>{
+  const input=document.getElementById(id);
+  if(input.type==='password'){input.type='text';btn.textContent='🙈';}
+  else{input.type='password';btn.textContent='👁';}
+};
+
 window.girisYapSayfasi=async()=>{
   const mail=document.getElementById('g-mail').value;
   const sifre=document.getElementById('g-sifre').value;
@@ -886,7 +898,7 @@ window.profilTab=(tip,btn)=>{
   document.getElementById('profil-yorumlar-panel').style.display=tip==='yorumlar'?'block':'none';
 };
 
-async function profilYukle(){
+window.profilYukle=async function(){
   if(!window.kullanici) return;
   const u=window.kullanici;
 
@@ -898,11 +910,11 @@ async function profilYukle(){
   document.getElementById('profil-buyuk-mail').textContent=u.email||'';
 
   // Soruları yükle
-  await profilListeYukle('soru','profil-sorular-liste');
-  await profilListeYukle('yorum','profil-yorumlar-liste');
+  await window.profilListeYukle('soru','profil-sorular-liste');
+  await window.profilListeYukle('yorum','profil-yorumlar-liste');
 }
 
-async function profilListeYukle(tip, listeId){
+window.profilListeYukle=async function(tip, listeId){
   const liste=document.getElementById(listeId);
   liste.innerHTML='<div class="yukl">Yükleniyor...</div>';
   try{
