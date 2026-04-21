@@ -615,10 +615,12 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     <div style="background:var(--warm);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;"><div style="font-size:28px;font-weight:500;color:#a32d2d;" id="adm-reddedildi">—</div><div style="font-size:12px;color:var(--soft);">Reddedildi</div></div>
   </div>
   <div style="display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap;">
+    <div id="adm-filtreler" style="display:flex;gap:8px;flex-wrap:wrap;">
     <button onclick="admFilt('hepsi',this)" style="background:var(--warm);border:1px solid var(--border);color:var(--mid);padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Hepsi</button>
     <button onclick="admFilt('beklemede',this)" id="adm-btn-beklemede" style="background:var(--terra);color:white;border:none;padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">⏳ Beklemede</button>
     <button onclick="admFilt('onaylandi',this)" style="background:var(--warm);border:1px solid var(--border);color:var(--mid);padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">✓ Onaylananlar</button>
     <button onclick="admFilt('reddedildi',this)" style="background:var(--warm);border:1px solid var(--border);color:var(--mid);padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Reddedilenler</button>
+    </div>
   </div>
   <div style="margin-bottom:1.5rem;">
     <input type="text" id="adm-arama" placeholder="Soru veya yorumda ara..." oninput="admArama()" style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dark);background:var(--warm);">
@@ -1148,10 +1150,7 @@ function admListele(){
 
 async function admDurum(id, yeniDurum){
   try{
-    const {getFirestore,doc,updateDoc}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    const {getApps}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    const db2=getFirestore(getApps()[0]);
-    await updateDoc(doc(db2,'gonderiler',id),{durum:yeniDurum});
+    await updateDoc(doc(db,'gonderiler',id),{durum:yeniDurum});
     const kayit=tumGonderiler.find(r=>r.id===id);
     if(kayit)kayit.durum=yeniDurum;
     admIstatistik();admListele();
