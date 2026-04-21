@@ -715,7 +715,13 @@ onAuthStateChanged(auth,user=>{
 window.googleGiris=async()=>{try{await signInWithPopup(auth,gp);}catch(e){hataGoster('Giriş başarısız.');}};
 window.mailGiris=async()=>{try{await signInWithEmailAndPassword(auth,document.getElementById('a-mail').value,document.getElementById('a-sifre').value);}catch(e){hataGoster('E-posta veya şifre hatalı.');}};
 window.kayitOl=async()=>{const ad=document.getElementById('a-ad').value.trim();if(!ad){hataGoster('İsim girin.');return;}try{const c=await createUserWithEmailAndPassword(auth,document.getElementById('a-mail2').value,document.getElementById('a-sifre2').value);await updateProfile(c.user,{displayName:ad});}catch(e){hataGoster('Kayıt başarısız. Şifre en az 6 karakter olmalı.');}};
-window.cikisYap=()=>signOut(auth);
+window.cikisYap=()=>{
+  signOut(auth).then(()=>{
+    document.getElementById('nav-giris-btn').style.display='block';
+    document.getElementById('nav-profil').style.display='none';
+    sayfaGit('ana');
+  });
+};
 window.formToggle=()=>{const l=document.getElementById('auth-form-login'),k=document.getElementById('auth-form-kayit');l.style.display=l.style.display==='none'?'block':'none';k.style.display=k.style.display==='none'?'block':'none';};
 function hataGoster(m){const e=document.getElementById('auth-hata');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',4000);}
 
