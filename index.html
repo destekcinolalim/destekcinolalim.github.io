@@ -655,6 +655,22 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     <input type="text" id="adm-arama" placeholder="Soru veya yorumda ara..." oninput="admArama()" style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dark);background:var(--warm);">
   </div>
   <div id="adm-liste"><div class="yukl">Yükleniyor...</div></div>
+
+  <!-- BİLDİRİM GÖNDER -->
+  <div style="margin-top:2.5rem;background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:1.5rem;">
+    <h3 style="font-size:16px;font-weight:500;color:var(--terra);margin-bottom:1.25rem;">📣 Kullanıcılara Bildirim Gönder</h3>
+    <div style="display:flex;gap:8px;margin-bottom:1rem;">
+      <button onclick="admBilTip('hepsi',this)" id="admbil-hepsi" style="background:var(--terra);color:white;border:none;padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Tüm Kullanıcılar</button>
+      <button onclick="admBilTip('tek',this)" id="admbil-tek" style="background:var(--warm);border:1px solid var(--border);color:var(--mid);padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Belirli Kullanıcı</button>
+    </div>
+    <div id="admbil-tek-alan" style="display:none;margin-bottom:1rem;">
+      <input id="admbil-uid" placeholder="Kullanıcı UID veya e-posta girin..." style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);">
+      <div style="margin-top:6px;font-size:12px;color:var(--soft);">💡 Kullanıcı UID'sini yönetici panelindeki gönderilerden görebilirsiniz.</div>
+    </div>
+    <textarea id="admbil-metin" placeholder="Bildirim mesajını yazın..." rows="3" style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);resize:vertical;margin-bottom:1rem;"></textarea>
+    <button onclick="admBilGonder()" style="background:var(--terra);color:white;border:none;padding:10px 24px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">Gönder →</button>
+    <span id="admbil-sonuc" style="font-size:13px;margin-left:12px;"></span>
+  </div>
 </div>
 <footer><div class="footer-ic"><div class="footer-logo">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div></div></footer>
 </div>
@@ -1117,8 +1133,8 @@ function _bildirimListeGuncelle(bildirimler){
     return;
   }
   liste.innerHTML = bildirimler.map(b => {
-    const ikon = b.tip==='onaylandi'?'✅':b.tip==='reddedildi'?'❌':b.tip==='yanit_geldi'?'💬':'🔔';
-    const bg = b.tip==='onaylandi'?'#f0faf0':b.tip==='reddedildi'?'#fdf0f0':b.tip==='yanit_geldi'?'#f0f4ff':'#f9f5f2';
+    const ikon = b.tip==='onaylandi'?'✅':b.tip==='reddedildi'?'❌':b.tip==='yanit_geldi'?'💬':b.tip==='duyuru'?'📣':'🔔';
+    const bg = b.tip==='onaylandi'?'#f0faf0':b.tip==='reddedildi'?'#fdf0f0':b.tip==='yanit_geldi'?'#f0f4ff':b.tip==='duyuru'?'#fff8e6':'#f9f5f2';
     let ms = 0;
     try{ ms = b.tarih?.toMillis?.()||b.tarih?.seconds*1000||0; }catch(e){}
     const sure = ms ? zaman({toMillis:()=>ms}) : '';
@@ -1262,7 +1278,41 @@ window.admListele = function admListele(){
   }).join('');
 }
 
-window.admDurum = async function admDurum(id, yeniDurum){
+window.admBilTip = function(tip, btn){
+  document.querySelectorAll('[id^="admbil-"]').forEach(b=>{ if(b.tagName==='BUTTON'){b.style.background='var(--warm)';b.style.color='var(--mid)';b.style.border='1px solid var(--border)';} });
+  btn.style.background='var(--terra)';btn.style.color='white';btn.style.border='none';
+  document.getElementById('admbil-tek-alan').style.display=tip==='tek'?'block':'none';
+};
+
+window.admBilGonder = async function(){
+  const metin = document.getElementById('admbil-metin').value.trim();
+  const sonuc = document.getElementById('admbil-sonuc');
+  const tekAlan = document.getElementById('admbil-tek-alan');
+  if(!metin){ sonuc.textContent='❌ Mesaj boş olamaz.'; sonuc.style.color='#a32d2d'; return; }
+  sonuc.textContent='Gönderiliyor...'; sonuc.style.color='var(--soft)';
+  try{
+    const hepsiMi = tekAlan.style.display==='none';
+    if(hepsiMi){
+      // Tüm kullanıcı ID'lerini gönderilerden topla
+      const snap = await getDocs(collection(db,'gonderiler'));
+      const uidler = new Set();
+      snap.forEach(d=>{ const uid=d.data().kullaniciId; if(uid) uidler.add(uid); });
+      const islemler = [...uidler].map(uid=>addDoc(collection(db,'bildirimler'),{
+        kullaniciId:uid, tip:'duyuru', metin, okundu:false, tarih:serverTimestamp()
+      }));
+      await Promise.all(islemler);
+      sonuc.textContent=`✅ ${uidler.size} kullanıcıya gönderildi.`; sonuc.style.color='#2d7a2d';
+    } else {
+      const uid = document.getElementById('admbil-uid').value.trim();
+      if(!uid){ sonuc.textContent='❌ UID boş olamaz.'; sonuc.style.color='#a32d2d'; return; }
+      await addDoc(collection(db,'bildirimler'),{
+        kullaniciId:uid, tip:'duyuru', metin, okundu:false, tarih:serverTimestamp()
+      });
+      sonuc.textContent='✅ Gönderildi.'; sonuc.style.color='#2d7a2d';
+    }
+    document.getElementById('admbil-metin').value='';
+  }catch(e){ sonuc.textContent='❌ Hata: '+e.message; sonuc.style.color='#a32d2d'; }
+};
   try{
     await updateDoc(doc(db,'gonderiler',id),{durum:yeniDurum});
     const kayit=tumGonderiler.find(r=>r.id===id);
