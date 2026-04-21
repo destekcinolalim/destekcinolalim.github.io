@@ -1313,6 +1313,8 @@ window.admBilGonder = async function(){
     document.getElementById('admbil-metin').value='';
   }catch(e){ sonuc.textContent='❌ Hata: '+e.message; sonuc.style.color='#a32d2d'; }
 };
+
+window.admDurum = async function admDurum(id, yeniDurum){
   try{
     await updateDoc(doc(db,'gonderiler',id),{durum:yeniDurum});
     const kayit=tumGonderiler.find(r=>r.id===id);
