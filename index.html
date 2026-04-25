@@ -676,7 +676,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import{getAuth,signInWithPopup,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import{getAuth,signInWithPopup,signInWithRedirect,getRedirectResult,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import{getFirestore,collection,addDoc,getDocs,query,where,orderBy,doc,updateDoc,increment,serverTimestamp,onSnapshot,limit,setDoc}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const app=initializeApp({apiKey:"AIzaSyBwN1isDXSLczxnWf3bsckm9vT7U5obbF0",authDomain:"kadin-sagligi-etg.firebaseapp.com",projectId:"kadin-sagligi-etg",storageBucket:"kadin-sagligi-etg.firebasestorage.app",messagingSenderId:"819397753328",appId:"1:819397753328:web:b5804e809de21dc18ec535"});
@@ -757,7 +757,8 @@ onAuthStateChanged(auth,user=>{
   }
 });
 
-window.googleGiris=async()=>{try{await signInWithPopup(auth,gp);}catch(e){hataGoster('Giriş başarısız.');}};
+window.googleGiris=async()=>{try{if(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){await signInWithRedirect(auth,gp);}else{await signInWithPopup(auth,gp);}}catch(e){hataGoster('Giriş başarısız.');}};
+getRedirectResult(auth).catch(()=>{});
 window.mailGiris=async()=>{try{await signInWithEmailAndPassword(auth,document.getElementById('a-mail').value,document.getElementById('a-sifre').value);}catch(e){hataGoster('E-posta veya şifre hatalı.');}};
 window.kayitOl=async()=>{const ad=document.getElementById('a-ad').value.trim();if(!ad){hataGoster('İsim girin.');return;}try{const c=await createUserWithEmailAndPassword(auth,document.getElementById('a-mail2').value,document.getElementById('a-sifre2').value);await updateProfile(c.user,{displayName:ad});}catch(e){hataGoster('Kayıt başarısız. Şifre en az 6 karakter olmalı.');}};
 window.cikisYap=()=>{
@@ -1170,7 +1171,27 @@ window.tumunuOku = async function(){
 };
 
 // Admin onaylayınca/reddedince bildirim yaz
-window._bildirimGonder = async function(gonderiId, tip){
+window._bildirimGonder = async function(gonderiId, tip, aciklama=''){
+  try{
+    const gonderiDoc = tumGonderiler.find(r=>r.id===gonderiId);
+    if(!gonderiDoc || !gonderiDoc.kullaniciId) return;
+    if(gonderiDoc.kullaniciId === window.kullanici?.uid) return;
+    const tipMetin = gonderiDoc.tip==='soru'?'Sorunuz':gonderiDoc.tip==='yorum'?'Yorumunuz':'Yanıtınız';
+    let metin = tip==='onaylandi'
+      ? `${tipMetin} yayınlandı! ✅`
+      : `${tipMetin} yayınlanamadı.${aciklama?' Sebep: '+aciklama:''}`;
+    await addDoc(collection(db,'bildirimler'),{
+      kullaniciId: gonderiDoc.kullaniciId,
+      tip: tip,
+      metin: metin,
+      gonderiMetni: (gonderiDoc.metin||'').slice(0,80),
+      hastalik: gonderiDoc.hastalik||'',
+      sayfaId: gonderiDoc.hastalik||'',
+      okundu: false,
+      tarih: serverTimestamp()
+    });
+  }catch(e){ console.warn('Bildirim gönderilemedi:',e); }
+};
   try{
     const gonderiDoc = tumGonderiler.find(r=>r.id===gonderiId);
     if(!gonderiDoc || !gonderiDoc.kullaniciId) return;
@@ -1275,7 +1296,14 @@ window.admListele = function admListele(){
       <div style="font-size:11px;color:var(--soft);margin-bottom:10px;">${tarihStr}</div>
       <div style="display:flex;gap:8px;">
         <button onclick="admDurum('${r.id}','onaylandi')" ${r.durum==='onaylandi'?'disabled':''} style="background:#f0faf0;color:#2d7a2d;border:none;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">✓ Onayla</button>
-        <button onclick="admDurum('${r.id}','reddedildi')" ${r.durum==='reddedildi'?'disabled':''} style="background:#faf0f0;color:#a32d2d;border:none;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Reddet</button>
+        <button onclick="admReddetAc('${r.id}')" ${r.durum==='reddedildi'?'disabled':''} style="background:#faf0f0;color:#a32d2d;border:none;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">✕ Reddet</button>
+        <div id="red-form-${r.id}" style="display:none;margin-top:10px;width:100%;">
+          <textarea id="red-aciklama-${r.id}" placeholder="Reddetme sebebi yazın (opsiyonel)..." rows="2" style="width:100%;padding:8px 12px;border:1px solid #f5c6c6;border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;background:#fff8f8;color:var(--dark);resize:none;"></textarea>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button onclick="admReddetOnayla('${r.id}')" style="background:#a32d2d;color:white;border:none;padding:6px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Reddet</button>
+            <button onclick="document.getElementById('red-form-${r.id}').style.display='none'" style="background:none;border:1px solid var(--border);color:var(--mid);padding:6px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">İptal</button>
+          </div>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -1317,13 +1345,22 @@ window.admBilGonder = async function(){
   }catch(e){ sonuc.textContent='❌ Hata: '+e.message; sonuc.style.color='#a32d2d'; }
 };
 
-window.admDurum = async function admDurum(id, yeniDurum){
+window.admReddetAc = function(id){
+  document.getElementById('red-form-'+id).style.display='block';
+};
+
+window.admReddetOnayla = async function(id){
+  const aciklama = document.getElementById('red-aciklama-'+id).value.trim();
+  await window.admDurum(id, 'reddedildi', aciklama);
+};
+
+window.admDurum = async function admDurum(id, yeniDurum, aciklama=''){
   try{
     await updateDoc(doc(db,'gonderiler',id),{durum:yeniDurum});
     const kayit=tumGonderiler.find(r=>r.id===id);
     if(kayit)kayit.durum=yeniDurum;
     // Bildirim gönder
-    await window._bildirimGonder(id, yeniDurum);
+    await window._bildirimGonder(id, yeniDurum, aciklama);
     admIstatistik();admListele();
   }catch(e){alert('Güncelleme başarısız.');}
 };
