@@ -664,8 +664,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       <button onclick="admBilTip('tek',this)" id="admbil-tek" style="background:var(--warm);border:1px solid var(--border);color:var(--mid);padding:7px 16px;border-radius:100px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Belirli Kullanıcı</button>
     </div>
     <div id="admbil-tek-alan" style="display:none;margin-bottom:1rem;">
-      <input id="admbil-uid" placeholder="Kullanıcı UID veya e-posta girin..." style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);">
-      <div style="margin-top:6px;font-size:12px;color:var(--soft);">💡 Kullanıcı UID'sini yönetici panelindeki gönderilerden görebilirsiniz.</div>
+      <input id="admbil-uid" placeholder="Kullanıcı e-postasını girin..." style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);">
     </div>
     <textarea id="admbil-metin" placeholder="Bildirim mesajını yazın..." rows="3" style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);resize:vertical;margin-bottom:1rem;"></textarea>
     <button onclick="admBilGonder()" style="background:var(--terra);color:white;border:none;padding:10px 24px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">Gönder →</button>
@@ -678,7 +677,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 <script type="module">
 import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import{getAuth,signInWithPopup,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import{getFirestore,collection,addDoc,getDocs,query,where,orderBy,doc,updateDoc,increment,serverTimestamp,onSnapshot,limit}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import{getFirestore,collection,addDoc,getDocs,query,where,orderBy,doc,updateDoc,increment,serverTimestamp,onSnapshot,limit,setDoc}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const app=initializeApp({apiKey:"AIzaSyBwN1isDXSLczxnWf3bsckm9vT7U5obbF0",authDomain:"kadin-sagligi-etg.firebaseapp.com",projectId:"kadin-sagligi-etg",storageBucket:"kadin-sagligi-etg.firebasestorage.app",messagingSenderId:"819397753328",appId:"1:819397753328:web:b5804e809de21dc18ec535"});
 const auth=getAuth(app),db=getFirestore(app),gp=new GoogleAuthProvider();
@@ -710,6 +709,7 @@ window.hastalıkAc=(id, pushHistory=true)=>{
 onAuthStateChanged(auth,user=>{
   window.kullanici=user;
   if(user){
+    setDoc(doc(db,'kullanicilar',user.uid),{ad:user.displayName||'',mail:user.email||'',foto:user.photoURL||'',sonGiris:serverTimestamp()},{merge:true}).catch(()=>{});
     document.getElementById('auth-giris').style.display='none';
     document.getElementById('auth-profil').style.display='block';
     // Giriş sayfasındaysa geri git
@@ -998,21 +998,17 @@ window.profilListeYukle=async function(tip, listeId){
   const liste=document.getElementById(listeId);
   liste.innerHTML='<div class="yukl">Yükleniyor...</div>';
   try{
-    let snap;
-    try{
-      const q=query(collection(db,'gonderiler'),where('kullaniciId','==',window.kullanici.uid),where('tip','==',tip),orderBy('tarih','desc'));
-      snap=await getDocs(q);
-    }catch(e){
-      const q=query(collection(db,'gonderiler'),where('kullaniciId','==',window.kullanici.uid),where('tip','==',tip));
-      snap=await getDocs(q);
-    }
+    const snap=await getDocs(query(collection(db,'gonderiler'),where('kullaniciId','==',window.kullanici.uid)));
+    let docs=[];
+    snap.forEach(d=>{ if(d.data().tip===tip) docs.push(d); });
+    docs.sort((a,b)=>(b.data().tarih?.toMillis?.()||b.data().tarih?.seconds*1000||0)-(a.data().tarih?.toMillis?.()||a.data().tarih?.seconds*1000||0));
     const bosMetin=tip==='soru'?'Henüz soru sormadınız.':tip==='yorum'?'Henüz yorum yazmadınız.':'Henüz yanıt vermediniz.';
-    if(snap.empty){liste.innerHTML=`<div class="bos">${bosMetin}</div>`;return;}
+    if(!docs.length){liste.innerHTML=`<div class="bos">${bosMetin}</div>`;return;}
     liste.innerHTML='';
-    snap.forEach(d=>{
+    docs.forEach(d=>{
       const r=d.data();
       const durumRenk=r.durum==='onaylandi'?'#2d7a2d':r.durum==='reddedildi'?'#a32d2d':'#7a5800';
-      const durumAd=r.durum==='onaylandi'?'Onaylandı':r.durum==='reddedildi'?'Reddedildi':'Beklemede';
+      const durumAd=r.durum==='onaylandi'?'Onaylandı':r.durum==='reddedildi'?'Reddedildi':'İnceleniyor';
       let tarihStr='';
       try{tarihStr=r.tarih?new Date(r.tarih.toMillis?r.tarih.toMillis():r.tarih.seconds*1000).toLocaleDateString('tr-TR'):'';}catch(e){}
       const anonBadge=r.anonim?'<span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;margin-left:6px;">Anonim</span>':'';
@@ -1043,17 +1039,25 @@ function ini(n){if(!n||n.toLowerCase()==='anonim')return'A';return n.split(' ').
 async function yukle(){
   const L=document.getElementById('den-liste');
   try{
-    const q=query(collection(db,'deneyimler'),where('durum','==','onaylandi'),orderBy('tarih','desc'));
-    const snap=await getDocs(q);
-    document.getElementById('s-paylasim').textContent=snap.size;
-    if(snap.empty){L.innerHTML='<div class="yukl">Henüz onaylı paylaşım yok!</div>';return;}
+    let docs=[];
+    try{
+      const q=query(collection(db,'deneyimler'),where('durum','==','onaylandi'),orderBy('tarih','desc'));
+      const snap=await getDocs(q);
+      snap.forEach(d=>docs.push(d));
+    }catch(e){
+      const snap=await getDocs(query(collection(db,'deneyimler'),where('durum','==','onaylandi')));
+      snap.forEach(d=>docs.push(d));
+      docs.sort((a,b)=>(b.data().tarih?.toMillis?.()||b.data().tarih?.seconds*1000||0)-(a.data().tarih?.toMillis?.()||a.data().tarih?.seconds*1000||0));
+    }
+    document.getElementById('s-paylasim').textContent=docs.length;
+    if(!docs.length){L.innerHTML='<div class="yukl">Henüz onaylı paylaşım yok!</div>';return;}
     L.innerHTML='';
-    snap.forEach((d,i)=>{
+    docs.forEach((d,i)=>{
       const r=d.data();
       const isim=r.anonim?'Anonim':r.kullaniciAdi||'Anonim';
-      L.innerHTML+=`<div class="dkart" data-kat="${r.kategori||''}"><div class="dk-ust"><div class="dk-av" style="background:${RK[snap.docs.indexOf(d)%6]}">${ini(isim)}</div><div><div class="dk-isim">${isim}</div><div class="dk-sure">${zamanAt(r.tarih)}</div></div><span class="dk-etiket">${r.kategori||'Diğer'}</span></div><div class="dk-metin">${r.metin||''}</div><div class="dk-alt"><button class="dk-e ${r.begeni||0}" onclick="destekleFb(this,'${d.id}',${r.begeni||0})">♡ ${r.begeni||0} destek</button></div></div>`;
+      L.innerHTML+=`<div class="dkart" data-kat="${r.kategori||''}"><div class="dk-ust"><div class="dk-av" style="background:${RK[i%6]}">${ini(isim)}</div><div><div class="dk-isim">${isim}</div><div class="dk-sure">${zamanAt(r.tarih)}</div></div><span class="dk-etiket">${r.kategori||'Diğer'}</span></div><div class="dk-metin">${r.metin||''}</div><div class="dk-alt"><button class="dk-e ${r.begeni||0}" onclick="destekleFb(this,'${d.id}',${r.begeni||0})">♡ ${r.begeni||0} destek</button></div></div>`;
     });
-  }catch(e){L.innerHTML='<div class="yukl">Yüklenemedi.</div>';}
+  }catch(e){L.innerHTML='<div class="yukl">Yüklenemedi: '+e.message+'</div>';}
 }
 window.destekleFb=async(btn,id,m)=>{
   if(btn.classList.contains('liked'))return;
@@ -1158,10 +1162,9 @@ window.bildirimTikla = async function(bildirimId, sayfaId, hastalik){
 
 window.tumunuOku = async function(){
   if(!window.kullanici) return;
-  const q = query(collection(db,'bildirimler'),where('kullaniciId','==',window.kullanici.uid),where('okundu','==',false));
   try{
-    const snap = await getDocs(q);
-    const islemler = snap.docs.map(d => updateDoc(doc(db,'bildirimler',d.id),{okundu:true}));
+    const snap = await getDocs(query(collection(db,'bildirimler'),where('kullaniciId','==',window.kullanici.uid)));
+    const islemler = snap.docs.filter(d=>!d.data().okundu).map(d=>updateDoc(doc(db,'bildirimler',d.id),{okundu:true}));
     await Promise.all(islemler);
   }catch(e){}
 };
@@ -1293,21 +1296,21 @@ window.admBilGonder = async function(){
   try{
     const hepsiMi = tekAlan.style.display==='none';
     if(hepsiMi){
-      // Tüm kullanıcı ID'lerini gönderilerden topla
-      const snap = await getDocs(collection(db,'gonderiler'));
-      const uidler = new Set();
-      snap.forEach(d=>{ const uid=d.data().kullaniciId; if(uid) uidler.add(uid); });
-      const islemler = [...uidler].map(uid=>addDoc(collection(db,'bildirimler'),{
+      const snap = await getDocs(collection(db,'kullanicilar'));
+      const uidler = [];
+      snap.forEach(d=>uidler.push(d.id));
+      const islemler = uidler.map(uid=>addDoc(collection(db,'bildirimler'),{
         kullaniciId:uid, tip:'duyuru', metin, okundu:false, tarih:serverTimestamp()
       }));
       await Promise.all(islemler);
-      sonuc.textContent=`✅ ${uidler.size} kullanıcıya gönderildi.`; sonuc.style.color='#2d7a2d';
+      sonuc.textContent=`✅ ${uidler.length} kullanıcıya gönderildi.`; sonuc.style.color='#2d7a2d';
     } else {
-      const uid = document.getElementById('admbil-uid').value.trim();
-      if(!uid){ sonuc.textContent='❌ UID boş olamaz.'; sonuc.style.color='#a32d2d'; return; }
-      await addDoc(collection(db,'bildirimler'),{
-        kullaniciId:uid, tip:'duyuru', metin, okundu:false, tarih:serverTimestamp()
-      });
+      const eposta = document.getElementById('admbil-uid').value.trim().toLowerCase();
+      if(!eposta){ sonuc.textContent='❌ E-posta boş olamaz.'; sonuc.style.color='#a32d2d'; return; }
+      const kSnap = await getDocs(query(collection(db,'kullanicilar'),where('mail','==',eposta)));
+      if(kSnap.empty){ sonuc.textContent='❌ Bu e-posta ile kayıtlı kullanıcı bulunamadı.'; sonuc.style.color='#a32d2d'; return; }
+      const uid = kSnap.docs[0].id;
+      await addDoc(collection(db,'bildirimler'),{kullaniciId:uid,tip:'duyuru',metin,okundu:false,tarih:serverTimestamp()});
       sonuc.textContent='✅ Gönderildi.'; sonuc.style.color='#2d7a2d';
     }
     document.getElementById('admbil-metin').value='';
