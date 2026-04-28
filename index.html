@@ -9,11 +9,20 @@
 <meta property="og:title" content="Destekçin Olalım — Kadın Sağlığında Güvenilir Destek">
 <meta property="og:description" content="Kadın sağlığı hakkında güvenilir bilgiye ulaşın, deneyimlerinizi anonim paylaşın ve birbirini destekleyen bir topluluğun parçası olun.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#8B3A1F">
+<meta name="theme-color" content="#A8336F">
 <meta name="robots" content="index, follow">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--terra:#8B3A1F;--terra-mid:#C45C2E;--terra-pale:#F2E8E0;--amber:#D4850A;--amber-light:#F5C842;--cream:#FAF6F0;--warm:#FFFCF8;--dark:#2C1810;--mid:#6B4C3B;--soft:#A07B68;--border:rgba(139,58,31,0.13);--shadow:0 6px 28px rgba(139,58,31,0.12);}
+:root{--terra:#A8336F;--terra-mid:#D4639A;--terra-pale:#FCE7F0;--amber:#E8946A;--amber-light:#F4B89C;--cream:#FFF9F7;--warm:#FFFFFF;--dark:#2D1B2E;--mid:#5C3D52;--soft:#9A7889;--border:rgba(168,51,111,0.12);--shadow:0 6px 28px rgba(168,51,111,0.10);--shadow-lg:0 12px 36px rgba(168,51,111,0.18);--accent:#1D3557;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-15px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);}}
+@keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+.sayfa{animation:fadeIn 0.4s ease both;}
+button{transition:all 0.25s cubic-bezier(0.4,0,0.2,1);}
+input,textarea,select{transition:border-color 0.2s,box-shadow 0.2s;}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra)!important;box-shadow:0 0 0 3px var(--terra-pale)!important;}
 *{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);}
 nav{position:sticky;top:0;z-index:300;background:rgba(255,252,248,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;padding:0 2rem;}
 .nav-inner{max-width:1100px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
@@ -47,9 +56,9 @@ nav{position:sticky;top:0;z-index:300;background:rgba(255,252,248,0.97);backdrop
 .hero p{font-size:16px;line-height:1.85;color:var(--mid);font-weight:300;max-width:420px;margin-bottom:2rem;}
 .hero-btns{display:flex;gap:10px;flex-wrap:wrap;}
 .btn-p{background:var(--terra);color:white;border:none;padding:13px 26px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
-.btn-p:hover{background:var(--terra-mid);transform:translateY(-1px);}
+.btn-p:hover{background:var(--terra-mid);transform:translateY(-2px);box-shadow:0 8px 20px rgba(168,51,111,0.30);}
 .btn-o{background:transparent;color:var(--terra);border:1.5px solid var(--terra);padding:13px 26px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
-.btn-o:hover{background:var(--terra-pale);}
+.btn-o:hover{background:var(--terra);color:white;transform:translateY(-2px);}
 .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .hs{background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:1.2rem;text-align:center;}
 .hs:first-child{grid-column:span 2;background:var(--terra);}
@@ -70,15 +79,19 @@ nav{position:sticky;top:0;z-index:300;background:rgba(255,252,248,0.97);backdrop
 .sh h2{font-family:'Playfair Display',serif;font-size:30px;color:var(--terra);font-weight:500;}
 .sac{font-size:14px;color:var(--soft);font-weight:300;margin-bottom:2rem;}
 .hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
-.hkart{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:1.4rem;cursor:pointer;transition:all 0.22s;position:relative;overflow:hidden;}
-.hkart::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--terra-mid);transform:scaleX(0);transition:transform 0.25s;transform-origin:left;}
-.hkart:hover{box-shadow:var(--shadow);transform:translateY(-3px);}
-.hkart:hover::after{transform:scaleX(1);}
+.hkart{background:var(--warm);border:2px solid var(--border);border-radius:20px;padding:1.6rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;display:flex;flex-direction:column;}
+.hkart::before{content:'';position:absolute;top:0;left:0;right:0;height:100%;background:linear-gradient(135deg,var(--terra-pale) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none;}
+.hkart:hover{box-shadow:var(--shadow-lg);transform:translateY(-6px);border-color:var(--terra);}
+.hkart:hover::before{opacity:1;}
+.hkart:hover .hk-badge{background:var(--terra);color:white;padding-left:18px;padding-right:18px;}
+.hkart:hover .hk-badge::after{transform:translateX(4px);}
 .hkart.gizli{display:none;}
-.hk-ikon{width:46px;height:46px;background:var(--terra-pale);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;}
-.hkart h3{font-size:15px;font-weight:500;margin-bottom:5px;}
-.hkart p{font-size:12px;color:var(--soft);line-height:1.6;font-weight:300;}
-.hk-badge{margin-top:10px;font-size:11px;color:var(--terra-mid);font-weight:500;}
+.hk-ikon{width:54px;height:54px;background:var(--terra-pale);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:14px;transition:transform 0.3s;}
+.hkart:hover .hk-ikon{transform:scale(1.08) rotate(-3deg);}
+.hkart h3{font-size:17px;font-weight:600;margin-bottom:6px;color:var(--dark);position:relative;z-index:1;}
+.hkart p{font-size:13px;color:var(--mid);line-height:1.65;font-weight:400;position:relative;z-index:1;flex:1;}
+.hk-badge{margin-top:14px;font-size:13px;color:var(--terra);font-weight:600;background:var(--terra-pale);padding:8px 14px;border-radius:100px;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;position:relative;z-index:1;transition:all 0.3s;}
+.hk-badge::after{content:'→';transition:transform 0.3s;display:inline-block;}
 .den-band{background:var(--terra-pale);padding:4rem 0;}
 .den-ic{max-width:1100px;margin:0 auto;padding:0 2rem;}
 .den-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem;margin-top:2rem;align-items:start;}
@@ -244,15 +257,58 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 .stab.ak{color:var(--terra);border-bottom-color:var(--terra);}
 .stab:hover{color:var(--terra);}
 .bos{text-align:center;padding:2rem;color:var(--soft);font-size:14px;background:var(--warm);border-radius:12px;border:1px solid var(--border);}
-@media(max-width:900px){.has-body{grid-template-columns:1fr;}.sidebar{order:-1;}}
 @media(max-width:768px){
-  .hero{grid-template-columns:1fr;padding:3rem 1.5rem;gap:2rem;}.hero h1{font-size:38px;}
+  .hero{grid-template-columns:1fr;padding:2.5rem 1.25rem;gap:1.5rem;}
+  .hero h1{font-size:32px;line-height:1.15;}
+  .hero p{font-size:15px;}
   .den-grid{grid-template-columns:1fr;}.pf{position:static;}
-  .hk-grid{grid-template-columns:1fr;}.section,.hk-section{padding:3rem 1.5rem;}.den-ic{padding:0 1.5rem;}
-  .ekip-grid{grid-template-columns:1fr 1fr;}.arama-band{padding:2rem 1.5rem;}
-  .has-body,.sorular-wrap,.breadcrumb{padding-left:1.5rem;padding-right:1.5rem;}
-  .has-hero{padding:2rem 1.5rem;}.has-hero h1{font-size:26px;}
+  .hk-grid{grid-template-columns:1fr;gap:14px;}
+  .hgrid{grid-template-columns:1fr!important;gap:14px!important;}
+  .section,.hk-section{padding:2.5rem 1.25rem;}
+  .section h2{font-size:24px!important;}
+  .sh h2{font-size:24px!important;}
+  .den-ic{padding:0 1.25rem;}
+  .ekip-grid{grid-template-columns:1fr 1fr;gap:12px!important;}
+  .arama-band{padding:1.5rem 1.25rem;}
+  .has-body{grid-template-columns:1fr;padding:1.5rem 1.25rem;gap:1.5rem;}
+  .sorular-wrap,.breadcrumb{padding-left:1.25rem;padding-right:1.25rem;}
+  .has-hero{padding:1.75rem 1.25rem;}
+  .has-hero h1{font-size:24px;}
+  .has-hero-ic{flex-direction:column;align-items:flex-start;gap:0.75rem;}
+  .has-hero p{font-size:13px;}
+  nav{padding:0 1.25rem;height:58px;}
+  .nav-logo{font-size:17px;}
+  .nav-cta{padding:6px 14px;font-size:12px!important;}
+  .duyuru-bandi{font-size:12px;padding:8px 2.5rem;}
+  .kay-grid{grid-template-columns:1fr!important;gap:12px!important;}
+  .kay-kart{padding:1.1rem;}
+  .kay-kart h4{font-size:15px;}
+  .kay-kart p{font-size:13px;}
+  .nasil-band{padding:3rem 0;}
+  .nasil-grid{grid-template-columns:1fr!important;gap:0;}
+  .nasil-adim{padding:1.25rem;}
+  /* footer mobil */
+  footer > div:first-child{grid-template-columns:1fr!important;gap:1.5rem!important;padding:2rem 1.25rem!important;}
+  .footer-bottom{flex-direction:column;text-align:center;padding:1rem 1.25rem;}
+  /* form ve buton mobil iyileştirme */
+  .btn-p,.btn-o{padding:12px 22px;font-size:14px;width:100%;text-align:center;}
+  .hero .btn-p,.hero .btn-o{width:auto;}
+  textarea,input[type="text"],input[type="email"],input[type="password"]{font-size:16px!important;}
+  /* hastalık kartları mobilde tam belirgin */
+  .hkart{padding:1.25rem;}
+  .hkart h3{font-size:17px;}
+  .hkart p{font-size:13px;}
+  .hk-ikon{width:48px;height:48px;font-size:23px;}
+  .hk-badge{font-size:13px;padding:8px 14px;}
+  /* admin paneli mobil */
+  #admin-panel{padding:1rem!important;}
+  .adm-kart{padding:1rem!important;}
+  /* bildirim panel mobil */
+  .bil-panel{width:calc(100vw - 1.5rem);right:0.75rem;left:0.75rem;}
+  /* deneyim kart mobil */
+  .dkart{padding:1.1rem;}
 }
+@media(max-width:900px){.has-body{grid-template-columns:1fr;}.sidebar{order:-1;}}
 
 /* === DUYURU BANDI === */
 .duyuru-bandi{background:linear-gradient(90deg,var(--terra) 0%,var(--terra-mid) 100%);color:white;text-align:center;padding:9px 3rem;font-size:13px;position:relative;line-height:1.4;}
@@ -289,7 +345,9 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 .kay-band{background:var(--terra-pale);padding:5rem 0;}
 .kay-ic-wrap{max-width:1100px;margin:0 auto;padding:0 2rem;}
 .kay-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:2rem;}
-.kay-kart{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:1.4rem;display:flex;gap:14px;align-items:flex-start;transition:box-shadow 0.2s,transform 0.2s;}
+.kay-kart{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:1.4rem;display:flex;gap:14px;align-items:flex-start;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);text-decoration:none;color:inherit;cursor:pointer;}
+.kay-kart:hover{box-shadow:var(--shadow);transform:translateY(-3px);border-color:var(--terra-mid);}
+.kay-kart:hover .kay-tag{background:var(--terra);color:white;}
 .kay-kart:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
 .kay-ico{font-size:26px;flex-shrink:0;margin-top:3px;}
 .kay-txt h4{font-size:15px;font-weight:500;color:var(--dark);margin-bottom:5px;}
@@ -304,13 +362,13 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 .stob:hover{background:var(--terra-mid);transform:translateY(-3px);}
 
 /* === HASTALIKLARA RENK AKSAN === */
-.hkart[data-hid="endometriozis"]{border-top:3px solid #C45C2E;}
-.hkart[data-hid="pkos"]{border-top:3px solid #D4850A;}
-.hkart[data-hid="meme-kanseri"]{border-top:3px solid #d9534f;}
-.hkart[data-hid="menopoz"]{border-top:3px solid #C45C2E;}
-.hkart[data-hid="miyom"]{border-top:3px solid #5c7a2d;}
-.hkart[data-hid="rahim-agzi-kanseri"]{border-top:3px solid #2d5c7a;}
-.hkart[data-hid="over-kanseri"]{border-top:3px solid #7a2d5c;}
+.hkart[data-hid="endometriozis"] .hk-ikon{background:#FCE7F0;}
+.hkart[data-hid="pkos"] .hk-ikon{background:#FFF0E5;}
+.hkart[data-hid="meme-kanseri"] .hk-ikon{background:#FFE5E5;}
+.hkart[data-hid="menopoz"] .hk-ikon{background:#FCE7F0;}
+.hkart[data-hid="miyom"] .hk-ikon{background:#E8F5E9;}
+.hkart[data-hid="rahim-agzi-kanseri"] .hk-ikon{background:#E3F2FD;}
+.hkart[data-hid="over-kanseri"] .hk-ikon{background:#F3E5F5;}
 
 /* === HERO GELİŞTİRME === */
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--terra-pale);color:var(--terra);font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;border:1px solid rgba(139,58,31,0.2);margin-bottom:1.2rem;}
@@ -447,16 +505,16 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
   </div>
 
   <section class="section" id="hastaliklar">
-    <div class="sh"><h2>Hastalık Bilgileri</h2></div>
-    <p class="sac">Her hastalık için ayrıntılı bilgi, soru ve deneyimlere ulaşmak için tıklayın</p>
+    <div class="sh"><h2>Hastalık Detay Sayfaları</h2></div>
+    <p class="sac">Aşağıdaki kartların her biri o hastalığa ait <strong>ayrı bir sayfaya</strong> götürür — kapsamlı bilgi, sorular, deneyimler ve uzman içerikler için karta tıklayın.</p>
     <div class="hgrid">
-      <div class="hkart" data-hid="endometriozis" data-q="endometriozis rahim dışı büyüme ağrı kist yapışıklık kısırlık" onclick="hastalıkAc('endometriozis')"><div class="hk-ikon">🌸</div><h3>Endometriozis</h3><p>Rahim iç dokusunun dışarıda büyümesi. Türkiye'de ~1,5 milyon kadını etkiler. Kronik ağrı ve kısırlığa yol açabilir; evreleri, tanı ve tedavi seçenekleri burada.</p><div class="hk-badge">Bilgi & Sorular →</div></div>
-      <div class="hkart" data-hid="pkos" data-q="pkos polikistik over hormon adet düzensizliği insülin direnci akne tüylenme" onclick="hastalıkAc('pkos')"><div class="hk-ikon">🔬</div><h3>PKOS</h3><p>En yaygın hormonal bozukluk; üreme çağındaki kadınların %8-13'ünü etkiler. Beslenme, egzersiz ve tedaviyle büyük ölçüde yönetilebilir.</p><div class="hk-badge">Bilgi & Sorular →</div></div>
-      <div class="hkart" data-hid="meme-kanseri" data-q="meme kanseri tarama mamografi kitle erken tanı brca öz muayene" onclick="hastalıkAc('meme-kanseri')"><div class="hk-ikon">🎗️</div><h3>Meme Kanseri</h3><p>Kadınlarda en sık görülen kanser. Erken evrede sağkalım oranı %95+. Tarama rehberi, öz-muayene ve tedavi seçenekleri burada.</p><div class="hk-badge">Bilgi & Sorular →</div></div>
-      <div class="hkart" data-hid="menopoz" data-q="menopoz sıcak basması adet kesilmesi hormon perimenopoz osteoporoz" onclick="hastalıkAc('menopoz')"><div class="hk-ikon">🌡️</div><h3>Menopoz</h3><p>Doğal bir geçiş süreci; Türkiye'de ortalama yaşı 47-49. Sıcak basmaları, uyku ve kemik sağlığı için kapsamlı rehber.</p><div class="hk-badge">Bilgi & Sorular →</div></div>
-      <div class="hkart" data-hid="miyom" data-q="miyom rahim fibroid iyi huylu kanama submüköz intramural embolizasyon" onclick="hastalıkAc('miyom')"><div class="hk-ikon">💊</div><h3>Rahim Miyomları</h3><p>Kadınların %25-50'sinde görülen iyi huylu tümörler — kansere dönüşmez. Türleri, belirtileri ve minimal invaziv tedavi seçenekleri.</p><div class="hk-badge">Bilgi & Sorular →</div></div>
-      <div class="hkart" data-hid="rahim-agzi-kanseri" data-q="rahim ağzı serviks hpv aşı smear pap testi ketem korunma" onclick="hastalıkAc('rahim-agzi-kanseri')"><div class="hk-ikon">🩺</div><h3>Rahim Ağzı Kanseri</h3><p>HPV kaynaklı, büyük ölçüde önlenebilir bir kanser. Smear testi ve HPV aşısı Türkiye'de ücretsiz — nasıl korunacağınızı öğrenin.</p><div class="hk-badge">Bilgi & Sorular →</div></div>
-      <div class="hkart" data-hid="over-kanseri" data-q="over yumurtalık sessiz belirti karın şişliği brca ca125 kemoterapi" onclick="hastalıkAc('over-kanseri')"><div class="hk-ikon">🫁</div><h3>Over Kanseri</h3><p>"Sessiz hastalık" — vakaların %75'i ileri evrede yakalanır. Belirtiler, risk faktörleri, genetik test ve tedavi seçenekleri.</p><div class="hk-badge">Bilgi & Sorular →</div></div>
+      <div class="hkart" data-hid="endometriozis" data-q="endometriozis rahim dışı büyüme ağrı kist yapışıklık kısırlık" onclick="hastalıkAc('endometriozis')"><div class="hk-ikon">🌸</div><h3>Endometriozis</h3><p>Rahim iç dokusunun dışarıda büyümesi. Türkiye'de ~1,5 milyon kadını etkiler. Kronik ağrı ve kısırlığa yol açabilir; evreleri, tanı ve tedavi seçenekleri burada.</p><div class="hk-badge">Detay sayfasını aç</div></div>
+      <div class="hkart" data-hid="pkos" data-q="pkos polikistik over hormon adet düzensizliği insülin direnci akne tüylenme" onclick="hastalıkAc('pkos')"><div class="hk-ikon">🔬</div><h3>PKOS</h3><p>En yaygın hormonal bozukluk; üreme çağındaki kadınların %8-13'ünü etkiler. Beslenme, egzersiz ve tedaviyle büyük ölçüde yönetilebilir.</p><div class="hk-badge">Detay sayfasını aç</div></div>
+      <div class="hkart" data-hid="meme-kanseri" data-q="meme kanseri tarama mamografi kitle erken tanı brca öz muayene" onclick="hastalıkAc('meme-kanseri')"><div class="hk-ikon">🎗️</div><h3>Meme Kanseri</h3><p>Kadınlarda en sık görülen kanser. Erken evrede sağkalım oranı %95+. Tarama rehberi, öz-muayene ve tedavi seçenekleri burada.</p><div class="hk-badge">Detay sayfasını aç</div></div>
+      <div class="hkart" data-hid="menopoz" data-q="menopoz sıcak basması adet kesilmesi hormon perimenopoz osteoporoz" onclick="hastalıkAc('menopoz')"><div class="hk-ikon">🌡️</div><h3>Menopoz</h3><p>Doğal bir geçiş süreci; Türkiye'de ortalama yaşı 47-49. Sıcak basmaları, uyku ve kemik sağlığı için kapsamlı rehber.</p><div class="hk-badge">Detay sayfasını aç</div></div>
+      <div class="hkart" data-hid="miyom" data-q="miyom rahim fibroid iyi huylu kanama submüköz intramural embolizasyon" onclick="hastalıkAc('miyom')"><div class="hk-ikon">💊</div><h3>Rahim Miyomları</h3><p>Kadınların %25-50'sinde görülen iyi huylu tümörler — kansere dönüşmez. Türleri, belirtileri ve minimal invaziv tedavi seçenekleri.</p><div class="hk-badge">Detay sayfasını aç</div></div>
+      <div class="hkart" data-hid="rahim-agzi-kanseri" data-q="rahim ağzı serviks hpv aşı smear pap testi ketem korunma" onclick="hastalıkAc('rahim-agzi-kanseri')"><div class="hk-ikon">🩺</div><h3>Rahim Ağzı Kanseri</h3><p>HPV kaynaklı, büyük ölçüde önlenebilir bir kanser. Smear testi ve HPV aşısı Türkiye'de ücretsiz — nasıl korunacağınızı öğrenin.</p><div class="hk-badge">Detay sayfasını aç</div></div>
+      <div class="hkart" data-hid="over-kanseri" data-q="over yumurtalık sessiz belirti karın şişliği brca ca125 kemoterapi" onclick="hastalıkAc('over-kanseri')"><div class="hk-ikon">🫁</div><h3>Over Kanseri</h3><p>"Sessiz hastalık" — vakaların %75'i ileri evrede yakalanır. Belirtiler, risk faktörleri, genetik test ve tedavi seçenekleri.</p><div class="hk-badge">Detay sayfasını aç</div></div>
     </div>
   </section>
 
@@ -570,70 +628,70 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       <div class="sh"><h2 style="font-family:'Playfair Display',serif;font-size:30px;color:var(--terra);font-weight:500;">Türkiye'de Ücretsiz Kaynaklar</h2></div>
       <p class="sac">Yakınınızdaki ücretsiz sağlık hizmetleri ve destek hatları</p>
       <div class="kay-grid">
-        <div class="kay-kart">
+        <a href="https://hsgm.saglik.gov.tr/tr/kanser-tarama-merkezleri-ketem.html" target="_blank" rel="noopener" class="kay-kart">
           <div class="kay-ico">🏥</div>
           <div class="kay-txt">
             <h4>KETEM — Kanser Tarama Merkezleri</h4>
             <p>Smear testi, mamografi ve HPV aşısı dahil kanser taramaları ücretsiz yapılır. Türkiye'nin tüm illerinde mevcuttur.</p>
-            <span class="kay-tag">Ücretsiz</span>
+            <span class="kay-tag">Ücretsiz · Resmi siteyi aç →</span>
           </div>
-        </div>
-        <div class="kay-kart">
+        </a>
+        <a href="tel:182" class="kay-kart">
           <div class="kay-ico">📞</div>
           <div class="kay-txt">
             <h4>ALO 182 — Kanser Danışma Hattı</h4>
             <p>Sağlık Bakanlığı'nın 7/24 kanser danışma ve yönlendirme hattı. Nereye başvuracağınızı söyleyebilirler.</p>
-            <span class="kay-tag">7/24 Ücretsiz</span>
+            <span class="kay-tag">7/24 Ücretsiz · Aramak için tıklayın →</span>
           </div>
-        </div>
-        <div class="kay-kart">
+        </a>
+        <a href="https://hsgm.saglik.gov.tr/tr/asi-portali/hpv-asisi" target="_blank" rel="noopener" class="kay-kart">
           <div class="kay-ico">💉</div>
           <div class="kay-txt">
             <h4>HPV Aşısı</h4>
             <p>11-26 yaş arası kadınlara devlet tarafından ücretsiz uygulanır. Aile hekiminizden veya KETEM'den randevu alabilirsiniz.</p>
-            <span class="kay-tag">Ücretsiz</span>
+            <span class="kay-tag">Ücretsiz · Bilgi sayfası →</span>
           </div>
-        </div>
-        <div class="kay-kart">
+        </a>
+        <a href="https://hsgm.saglik.gov.tr/tr/kanser-tarama-merkezleri-ketem.html" target="_blank" rel="noopener" class="kay-kart">
           <div class="kay-ico">🔬</div>
           <div class="kay-txt">
             <h4>Smear (Pap) Testi</h4>
             <p>21 yaş üstü tüm kadınlara devlet hastanelerinde ücretsiz uygulanır. Her 3 yılda bir yapılması önerilir.</p>
-            <span class="kay-tag">Ücretsiz</span>
+            <span class="kay-tag">Ücretsiz · KETEM bilgileri →</span>
           </div>
-        </div>
-        <div class="kay-kart">
+        </a>
+        <a href="https://www.saglik.gov.tr/" target="_blank" rel="noopener" class="kay-kart">
           <div class="kay-ico">🧬</div>
           <div class="kay-txt">
             <h4>Genetik Danışmanlık</h4>
             <p>Ailede kanser öyküsü varsa üniversite hastanelerinin tıbbi genetik kliniklerine SGK kapsamında başvurabilirsiniz.</p>
-            <span class="kay-tag mavi">SGK Kapsamında</span>
+            <span class="kay-tag mavi">SGK Kapsamında · Bilgi al →</span>
           </div>
-        </div>
-        <div class="kay-kart">
+        </a>
+        <a href="https://www.saglik.gov.tr/" target="_blank" rel="noopener" class="kay-kart">
           <div class="kay-ico">🤝</div>
           <div class="kay-txt">
             <h4>Psikoonkoloji Desteği</h4>
             <p>Kanser teşhisi sonrası hastanelerdeki psikoonkoloji birimleri SGK kapsamında psikolojik destek sağlar.</p>
-            <span class="kay-tag mavi">SGK Kapsamında</span>
+            <span class="kay-tag mavi">SGK Kapsamında · Bilgi al →</span>
           </div>
-        </div>
-        <div class="kay-kart">
+        </a>
+        <a href="tel:184" class="kay-kart">
           <div class="kay-ico">🩺</div>
           <div class="kay-txt">
             <h4>ALO 184 — Sağlık Hattı</h4>
             <p>Genel sağlık danışmanlığı için Sağlık Bakanlığı'nın ücretsiz hattı. Hastaneye yönlendirme yapabilir.</p>
-            <span class="kay-tag">Ücretsiz</span>
+            <span class="kay-tag">Ücretsiz · Aramak için tıklayın →</span>
           </div>
-        </div>
-        <div class="kay-kart">
+        </a>
+        <a href="https://hsgm.saglik.gov.tr/tr/kanser-tarama-merkezleri-ketem.html" target="_blank" rel="noopener" class="kay-kart">
           <div class="kay-ico">📍</div>
           <div class="kay-txt">
             <h4>En Yakın KETEM'i Bul</h4>
             <p>Türkiye Halk Sağlığı Genel Müdürlüğü web sitesinden ilinize göre en yakın KETEM merkezini bulabilirsiniz.</p>
-            <span class="kay-tag yesil">Yönlendirme</span>
+            <span class="kay-tag yesil">Yönlendirme · Resmi siteyi aç →</span>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </section>
