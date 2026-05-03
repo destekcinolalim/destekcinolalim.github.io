@@ -1057,7 +1057,9 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       <div class="footer-logo">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div>
       <div class="footer-links">
         <a onclick="sayfaGit('ana');git('hakkimizda')">Hakkımızda</a>
-        <a>Gizlilik</a><a>İletişim</a>
+        <a onclick="sayfaGit('gizlilik')">Gizlilik Politikası</a>
+        <a onclick="sayfaGit('kullanim')">Kullanım Koşulları</a>
+        <a href="mailto:destekcinolalim@gmail.com">İletişim</a>
       </div>
     </div>
   </footer>
@@ -2094,7 +2096,7 @@ function denFilt(kat,btn){document.querySelectorAll('#den-filtreler .fp').forEac
 const _sayfaGitOrj = sayfaGit;
 sayfaGit = function(id, pushHistory=true){
   _sayfaGitOrj(id, pushHistory);
-  const basliklar = {ana:'Destekçin Olalım — Kadın Sağlığında Güvenilir Destek', profil:'Profilim — Destekçin Olalım', giris:'Giriş Yap — Destekçin Olalım', yonetici:'Yönetici Paneli — Destekçin Olalım'};
+  const basliklar = {ana:'Destekçin Olalım — Kadın Sağlığında Güvenilir Destek', profil:'Profilim — Destekçin Olalım', giris:'Giriş Yap — Destekçin Olalım', yonetici:'Yönetici Paneli — Destekçin Olalım', gizlilik:'Gizlilik Politikası — Destekçin Olalım', kullanim:'Kullanım Koşulları — Destekçin Olalım'};
   document.title = basliklar[id] || 'Destekçin Olalım';
 };
 
@@ -2155,6 +2157,104 @@ window.hastalıkAc = function(id, pushHistory=true){
     <button class="bil-tamami-oku" onclick="tumunuOku()">Tümünü okundu işaretle</button>
   </div>
   <div class="bil-liste" id="bil-liste"><div class="bil-bos">Henüz bildirim yok.</div></div>
+</div>
+
+<!-- GİZLİLİK POLİTİKASI -->
+<div class="sayfa" id="sayfa-gizlilik">
+  <div style="max-width:800px;margin:0 auto;padding:3rem 2rem;">
+    <button onclick="history.back()" style="background:none;border:none;color:var(--terra);cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:1.5rem;display:flex;align-items:center;gap:6px;">← Geri dön</button>
+    <h1 style="font-family:'Playfair Display',serif;font-size:32px;color:var(--terra);margin-bottom:0.5rem;">Gizlilik Politikası</h1>
+    <p style="font-size:13px;color:var(--soft);margin-bottom:2rem;">Son güncelleme: Mayıs 2026</p>
+
+    <div style="font-size:15px;color:var(--mid);line-height:1.9;font-weight:300;">
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">1. Veri Sorumlusu</h2>
+      <p>Bu platform, Ege Toplum Gönüllüleri (Ege TOG) bünyesinde gönüllü olarak yürütülmektedir. İletişim: <a href="mailto:destekcinolalim@gmail.com" style="color:var(--terra);">destekcinolalim@gmail.com</a></p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">2. Toplanan Veriler</h2>
+      <p>Platformumuzu kullandığınızda aşağıdaki veriler işlenebilir:</p>
+      <ul style="margin:0.75rem 0 0.75rem 1.5rem;line-height:2;">
+        <li><strong>Hesap bilgileri:</strong> Google veya e-posta/şifre ile giriş yapıldığında ad, soyad ve e-posta adresi</li>
+        <li><strong>İçerik verileri:</strong> Paylaştığınız sorular, yorumlar, yanıtlar ve deneyimler</li>
+        <li><strong>Anonim içerik:</strong> Anonim paylaşımlarda görünen ad "Anonim" olarak gösterilir; ancak yöneticiler gerçek kimliği görebilir</li>
+        <li><strong>Teknik veriler:</strong> Firebase Authentication ve Firestore aracılığıyla kullanıcı kimliği (UID) kaydedilir</li>
+      </ul>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">3. Verilerin Kullanım Amacı</h2>
+      <ul style="margin:0.75rem 0 0.75rem 1.5rem;line-height:2;">
+        <li>Platforma güvenli giriş ve kullanıcı deneyiminin kişiselleştirilmesi</li>
+        <li>İçeriklerin moderasyonu ve güvenli bir topluluk ortamı sağlanması</li>
+        <li>Bildirim gönderilmesi</li>
+        <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+      </ul>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">4. Verilerin Saklanması</h2>
+      <p>Verileriniz Google Firebase altyapısında (Avrupa sunucuları) saklanmaktadır. Google'ın gizlilik politikası için: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--terra);">policies.google.com/privacy</a></p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">5. Üçüncü Taraflarla Paylaşım</h2>
+      <p>Kişisel verileriniz hiçbir ticari amaçla üçüncü taraflarla paylaşılmaz. Yalnızca yasal zorunluluk durumunda yetkili mercilerle paylaşılabilir.</p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">6. KVKK Kapsamındaki Haklarınız</h2>
+      <p>6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında aşağıdaki haklara sahipsiniz:</p>
+      <ul style="margin:0.75rem 0 0.75rem 1.5rem;line-height:2;">
+        <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
+        <li>Verilerinizin silinmesini talep etme (hesabınızı silebilirsiniz)</li>
+        <li>Verilerinizin düzeltilmesini talep etme</li>
+        <li>Veri işlemeye itiraz etme</li>
+      </ul>
+      <p>Bu haklarınızı kullanmak için: <a href="mailto:destekcinolalim@gmail.com" style="color:var(--terra);">destekcinolalim@gmail.com</a></p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">7. Çerezler</h2>
+      <p>Platform, oturum yönetimi için Firebase Authentication tarafından kullanılan çerezler kullanır. Bu çerezler platformun çalışması için zorunludur.</p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">8. Tıbbi Sorumluluk Reddi</h2>
+      <p>Bu platformdaki tüm içerikler yalnızca bilgilendirme amaçlıdır. Tıbbi tavsiye, teşhis veya tedavi yerine geçmez. Sağlık kararlarınız için mutlaka bir hekime danışın.</p>
+
+    </div>
+  </div>
+</div>
+
+<!-- KULLANIM KOŞULLARI -->
+<div class="sayfa" id="sayfa-kullanim">
+  <div style="max-width:800px;margin:0 auto;padding:3rem 2rem;">
+    <button onclick="history.back()" style="background:none;border:none;color:var(--terra);cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:1.5rem;display:flex;align-items:center;gap:6px;">← Geri dön</button>
+    <h1 style="font-family:'Playfair Display',serif;font-size:32px;color:var(--terra);margin-bottom:0.5rem;">Kullanım Koşulları</h1>
+    <p style="font-size:13px;color:var(--soft);margin-bottom:2rem;">Son güncelleme: Mayıs 2026</p>
+
+    <div style="font-size:15px;color:var(--mid);line-height:1.9;font-weight:300;">
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">1. Kabul</h2>
+      <p>Platformu kullanarak bu koşulları kabul etmiş sayılırsınız. Koşulları kabul etmiyorsanız platformu kullanmayınız.</p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">2. Platformun Amacı</h2>
+      <p>Destekçin Olalım; kadın sağlığı konularında bilgi paylaşımı, deneyim aktarımı ve topluluk desteği sağlamak amacıyla Ege TOG tarafından gönüllülük esasıyla yürütülen bir platformdur.</p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">3. Kullanıcı Sorumlulukları</h2>
+      <ul style="margin:0.75rem 0 0.75rem 1.5rem;line-height:2;">
+        <li>Paylaştığınız içeriklerden hukuki olarak siz sorumlusunuz</li>
+        <li>Yanıltıcı, hakaret içeren, ırkçı veya zararlı içerik paylaşılamaz</li>
+        <li>Başkalarının kişisel bilgilerini izinsiz paylaşmak yasaktır</li>
+        <li>Platform tıbbi tavsiye vermez; sağlık kararları için doktora danışınız</li>
+        <li>18 yaş altı kullanıcılar platformu ebeveyn gözetiminde kullanmalıdır</li>
+      </ul>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">4. İçerik Moderasyonu</h2>
+      <p>Tüm paylaşımlar yayınlanmadan önce moderasyon sürecinden geçer. Kurallara aykırı içerikler yayınlanmaz veya kaldırılır. Moderatörler gerekçe göstermeksizin içerik reddedebilir.</p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">5. Tıbbi Sorumluluk Reddi</h2>
+      <p>Platform içerikleri <strong>tıbbi tavsiye değildir.</strong> Platformdaki bilgiler genel bilgilendirme amaçlıdır. Teşhis, tedavi veya ilaç kararları için mutlaka bir sağlık uzmanına danışın. Platform, içeriklerin doğruluğundan sorumluluk kabul etmez.</p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">6. Fikri Mülkiyet</h2>
+      <p>Platformun tasarımı ve içeriği Ege TOG'a aittir. Kullanıcılar kendi paylaşımlarının telif hakkına sahiptir; ancak platformda yayınlanmasına onay vermiş sayılır.</p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">7. Hesap Askıya Alma</h2>
+      <p>Kurallara tekrarlı aykırılık durumunda hesabınız önceden bildirim yapılmaksızın askıya alınabilir.</p>
+
+      <h2 style="font-size:18px;font-weight:500;color:var(--dark);margin:2rem 0 0.75rem;">8. İletişim</h2>
+      <p>Sorularınız için: <a href="mailto:destekcinolalim@gmail.com" style="color:var(--terra);">destekcinolalim@gmail.com</a></p>
+
+    </div>
+  </div>
 </div>
 </body>
 </html>
