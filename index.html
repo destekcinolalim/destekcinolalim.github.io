@@ -863,7 +863,11 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     </div>
     <div class="footer-bottom">
       <span>© 2025 Destekçin Olalım · Ege Toplum Gönüllüleri</span>
-      <span>İçerikler tıbbi tavsiye niteliği taşımaz — uzman görüşü alın.</span>
+      <span style="display:flex;gap:1.5rem;align-items:center;">
+        <a onclick="sayfaGit('gizlilik')" style="color:rgba(255,255,255,0.5);cursor:pointer;text-decoration:none;">Gizlilik Politikası</a>
+        <a onclick="sayfaGit('kullanim')" style="color:rgba(255,255,255,0.5);cursor:pointer;text-decoration:none;">Kullanım Koşulları</a>
+        <span>İçerikler tıbbi tavsiye niteliği taşımaz — uzman görüşü alın.</span>
+      </span>
     </div>
   </footer>
 </div>
@@ -938,7 +942,11 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
           <input type="password" id="g-sifre2" placeholder="Şifre (en az 6 karakter)" style="width:100%;padding:10px 44px 10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);box-sizing:border-box;">
           <button type="button" onclick="toggleSifre('g-sifre2',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--soft);font-size:16px;padding:0;">👁</button>
         </div>
-        <button onclick="kayitOlSayfasi()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:12px;">Hesap Oluştur</button>
+        <button onclick="kayitOlSayfasi()" style="width:100%;background:var(--terra);color:white;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:8px;">Hesap Oluştur</button>
+        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--soft);cursor:pointer;margin-bottom:12px;">
+          <input type="checkbox" id="g-kosul" style="margin-top:2px;flex-shrink:0;">
+          <span><a onclick="sayfaGit('kullanim')" style="color:var(--terra);cursor:pointer;">Kullanım Koşulları</a>'nı ve <a onclick="sayfaGit('gizlilik')" style="color:var(--terra);cursor:pointer;">Gizlilik Politikası</a>'nı okudum, kabul ediyorum.</span>
+        </label>
         <p style="font-size:13px;color:var(--soft);">Zaten hesabın var mı? <a onclick="girisFormToggle()" style="color:var(--terra);cursor:pointer;font-weight:500;">Giriş yap</a></p>
       </div>
 
@@ -996,6 +1004,10 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
               <input class="auth-input" type="email" id="a-mail2" placeholder="E-posta">
               <input class="auth-input" type="password" id="a-sifre2" placeholder="Şifre (en az 6 karakter)">
               <button class="auth-btn" onclick="kayitOl()">Hesap Oluştur</button>
+              <label style="display:flex;align-items:flex-start;gap:6px;font-size:11px;color:rgba(255,255,255,0.6);cursor:pointer;margin-top:4px;margin-bottom:4px;">
+                <input type="checkbox" id="a-kosul" style="margin-top:2px;flex-shrink:0;">
+                <span><a onclick="sayfaGit('kullanim')" style="color:var(--amber-light);cursor:pointer;">Kullanım Koşulları</a>'nı ve <a onclick="sayfaGit('gizlilik')" style="color:var(--amber-light);cursor:pointer;">Gizlilik Politikası</a>'nı kabul ediyorum.</span>
+              </label>
               <a class="auth-link" onclick="formToggle()">Zaten hesabın var mı?</a>
             </div>
             <div class="auth-hata" id="auth-hata"></div>
@@ -1218,7 +1230,10 @@ onAuthStateChanged(auth,user=>{
 
 window.googleGiris=async()=>{try{await signInWithPopup(auth,gp);}catch(e){if(e.code!=='auth/popup-closed-by-user')hataGoster('Giriş başarısız.');}};
 window.mailGiris=async()=>{try{await signInWithEmailAndPassword(auth,document.getElementById('a-mail').value,document.getElementById('a-sifre').value);}catch(e){hataGoster('E-posta veya şifre hatalı.');}};
-window.kayitOl=async()=>{const ad=document.getElementById('a-ad').value.trim();if(!ad){hataGoster('İsim girin.');return;}try{const c=await createUserWithEmailAndPassword(auth,document.getElementById('a-mail2').value,document.getElementById('a-sifre2').value);await updateProfile(c.user,{displayName:ad});}catch(e){hataGoster('Kayıt başarısız. Şifre en az 6 karakter olmalı.');}};
+window.kayitOl=async()=>{
+  if(!document.getElementById('a-kosul')?.checked){hataGoster('Kullanım koşullarını kabul etmelisiniz.');return;}
+  const ad=document.getElementById('a-ad').value.trim();if(!ad){hataGoster('İsim girin.');return;}try{const c=await createUserWithEmailAndPassword(auth,document.getElementById('a-mail2').value,document.getElementById('a-sifre2').value);await updateProfile(c.user,{displayName:ad});}catch(e){hataGoster('Kayıt başarısız. Şifre en az 6 karakter olmalı.');}
+};
 window.cikisYap=()=>{
   signOut(auth).then(()=>{
     document.getElementById('nav-giris-btn').style.display='block';
@@ -1358,6 +1373,11 @@ window.girisYapSayfasi=async()=>{
 };
 
 window.kayitOlSayfasi=async()=>{
+  if(!document.getElementById('g-kosul')?.checked){
+    const el=document.getElementById('giris-hata');
+    el.textContent='Kullanım koşullarını ve gizlilik politikasını kabul etmelisiniz.';
+    el.style.color='#d9534f';el.style.display='block';return;
+  }
   const ad=document.getElementById('g-ad').value.trim();
   const mail=document.getElementById('g-mail2').value;
   const sifre=document.getElementById('g-sifre2').value;
