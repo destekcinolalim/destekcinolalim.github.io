@@ -991,10 +991,6 @@ const H={'endometriozis':{baslik:'Endometriozis',ikon:'🌸',ozet:'Endometriozis
 const DIGER=[{id:'endometriozis',ad:'Endometriozis',ico:'🌸'},{id:'pkos',ad:'PKOS',ico:'🔬'},{id:'meme-kanseri',ad:'Meme Kanseri',ico:'🎗️'},{id:'menopoz',ad:'Menopoz',ico:'🌡️'},{id:'miyom',ad:'Rahim Miyomları',ico:'💊'},{id:'rahim-agzi-kanseri',ad:'Rahim Ağzı Kanseri',ico:'🩺'},{id:'over-kanseri',ad:'Over Kanseri',ico:'🫁'}];
 
 window.aktifH=null,window.kullanici=null;
-    const denGirisUyari2=document.getElementById('den-giris-uyari');
-    if(denGirisUyari2) denGirisUyari2.style.display='block';
-    const adminBtn2=document.getElementById('nav-admin-btn');
-    if(adminBtn2) adminBtn2.style.display='none';
 
 window.hastalıkAc=(id, pushHistory=true)=>{
   window.aktifH=id;const h=H[id];if(!h)return;
@@ -1059,11 +1055,18 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('soru-yaz-form').style.display='none';
     document.getElementById('yorum-giris-uyari').style.display='block';
     document.getElementById('yorum-yaz-form').style.display='none';
+    const denGirisUyari2=document.getElementById('den-giris-uyari');
+    if(denGirisUyari2) denGirisUyari2.style.display='block';
+    const adminBtn2=document.getElementById('nav-admin-btn');
+    if(adminBtn2) adminBtn2.style.display='none';
+    document.getElementById('nav-giris-btn').style.display='';
+    document.getElementById('nav-profil').style.display='none';
+    const bilBtn=document.getElementById('bil-btn');
+    if(bilBtn) bilBtn.style.display='none';
   }
 });
 
-window.googleGiris=async()=>{try{if(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){await signInWithRedirect(auth,gp);}else{await signInWithPopup(auth,gp);}}catch(e){hataGoster('Giriş başarısız.');}};
-getRedirectResult(auth).catch(()=>{});
+window.googleGiris=async()=>{try{await signInWithPopup(auth,gp);}catch(e){if(e.code!=='auth/popup-closed-by-user')hataGoster('Giriş başarısız.');}};
 window.mailGiris=async()=>{try{await signInWithEmailAndPassword(auth,document.getElementById('a-mail').value,document.getElementById('a-sifre').value);}catch(e){hataGoster('E-posta veya şifre hatalı.');}};
 window.kayitOl=async()=>{const ad=document.getElementById('a-ad').value.trim();if(!ad){hataGoster('İsim girin.');return;}try{const c=await createUserWithEmailAndPassword(auth,document.getElementById('a-mail2').value,document.getElementById('a-sifre2').value);await updateProfile(c.user,{displayName:ad});}catch(e){hataGoster('Kayıt başarısız. Şifre en az 6 karakter olmalı.');}};
 window.cikisYap=()=>{
@@ -1339,7 +1342,7 @@ window.yorumGonder=async()=>{const i=document.getElementById('yorum-input');cons
 window.tabAc=(id,btn)=>{document.querySelectorAll('.stab').forEach(b=>b.classList.remove('ak'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('ak'));btn.classList.add('ak');document.getElementById(`tab-${id}`).classList.add('ak');};
 
 // Deneyimler - Firebase
-const RK=['#8B3A1F','#C45C2E','#D4850A','#5c7a2d','#2d5c7a','#7a2d5c'];
+const RK=['#7B1E4A','#A8336F','#C4703A','#3D6B5C','#2D5C7A','#6B3D7A'];
 function zamanAt(t){if(!t)return'';try{const ms=t.toMillis?t.toMillis():t.seconds?t.seconds*1000:typeof t==='number'?t:typeof t==='string'?new Date(t).getTime():0;if(!ms)return'';const f=(Date.now()-ms)/1000;if(f<60)return'Az önce';if(f<3600)return`${Math.floor(f/60)} dk önce`;if(f<86400)return`${Math.floor(f/3600)} saat önce`;return`${Math.floor(f/86400)} gün önce`;}catch(e){return''}}
 function ini(n){if(!n||n.toLowerCase()==='anonim')return'A';return n.split(' ').map(k=>k[0]).join('').toUpperCase().slice(0,2);}
 async function yukle(){
@@ -1413,26 +1416,30 @@ let bildirimUnsub = null;
 // Giriş yapınca bildirimleri dinle
 window._bildirimBaslat = function(uid){
   if(bildirimUnsub) bildirimUnsub();
-  const q = query(collection(db,'bildirimler'),where('kullaniciId','==',uid),orderBy('tarih','desc'),limit(30));
+  const bilBtn = document.getElementById('bil-btn');
+  if(bilBtn) bilBtn.style.display='flex';
+  
   const _guncelle = (liste) => {
     const okunmamis = liste.filter(b=>!b.okundu).length;
     const badge = document.getElementById('bil-badge');
-    const bilBtn = document.getElementById('bil-btn');
-    if(bilBtn) bilBtn.style.display='flex';
     if(badge){ badge.style.display=okunmamis>0?'flex':'none'; badge.textContent=okunmamis>9?'9+':okunmamis; }
     _bildirimListeGuncelle(liste);
   };
-  bildirimUnsub = onSnapshot(q, snap => {
-    const liste=[];snap.forEach(d=>liste.push({id:d.id,...d.data()}));_guncelle(liste);
-  }, async err => {
-    console.warn('Bildirim index yok, fallback:', err.message);
+  
+  const _cek = async()=>{
     try{
-      const snap2=await getDocs(query(collection(db,'bildirimler'),where('kullaniciId','==',uid)));
-      const liste=[];snap2.forEach(d=>liste.push({id:d.id,...d.data()}));
+      const snap=await getDocs(query(collection(db,'bildirimler'),where('kullaniciId','==',uid)));
+      const liste=[];snap.forEach(d=>liste.push({id:d.id,...d.data()}));
       liste.sort((a,b)=>(b.tarih?.toMillis?.()||b.tarih?.seconds*1000||0)-(a.tarih?.toMillis?.()||a.tarih?.seconds*1000||0));
-      _guncelle(liste);
-    }catch(e2){}
-  });
+      _guncelle(liste.slice(0,30));
+    }catch(e){console.warn('Bildirim çekilemedi:',e.message);}
+  };
+  
+  // İlk yükleme
+  _cek();
+  // Her 30 saniyede yeni bildirim kontrolü
+  const interval = setInterval(_cek, 30000);
+  bildirimUnsub = ()=>clearInterval(interval);
 };
 
 function _bildirimListeGuncelle(bildirimler){
@@ -1468,6 +1475,12 @@ window.bildirimTikla = async function(bildirimId, sayfaId, hastalik){
 
 window.tumunuOku = async function(){
   if(!window.kullanici) return;
+  // Anında badge'i kaldır
+  const badge = document.getElementById('bil-badge');
+  if(badge) badge.style.display='none';
+  // Listedeki okunmadı stillerini kaldır
+  document.querySelectorAll('.bil-item.okunmadi').forEach(el=>el.classList.remove('okunmadi'));
+  // Firebase'de güncelle
   try{
     const snap = await getDocs(query(collection(db,'bildirimler'),where('kullaniciId','==',window.kullanici.uid)));
     const islemler = snap.docs.filter(d=>!d.data().okundu).map(d=>updateDoc(doc(db,'bildirimler',d.id),{okundu:true}));
