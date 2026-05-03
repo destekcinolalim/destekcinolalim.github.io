@@ -1730,7 +1730,7 @@ window.admListele = function admListele(){
     try{tarihStr=r.tarih?new Date(r.tarih.toMillis?r.tarih.toMillis():r.tarih.seconds*1000).toLocaleString('tr-TR'):'—';}catch(e){}
     return `<div class="adm-kart" data-metin="${(r.metin||'').toLowerCase()}" data-kullanici="${(r.kullaniciAdi||'').toLowerCase()}" style="background:var(--warm);border:1px solid var(--border);border-left:3px solid ${durumRenk};border-radius:14px;padding:1.25rem;margin-bottom:12px;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
-        <span style="font-size:13px;font-weight:500;">${r.kullaniciAdi||'Anonim'}</span>${r.anonim?` <span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;">Anonim — Gerçek: ${r.gercekAd} (${r.gercekMail})</span>`:''}
+        <span style="font-size:13px;font-weight:500;">${r.kullaniciAdi||'Anonim'}</span><span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;margin-left:6px;">${r.anonim?'Anonim — ':''}${r.gercekAd||''} (${r.gercekMail||''})</span>
         <span style="font-size:11px;background:var(--terra-pale);color:var(--terra);padding:3px 10px;border-radius:100px;">${r.hastalik||''}</span>
         <span style="font-size:11px;background:var(--terra-pale);color:var(--mid);padding:3px 10px;border-radius:100px;">${r.tip==='soru'?'Soru':'Yorum'}</span>
         <span style="font-size:11px;background:${durumBg};color:${durumRenk};padding:3px 10px;border-radius:100px;font-weight:500;margin-left:auto;">${durumAd}</span>
@@ -1846,7 +1846,7 @@ function admDenListele(){
     return `<div style="background:var(--warm);border:1px solid var(--border);border-left:3px solid ${durumRenk};border-radius:14px;padding:1.25rem;margin-bottom:12px;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
         <span style="font-size:13px;font-weight:500;">${r.anonim?'Anonim':r.kullaniciAdi||'?'}</span>
-        ${r.anonim?`<span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;">Anonim — ${r.gercekAd||''}</span>`:''}
+        <span style="font-size:11px;background:#fff3cd;color:#856404;padding:2px 8px;border-radius:100px;">${r.anonim?'Anonim — ':''}${r.gercekAd||r.kullaniciAdi||''} (${r.gercekMail||''})</span>
         <span style="font-size:11px;background:var(--terra-pale);color:var(--terra);padding:3px 10px;border-radius:100px;">${r.kategori||'Diğer'}</span>
         <span style="font-size:11px;color:${durumRenk};font-weight:500;margin-left:auto;">${durumAd}</span>
       </div>
