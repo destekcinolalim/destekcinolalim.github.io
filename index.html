@@ -148,6 +148,12 @@ nav{position:sticky;top:0;z-index:300;background:rgba(255,252,248,0.97);backdrop
 #has-panel-bilgi{display:contents;}
 #has-panel-sorular{grid-column:1/-1;}
 .bilgi-kart{background:var(--warm);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.sidebar .bilgi-kart{border:none;border-radius:0;background:none;overflow:visible;}
+.sidebar .bilgi-kart .bilgi-blok{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+.sidebar .bilgi-kart .bilgi-blok:last-child{border-bottom:none;margin-bottom:0;}
+.sidebar .bilgi-kart .bilgi-blok h3{font-size:13px;font-weight:500;color:var(--terra);margin-bottom:6px;}
+.sidebar .bilgi-kart .bilgi-blok ul{font-size:12px;color:var(--mid);line-height:1.8;padding-left:1rem;}
+.sidebar .bilgi-kart .bilgi-blok p{font-size:12px;color:var(--mid);line-height:1.7;}
 .bk-ozet{padding:1.5rem;border-bottom:1px solid var(--border);font-size:15px;color:var(--mid);line-height:1.85;font-weight:300;border-left:4px solid var(--terra-mid);}
 .bk-bolum{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);}
 .bk-bolum:last-child{border-bottom:none;}
@@ -269,6 +275,9 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
 .bos{text-align:center;padding:2rem;color:var(--soft);font-size:14px;background:var(--warm);border-radius:12px;border:1px solid var(--border);}
 @media(max-width:768px){
   .hero{grid-template-columns:1fr;padding:2.5rem 1.25rem;gap:1.5rem;}
+  .hero-stats{grid-template-columns:repeat(3,1fr);gap:8px;}
+  .hn{font-size:22px;}
+  .hs{padding:0.9rem 0.5rem;}
   .hero h1{font-size:32px;line-height:1.15;}
   .hero p{font-size:15px;}
   .den-grid{grid-template-columns:1fr;}.pf{position:static;}
@@ -983,13 +992,45 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     </div>
   </div>
   <div class="has-body">
-    <!-- SEKMELER -->
-    <div style="grid-column:1/-1;display:flex;gap:4px;border-bottom:2px solid var(--border);margin-bottom:-1rem;">
-      <button id="has-tab-bilgi" onclick="hasTab('bilgi',this)" style="background:none;border:none;border-bottom:3px solid var(--terra);color:var(--terra);font-weight:500;padding:10px 20px;font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:-2px;">📖 Bilgi</button>
-      <button id="has-tab-sorular" onclick="hasTab('sorular',this)" style="background:none;border:none;border-bottom:3px solid transparent;color:var(--soft);font-weight:400;padding:10px 20px;font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:-2px;">💬 Sorular & Yorumlar</button>
+    <!-- ANA ALAN: Sorular & Yorumlar -->
+    <div>
+      <div class="sorular-tabs">
+        <button class="stab ak" onclick="tabAc('sorular',this)">Sorular</button>
+        <button class="stab" onclick="tabAc('yorumlar',this)">Deneyimler & Yorumlar</button>
+      </div>
+      <div class="tab-panel ak" id="tab-sorular">
+        <div style="margin-bottom:1rem;">
+          <input type="text" id="soru-arama" placeholder="Sorularda ara..." oninput="soruArama('sorular')" style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dark);background:var(--warm);">
+        </div>
+        <div class="yaz-kutu">
+          <h4>Soru Sor</h4>
+          <div id="soru-giris-uyari" class="yaz-giris-uyari" style="display:none">Soru sormak için <a onclick="sayfaGit('giris')" style="color:var(--terra);font-weight:500;cursor:pointer;">giriş yapın</a>.</div>
+          <div id="soru-yaz-form">
+            <textarea class="yaz-textarea" id="soru-input" placeholder="Bu hastalıkla ilgili merak ettiğiniz bir şey mi var?"></textarea>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin-top:8px;cursor:pointer;">
+              <input type="checkbox" id="soru-anonim" style="width:16px;height:16px;"> Anonim olarak paylaş
+            </label>
+            <div class="yaz-alt"><span class="yaz-not">Sorunuz onaydan geçecektir.</span><button class="yaz-gonder" onclick="soruGonder()">Soruyu Gönder</button></div>
+          </div>
+        </div>
+        <div id="sorular-liste"><div class="yukl">Yükleniyor...</div></div>
+      </div>
+      <div class="tab-panel" id="tab-yorumlar">
+        <div class="yaz-kutu">
+          <h4>Deneyim veya Yorum Yaz</h4>
+          <div id="yorum-giris-uyari" class="yaz-giris-uyari" style="display:none">Yorum yazmak için <a onclick="sayfaGit('giris')" style="color:var(--terra);font-weight:500;cursor:pointer;">giriş yapın</a>.</div>
+          <div id="yorum-yaz-form">
+            <textarea class="yaz-textarea" id="yorum-input" placeholder="Deneyiminizi veya görüşünüzü paylaşın..."></textarea>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin-top:8px;cursor:pointer;">
+              <input type="checkbox" id="yorum-anonim" style="width:16px;height:16px;"> Anonim olarak paylaş
+            </label>
+            <div class="yaz-alt"><span class="yaz-not">Yorumunuz onaydan geçecektir.</span><button class="yaz-gonder" onclick="yorumGonder()">Yorum Yaz</button></div>
+          </div>
+        </div>
+        <div id="yorumlar-liste"><div class="yukl">Yükleniyor...</div></div>
+      </div>
     </div>
-    <div id="has-panel-bilgi">
-    <div><div class="bilgi-kart" id="bilgi-kart"></div></div>
+    <!-- SIDEBAR: Giriş + Bilgi + Diğer Hastalıklar -->
     <div class="sidebar">
       <div class="sidebar-kart" id="auth-kutu">
         <div class="sk-baslik">Hesabınız</div>
@@ -1029,53 +1070,17 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
           </div>
         </div>
       </div>
+      <!-- Bilgi Özeti -->
+      <div class="sidebar-kart">
+        <div class="sk-baslik">Hastalık Bilgisi</div>
+        <div class="bilgi-kart" id="bilgi-kart" style="border:none;padding:0;background:none;box-shadow:none;"></div>
+      </div>
       <div class="sidebar-kart">
         <div class="sk-baslik">Diğer Hastalıklar</div>
         <div class="ilgili-list" id="ilgili-list"></div>
       </div>
     </div>
   </div>
-  </div><!-- has-panel-bilgi sonu -->
-  <div id="has-panel-sorular" style="display:none;grid-column:1/-1;">
-  <div class="sorular-wrap" style="padding:1.5rem 0 4rem;">
-    <div class="sorular-tabs">
-      <button class="stab ak" onclick="tabAc('sorular',this)">Sorular</button>
-      <button class="stab" onclick="tabAc('yorumlar',this)">Deneyimler & Yorumlar</button>
-    </div>
-    <div class="tab-panel ak" id="tab-sorular">
-      <div style="margin-bottom:1rem;">
-        <input type="text" id="soru-arama" placeholder="Sorularda ara..." oninput="soruArama('sorular')" style="width:100%;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dark);background:var(--warm);">
-      </div>
-      <div class="yaz-kutu">
-        <h4>Soru Sor</h4>
-        <div id="soru-giris-uyari" class="yaz-giris-uyari" style="display:none">Soru sormak için <a onclick="sayfaGit('giris')" style="color:var(--terra);font-weight:500;cursor:pointer;">giriş yapın</a>.</div>
-        <div id="soru-yaz-form">
-          <textarea class="yaz-textarea" id="soru-input" placeholder="Bu hastalıkla ilgili merak ettiğiniz bir şey mi var?"></textarea>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin-top:8px;cursor:pointer;">
-            <input type="checkbox" id="soru-anonim" style="width:16px;height:16px;"> Anonim olarak paylaş
-          </label>
-          <div class="yaz-alt"><span class="yaz-not">Sorunuz onaydan geçecektir.</span><button class="yaz-gonder" onclick="soruGonder()">Soruyu Gönder</button></div>
-        </div>
-      </div>
-      <div id="sorular-liste"><div class="yukl">Yükleniyor...</div></div>
-    </div>
-    <div class="tab-panel" id="tab-yorumlar">
-      <div class="yaz-kutu">
-        <h4>Deneyim veya Yorum Yaz</h4>
-        <div id="yorum-giris-uyari" class="yaz-giris-uyari" style="display:none">Yorum yazmak için <a onclick="sayfaGit('giris')" style="color:var(--terra);font-weight:500;cursor:pointer;">giriş yapın</a>.</div>
-        <div id="yorum-yaz-form">
-          <textarea class="yaz-textarea" id="yorum-input" placeholder="Deneyiminizi veya görüşünüzü paylaşın..."></textarea>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin-top:8px;cursor:pointer;">
-            <input type="checkbox" id="yorum-anonim" style="width:16px;height:16px;"> Anonim olarak paylaş
-          </label>
-          <div class="yaz-alt"><span class="yaz-not">Yorumunuz onaydan geçecektir.</span><button class="yaz-gonder" onclick="yorumGonder()">Yorum Yaz</button></div>
-        </div>
-      </div>
-      <div id="yorumlar-liste"><div class="yukl">Yükleniyor...</div></div>
-    </div>
-  </div>
-  </div><!-- has-panel-sorular sonu -->
-  </div><!-- has-body sonu -->
   <footer>
     <div class="footer-ic">
       <div class="footer-logo">Destekçin Olalım<small>Ege Toplum Gönüllüleri</small></div>
