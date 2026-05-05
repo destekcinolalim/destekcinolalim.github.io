@@ -578,26 +578,30 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       </div>
       <div class="den-grid">
         <div class="den-liste" id="den-liste"><div class="yukl">Yükleniyor...</div></div>
+        <div id="den-tumunu-gor" style="display:none;justify-content:center;margin-top:2rem;">
+          <button onclick="sayfaGit('deneyimler-tumu')" style="background:none;border:2px solid var(--terra);color:var(--terra);padding:12px 32px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;" onmouseover="this.style.background='var(--terra)';this.style.color='white'" onmouseout="this.style.background='none';this.style.color='var(--terra)'">Tüm Deneyimleri Gör →</button>
+        </div>
         <div id="paylasim">
           <div class="pf">
             <h3>Deneyimini Paylaş</h3>
-            <p>Paylaşımın yönetici onayından geçtikten sonra yayınlanır.</p>
-            <div class="anon">🔒 Tüm paylaşımlar anonimdir.</div>
-            <div class="fg"><label>Adın / Takma adın (isteğe bağlı)</label><input type="text" id="f-isim" placeholder="Ör: Ayşe T."></div>
-            <div class="fg"><label>Kategori</label>
-              <select id="f-kat">
-                <option value="">Seçin...</option>
-                <option>Endometriozis</option><option>PKOS</option>
-                <option>Meme Kanseri</option><option>Menopoz</option>
-                <option>Rahim Miyomları</option><option>Rahim Ağzı Kanseri</option>
-                <option>Over Kanseri</option><option>Diğer</option>
-              </select>
-            </div>
-            <div class="fg"><label>Deneyimini anlat</label><textarea id="f-metin" placeholder="Yaşadıklarını paylaşabilirsin..."></textarea></div>
+            <p style="font-size:13px;color:var(--soft);line-height:1.7;margin-bottom:0.75rem;">Hastalık sürecinizde yaşadıklarınızı, tanı hikayenizi veya duygusal yolculuğunuzu paylaşabilirsiniz. Her paylaşım, benzer bir süreçten geçen başka bir kadına ışık tutar.</p>
+            <p style="font-size:12px;color:var(--terra);background:var(--terra-pale);padding:8px 12px;border-radius:8px;margin-bottom:1.25rem;">⚠️ Tıbbi tavsiye, ilaç önerisi veya tedavi yönlendirmesi içeren paylaşımlar yayınlanmaz.</p>
             <div id="den-giris-uyari" style="display:none;background:var(--terra-pale);border-radius:10px;padding:12px 16px;margin-bottom:1rem;font-size:14px;color:var(--terra);">Deneyim paylaşmak için <a onclick="sayfaGit('giris')" style="font-weight:600;cursor:pointer;text-decoration:underline;">giriş yapın</a>.</div>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin-bottom:1rem;cursor:pointer;"><input type="checkbox" id="f-anonim" style="width:16px;height:16px;"> Anonim olarak paylaş</label>
-            <button class="sbtn" id="submit-btn" onclick="gonder()">Paylaşımı Gönder →</button>
-            <div class="basari" id="basari">✓ Teşekkürler! Onaylandıktan sonra burada görünecek.</div>
+            <div id="den-giris-form">
+              <div class="fg"><label>Kategori</label>
+                <select id="f-kat">
+                  <option value="">Seçin...</option>
+                  <option>Endometriozis</option><option>PKOS</option>
+                  <option>Meme Kanseri</option><option>Menopoz</option>
+                  <option>Rahim Miyomları</option><option>Rahim Ağzı Kanseri</option>
+                  <option>Over Kanseri</option><option>Diğer</option>
+                </select>
+              </div>
+              <div class="fg"><label>Deneyimini anlat</label><textarea id="f-metin" placeholder="Yaşadıklarını paylaşabilirsin..."></textarea></div>
+              <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--soft);margin-bottom:1rem;cursor:pointer;"><input type="checkbox" id="f-anonim" style="width:16px;height:16px;"> Anonim olarak paylaş <span style="font-size:11px;color:var(--soft);">(adınız gizlenir)</span></label>
+              <button class="sbtn" id="submit-btn" onclick="gonder()">Paylaşımı Gönder →</button>
+              <div class="basari" id="basari">✓ Teşekkürler! Onaylandıktan sonra burada görünecek.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -605,6 +609,72 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
   </div>
 
   <hr class="ay">
+
+  <section class="kay-band" id="kaynaklar">
+    <div class="kay-ic-wrap">
+      <div class="sh"><h2 style="font-family:'Playfair Display',serif;font-size:30px;color:var(--terra);font-weight:500;">Türkiye'de Ücretsiz Kaynaklar</h2></div>
+      <p class="sac">Yakınınızdaki ücretsiz sağlık hizmetleri ve destek hatları</p>
+      <div class="kay-grid">
+        <a href="https://hsgm.saglik.gov.tr/tr/ketem.html" target="_blank" rel="noopener" class="kay-kart">
+          <div class="kay-ico">🏥</div>
+          <div class="kay-txt">
+            <h4>KETEM — Kanser Tarama Merkezleri</h4>
+            <p>Meme kanseri (40-69 yaş, 2 yılda bir mamografi), rahim ağzı kanseri (30-65 yaş, 5 yılda bir HPV-DNA testi) ve kalın bağırsak kanseri (50-70 yaş) taramaları tamamen ücretsiz yapılır.</p>
+            <span class="kay-tag">Ücretsiz · Resmi siteyi aç →</span>
+          </div>
+        </a>
+        <a href="tel:182" class="kay-kart">
+          <div class="kay-ico">📞</div>
+          <div class="kay-txt">
+            <h4>ALO 182 — Hastane Randevu Hattı</h4>
+            <p>Sağlık Bakanlığı'nın Merkezi Hekim Randevu Sistemi (MHRS) telefon hattıdır. Devlet hastaneleri ve aile hekimlerinden telefon ile randevu alınabilir.</p>
+            <span class="kay-tag">Hastane Randevusu · Aramak için tıklayın →</span>
+          </div>
+        </a>
+        <a href="https://mhrs.gov.tr" target="_blank" rel="noopener" class="kay-kart">
+          <div class="kay-ico">🔬</div>
+          <div class="kay-txt">
+            <h4>Smear &amp; HPV-DNA Testi</h4>
+            <p>30-65 yaş arası kadınlara aile hekimi, KETEM veya toplum sağlığı merkezlerinde 5 yılda bir tamamen ücretsiz uygulanır. MHRS veya aile hekimi üzerinden randevu alınabilir.</p>
+            <span class="kay-tag">Ücretsiz · Randevu al →</span>
+          </div>
+        </a>
+        <div class="kay-kart" style="cursor:default;">
+          <div class="kay-ico">💉</div>
+          <div class="kay-txt">
+            <h4>HPV Aşısı</h4>
+            <p>Mayıs 2026 itibarıyla devlet tarafından henüz ücretsiz sunulmamaktadır; eczanede ücretlidir. Bazı büyükşehir belediyeleri (İBB, ABB) 9-26 yaş arası ihtiyaç sahibi bireylere ücretsiz uygulamaktadır — ilgili belediyenin sağlık birimi ile iletişime geçilebilir.</p>
+            <span class="kay-tag mavi">Bilgi amaçlı</span>
+          </div>
+        </div>
+        <a href="https://mhrs.gov.tr" target="_blank" rel="noopener" class="kay-kart">
+          <div class="kay-ico">🧬</div>
+          <div class="kay-txt">
+            <h4>Genetik Danışmanlık</h4>
+            <p>Ailede meme, over veya rahim ağzı kanseri öyküsü varsa üniversite hastanelerinin tıbbi genetik kliniklerine SGK kapsamında başvurulabilir.</p>
+            <span class="kay-tag mavi">SGK Kapsamında · Randevu al →</span>
+          </div>
+        </a>
+        <a href="https://mhrs.gov.tr" target="_blank" rel="noopener" class="kay-kart">
+          <div class="kay-ico">🤝</div>
+          <div class="kay-txt">
+            <h4>Psikoonkoloji Desteği</h4>
+            <p>Kanser teşhisi sonrası pek çok devlet ve üniversite hastanesindeki psikoonkoloji birimleri SGK kapsamında destek sağlar. Onkoloji klinikleri aracılığıyla talep edilebilir.</p>
+            <span class="kay-tag mavi">SGK Kapsamında · Randevu al →</span>
+          </div>
+        </a>
+        <a href="tel:184" class="kay-kart">
+          <div class="kay-ico">🩺</div>
+          <div class="kay-txt">
+            <h4>ALO 184 — Sağlık Hattı</h4>
+            <p>Genel sağlık danışmanlığı ve yönlendirme için Sağlık Bakanlığı'nın 7/24 ücretsiz hattı.</p>
+            <span class="kay-tag">Ücretsiz · Aramak için tıklayın →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
 
   <section class="hk-section" id="hakkimizda">
     <div class="sh"><h2 style="font-family:'Playfair Display',serif;font-size:30px;color:var(--terra);font-weight:500;">Hakkımızda</h2></div>
@@ -642,70 +712,6 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
   </section>
 
   <!-- TÜRKİYE'DE ÜCRETSİZ KAYNAKLAR -->
-  <section class="kay-band" id="kaynaklar">
-    <div class="kay-ic-wrap">
-      <div class="sh"><h2 style="font-family:'Playfair Display',serif;font-size:30px;color:var(--terra);font-weight:500;">Türkiye'de Ücretsiz Kaynaklar</h2></div>
-      <p class="sac">Yakınınızdaki ücretsiz sağlık hizmetleri ve destek hatları</p>
-      <div class="kay-grid">
-        <a href="https://hsgm.saglik.gov.tr/tr/ketem.html" target="_blank" rel="noopener" class="kay-kart">
-          <div class="kay-ico">🏥</div>
-          <div class="kay-txt">
-            <h4>KETEM — Kanser Tarama Merkezleri</h4>
-            <p>Meme kanseri (40-69 yaş, 2 yılda bir mamografi), rahim ağzı kanseri (30-65 yaş, 5 yılda bir HPV-DNA testi) ve kalın bağırsak kanseri (50-70 yaş) taramaları tamamen ücretsiz yapılır.</p>
-            <span class="kay-tag">Ücretsiz · Resmi siteyi aç →</span>
-          </div>
-        </a>
-        <a href="tel:182" class="kay-kart">
-          <div class="kay-ico">📞</div>
-          <div class="kay-txt">
-            <h4>ALO 182 — Kanser Danışma Hattı</h4>
-            <p>Sağlık Bakanlığı'nın 7/24 kanser danışma ve yönlendirme hattı. Size en yakın KETEM veya tarama merkezini öğrenebilirsiniz.</p>
-            <span class="kay-tag">7/24 Ücretsiz · Aramak için tıklayın →</span>
-          </div>
-        </a>
-        <a href="https://mhrs.gov.tr" target="_blank" rel="noopener" class="kay-kart">
-          <div class="kay-ico">🔬</div>
-          <div class="kay-txt">
-            <h4>Smear &amp; HPV-DNA Testi</h4>
-            <p>30-65 yaş arası kadınlara aile hekimi, KETEM veya toplum sağlığı merkezlerinde 5 yılda bir tamamen ücretsiz uygulanır. Aile hekiminizden veya MHRS üzerinden randevu alabilirsiniz.</p>
-            <span class="kay-tag">Ücretsiz · Randevu al →</span>
-          </div>
-        </a>
-        <div class="kay-kart" style="cursor:default;">
-          <div class="kay-ico">💉</div>
-          <div class="kay-txt">
-            <h4>HPV Aşısı</h4>
-            <p>Mayıs 2026 itibarıyla devlet tarafından henüz ücretsiz sunulmamaktadır; eczanede ücretlidir. Bazı büyükşehir belediyeleri (İBB, ABB) 9-26 yaş arası ihtiyaç sahibi bireylere ücretsiz uygulamaktadır — belediyenizin sağlık birimi ile iletişime geçin.</p>
-            <span class="kay-tag mavi">Bilgi amaçlı</span>
-          </div>
-        </div>
-        <a href="https://mhrs.gov.tr" target="_blank" rel="noopener" class="kay-kart">
-          <div class="kay-ico">🧬</div>
-          <div class="kay-txt">
-            <h4>Genetik Danışmanlık</h4>
-            <p>Ailede meme, over veya rahim ağzı kanseri öyküsü varsa üniversite hastanelerinin tıbbi genetik kliniklerine SGK kapsamında başvurabilirsiniz.</p>
-            <span class="kay-tag mavi">SGK Kapsamında · Randevu al →</span>
-          </div>
-        </a>
-        <a href="https://mhrs.gov.tr" target="_blank" rel="noopener" class="kay-kart">
-          <div class="kay-ico">🤝</div>
-          <div class="kay-txt">
-            <h4>Psikoonkoloji Desteği</h4>
-            <p>Kanser teşhisi sonrası pek çok devlet ve üniversite hastanesindeki psikoonkoloji birimleri SGK kapsamında destek sağlar. Onkoloji kliniğinizden talep edebilirsiniz.</p>
-            <span class="kay-tag mavi">SGK Kapsamında · Randevu al →</span>
-          </div>
-        </a>
-        <a href="tel:184" class="kay-kart">
-          <div class="kay-ico">🩺</div>
-          <div class="kay-txt">
-            <h4>ALO 184 — Sağlık Hattı</h4>
-            <p>Genel sağlık danışmanlığı ve yönlendirme için Sağlık Bakanlığı'nın 7/24 ücretsiz hattı.</p>
-            <span class="kay-tag">Ücretsiz · Aramak için tıklayın →</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
 
   <!-- KAYNAKÇA SECTION -->
   <section style="background:var(--cream);padding:3.5rem 2rem;border-top:1px solid var(--border);">
@@ -839,6 +845,7 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
       </div>
     </div>
   </section>
+
 
   <footer>
     <div style="max-width:1100px;margin:0 auto;padding:2.5rem 2rem;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2rem;flex-wrap:wrap;">
@@ -1166,7 +1173,7 @@ import{getFirestore,collection,addDoc,getDocs,query,where,orderBy,doc,updateDoc,
 const app=initializeApp({apiKey:"AIzaSyBwN1isDXSLczxnWf3bsckm9vT7U5obbF0",authDomain:"kadin-sagligi-etg.firebaseapp.com",projectId:"kadin-sagligi-etg",storageBucket:"kadin-sagligi-etg.firebasestorage.app",messagingSenderId:"819397753328",appId:"1:819397753328:web:b5804e809de21dc18ec535"});
 const auth=getAuth(app),db=getFirestore(app),gp=new GoogleAuthProvider();
 
-const H={'endometriozis':{baslik:'Endometriozis',ikon:'🌸',ozet:'Endometriozis; rahim iç yüzeyini kaplayan dokunun rahmin dışında, yumurtalıklar, tüpler, bağırsak veya mesane gibi bölgelerde büyümesidir. Her adet döngüsünde bu dokular da kanar; ancak kan vücuttan çıkamadığı için iltihap, kist ve yapışıklıklara yol açar. Türkiye\'de yaklaşık 1,5 milyon kadını etkileyen bu hastalık kronik bir durumdur ve erken tanı ile yönetim hayat kalitesini önemli ölçüde artırır.',bolumler:[{b:'Belirtiler',m:['Şiddetli adet ağrısı (dismenore)','Adet dönemleri dışında kronik pelvik ağrı','Cinsel ilişki sırasında veya sonrasında ağrı (disparoni)','Aşırı veya düzensiz adet kanaması','Bağırsak veya idrar yolu sorunları (özellikle adet döneminde)','Kısırlık (infertilite)','Kronik yorgunluk ve halsizlik']},{b:'Hastalık Evreleri',m:['Evre 1 (Minimal): Az sayıda yüzeysel odak','Evre 2 (Hafif): Daha derin odaklar, küçük endometrioma','Evre 3 (Orta): Çoklu derin odaklar, endometrioma kistleri','Evre 4 (Şiddetli): Yaygın derin odaklar, yoğun yapışıklıklar']},{b:'Tanı Yöntemleri',m:['Laparoskopi (kesin tanı yöntemi)','Transvajinal ultrasonografi','MRI görüntüleme','Pelvik muayene ve hasta hikayesi']},{b:'Tedavi Seçenekleri',m:['Ağrı kesici ve anti-inflamatuar ilaçlar (ibuprofen)','Hormonal tedavi: doğum kontrol hapları, progestinler, GnRH analogları','Laparoskopik cerrahi (odakların alınması)','Kısırlık tedavileri (IVF/IUI)','Hysterektomi (ileri vakalarda son seçenek)']},{b:'Yaşam Tarzı Önerileri',m:['Anti-inflamatuar beslenme (omega-3, sebze, meyve)','Düzenli orta şiddetli egzersiz (yüzme, yürüyüş)','Stres yönetimi ve mindfulness','Isı tedavisi ağrı yönetiminde yardımcı olabilir','Psikolojik destek — kronik ağrı ruh sağlığını etkiler']},{b:'Türkiye\'de Destek',m:['Endometriozis dernek ve destek grupları mevcuttur','Üniversite hastanelerinde endometriozis klinikleri','Aile ve partner desteğini açıkça talep edin','Tanı ortalama 6-10 yıl gecikebilir — belirtilerinizi küçümsemeyin']}],uyari:'⚕️ Belirtileriniz 2 ayı aşkın süredir devam ediyorsa mutlaka bir jinekolog veya endometriozis uzmanına başvurun. "Ağrıya katlanmak zorunda değilsiniz."'},'pkos':{baslik:'PKOS (Polikistik Over Sendromu)',ikon:'🔬',ozet:'PKOS; kadınlarda en sık görülen hormonal bozukluktur. Dünya genelinde üreme çağındaki kadınların %8-13\'ünü etkiler; Türkiye\'de bu oran yaklaşık %12\'dir. PKOS, hormon dengesizliği, düzensiz adet döngüleri ve yumurtalıklarda küçük kistlerin oluşmasıyla karakterizedir. Erken tanı ve yaşam tarzı değişiklikleri ile büyük ölçüde yönetilebilir.',bolumler:[{b:'Belirtiler',m:['Düzensiz veya hiç olmayan adet döngüleri','Akne ve yağlı cilt','İstenmeyen yerlerde aşırı tüylenme (hirsutizm)','Saç dökülmesi veya seyrekleşmesi','Kilo almaya eğilim — özellikle bel bölgesinde','Cilt koyulaşması (akantosis nigrikans)','Hamile kalmakta güçlük','Ruh hali değişimleri ve depresyon riski']},{b:'Tanı Kriterleri (Rotterdam)',m:['Adet düzensizliği (oligomenore veya amenore)','Androjen fazlalığı belirtileri veya yüksek kan değerleri','Ultrasonografide polikistik over görünümü','Üç kriterden ikisinin varlığı PKOS tanısı için yeterlidir']},{b:'İlişkili Sağlık Riskleri',m:['Tip 2 diyabet ve insülin direnci','Kalp-damar hastalıkları','Uyku apnesi','Rahim kanseri (düzensiz adet nedeniyle endometrium birikmesi)','Depresyon ve anksiyete','İnfertilite']},{b:'Tedavi Seçenekleri',m:['Yaşam tarzı değişiklikleri (en etkili ilk adım)','Doğum kontrol hapları (hormon düzenlemesi)','Metformin (insülin direncini azaltır)','Anti-androjen ilaçlar (tüylenme ve akne için)','Yumurtlatma ilaçları (kısırlık tedavisinde)','IVF (diğer yöntemler işe yaramazsa)']},{b:'Beslenme Önerileri',m:['Düşük glisemik indeksli gıdalar tercih edin','İşlenmiş şeker ve rafine karbonhidratları azaltın','Omega-3 içeren besinler (balık, keten tohumu, ceviz)','Lif açısından zengin sebze ve meyveler','Yeşil çay ve tarçın insülin duyarlılığını artırabilir','Porsiyonları küçük tutun, öğün atlamayın']},{b:'Egzersiz ve Psikoloji',m:['Haftada en az 150 dakika orta şiddetli egzersiz','Yürüyüş, yüzme ve bisiklet idealdir','Direnç egzersizleri insülin duyarlılığını artırır','PKOS\'lu kadınlarda depresyon ve anksiyete sık — psikolojik destek önemli']}],uyari:'⚕️ PKOS tedavi edilebilir bir durumdur. Hormon paneli için bir jinekolog veya endokrinolog ile görüşün. Diyabet riskinizi azaltmak için düzenli kan şekeri takibi yaptırın.'},'meme-kanseri':{baslik:'Meme Kanseri',ikon:'🎗️',ozet:'Meme kanseri; Türkiye\'de ve dünyada kadınlar arasında en sık görülen kanser türüdür. Her yıl ülkemizde yaklaşık 25.000 yeni vaka tanı almaktadır. Erken evrede yakalanan meme kanserinde 5 yıllık sağkalım oranı %95\'in üzerindedir. Bu nedenle düzenli tarama ve öz-muayene hayat kurtarır.',bolumler:[{b:'Uyarı İşaretleri',m:['Memede yeni sertlik, kitle veya şişlik','Meme cildinde çekme, buruşma veya gamze oluşumu','Meme başında içe çökme veya anormal akıntı','Koltukaltında şişmiş lenf bezleri','Memede kızarıklık, ısınma veya portakal kabuğu görünümü','Meme şekli veya boyutunda değişim']},{b:'Tarama Kılavuzu',m:['20 yaşından itibaren aylık öz-muayene (adet sonrası 7-10. gün)','20-39 yaş arası her 1-3 yılda bir klinik muayene','40 yaşından itibaren yılda bir mamografi','Aile öyküsü varsa 30 yaşından itibaren MRI taraması','BRCA mutasyonu taşıyanlarda daha sık ve erken tarama']},{b:'Risk Faktörleri',m:['Ailede meme veya over kanseri geçmişi','BRCA1/BRCA2 gen mutasyonu (en önemli genetik risk)','12 yaşından önce adet başlangıcı veya 55 sonrası menopoz','Hiç çocuk sahibi olmamak veya geç doğum (35+)','Uzun süreli hormon replasman tedavisi','Yoğun alkol kullanımı ve hareketsiz yaşam','Obezite — özellikle menopoz sonrası']},{b:'Kanser Türleri',m:['DCIS (Duktal Karsinoma In Situ) — erken, noninvaziv','IDC (İnvaziv Duktal Karsinoma) — en yaygın tip (%80)','Triple negatif meme kanseri — daha agresif seyir','HER2 pozitif meme kanseri — hedefe yönelik tedavilere yanıt verir','Hormona duyarlı (ER/PR pozitif) — en yaygın alt tip']},{b:'Tedavi Seçenekleri',m:['Cerrahi: Lumpektomi (meme koruyucu) veya mastektomi','Radyoterapi','Kemoterapi','Hormon tedavisi (tamoksifen, aromataz inhibitörleri)','Hedefe yönelik tedaviler (HER2+ için trastuzumab)','İmmünoterapi (triple negatif için)','Rekonstrüksiyon (estetik yeniden yapım) cerrahisi']},{b:'Öz-Muayene Adımları',m:['Ayna karşısında her iki kolunuzu kaldırarak bakın','Memeleri dairesel hareketlerle, tüm bölgeleri tarayın','Oturarak ve uzanarak muayene yapın','Koltuk altlarını ve köprücük kemiğini kontrol edin','Meme başlarını sıkıştırarak akıntı olup olmadığına bakın']}],uyari:'⚕️ Şüpheli bir belirti fark ettiğinizde vakit kaybetmeden bir onkoloji veya meme sağlığı uzmanına başvurun. 40-69 yaş arası kadınlara mamografi KETEM\'lerde 2 yılda bir ücretsizdir.'},'menopoz':{baslik:'Menopoz',ikon:'🌡️',ozet:'Menopoz; 12 ay boyunca adet görmemenin ardından adet dönemlerinin kalıcı olarak sona ermesidir. Türkiye\'de ortalama menopoz yaşı 47-49\'dur. Menopoz öncesinde gelen perimenopoz döneminde yıllar öncesinden belirtiler başlayabilir. Menopoz bir hastalık değil, doğal bir geçiş sürecidir; ancak belirtiler yaşam kalitesini ciddi ölçüde etkileyebilir.',bolumler:[{b:'Menopoz Dönemleri',m:['Perimenopoz: Menopozdan önceki geçiş dönemi (2-10 yıl sürebilir)','Menopoz: Son adet döneminden itibaren 12 ay geçmesi','Postmenopoz: Menopoz sonrası yaşam dönemi','Erken menopoz: 40 yaş öncesi görülüyorsa tıbbi değerlendirme şart']},{b:'Yaygın Belirtiler',m:['Sıcak basmaları ve gece terlemeleri','Uyku bozuklukları ve uykusuzluk','Ruh hali değişimleri, sinirlilik, depresyon riski','Vajinal kuruluk ve cinsel ilişkide rahatsızlık','Konsantrasyon güçlüğü ve unutkanlık ("menopoz sisi")','İdrar kaçırma veya sık idrara çıkma','Saç incelmesi ve cilt değişimleri','Eklem ve kas ağrıları']},{b:'Uzun Vadeli Sağlık Riskleri',m:['Osteoporoz — kemik yoğunluğu azalır, kırık riski artar','Kalp-damar hastalıkları riski artar','Ürogenital atrofi (vajina ve idrar yollarında incelme)','Metabolik değişiklikler ve kilo artışı']},{b:'Tıbbi Tedaviler',m:['Hormon Replasman Tedavisi (HRT) — belirtileri önemli ölçüde azaltır','Vajinal östrojen kremleri veya halkaları (yerel etki)','SSRI/SNRI antidepresanlar (sıcak basmalarında yardımcı)','Gabapentin (uyku ve sıcak basmalarında faydalı)','Ospemifen (vajinal kuruluk için oral tablet)']},{b:'Doğal Baş Etme Yöntemleri',m:['Soya, tofu ve edamame — fitoöstrojen içerir','Keten tohumu ve nohut','Tetikleyicilerden kaçınma (alkol, kafein, baharatlı yiyecek)','Serin ortamda uyuma, katmanlı giyinme','Düzenli aerobik egzersiz sıcak basmalarını azaltır','Yoga ve meditasyon etkili stres yönetimi sağlar']},{b:'Kemik ve Kalp Sağlığı',m:['Günlük 1200 mg kalsiyum alımı (süt, yoğurt, brokoli)','Günlük 800-1000 IU D vitamini (güneş + takviye)','Ağırlık taşıyan egzersizler (yürüyüş, dans, pilates)','DEXA kemik yoğunluğu ölçümü — postmenopozda önerilir','Sigara ve aşırı alkol kemik sağlığını bozar']},{b:'Cinsel Sağlık',m:['Vajinal nem için nemlendirici ve lubrikantlar (reçetesiz bulunur)','Düzenli cinsel aktivite vajinal sağlığı korur','Vajinal östrojen kremleri kuruluk için çok etkilidir','Partnerinizle açık ve dürüst iletişim kurun']}],uyari:'⚕️ Menopoz belirtileri yaşam kalitenizi ciddi düşürüyorsa bir jinekologa başvurun. HRT kararını kişisel risk faktörlerinize göre birlikte değerlendirin.'},'miyom':{baslik:'Rahim Miyomları (Fibroid)',ikon:'💊',ozet:'Miyomlar (fibroidler); rahimin kas dokusundan köken alan iyi huylu tümörlerdir. Üreme çağındaki kadınların yaklaşık %25-50\'sinde görülür ve kansere dönüşmez. Kadınların çoğunda hiçbir belirti vermez; ancak boyut ve konuma göre adet sorunları, ağrı veya kısırlığa neden olabilir.',bolumler:[{b:'Miyom Türleri',m:['Submüköz miyom — rahim içine doğru büyür, en belirgin belirtilere yol açar','İntramural miyom — rahim duvarı içinde büyür, en yaygın türdür','Subseröz miyom — rahimin dış yüzeyine doğru büyür','Saplı miyom (pedünküle) — ince bir sap ile rahime bağlıdır, burulabilir']},{b:'Belirtiler',m:['Aşırı veya uzun süreli adet kanamaları (anemi riski)','Adetler arası lekelenme','Pelvik baskı, doluluk veya ağrı hissi','Sık idrara çıkma veya idrar tutamama','Kabızlık veya sırt ağrısı','Karın büyümesi veya şişkinlik','Hamilelikte komplikasyon riski','Kısırlık (özellikle submüköz miyomlarda)']},{b:'Tanı Yöntemleri',m:['Transvajinal ultrasonografi (ilk tercih)','Salin infüzyon sonohisterografi (SIS)','MRI görüntüleme (boyut ve konum için en iyi)','Histeroskopi (rahim içini görmek için)']},{b:'Tedavi Seçenekleri',m:['Bekleme ve izleme (belirti yoksa)','NSAID ağrı kesiciler ve demir takviyesi (anemi için)','Levonorgestrel salgılayan RİA (kanama kontrolü)','GnRH analogları (ameliyat öncesi küçültme)','Miyomektomi — miyomları alır, rahimi korur (doğurganlık isteyenler için)','Uterin Fibroid Embolizasyonu (UFE) — minimal invaziv, lazer','Histerektomi — rahmin tümüyle alınması (kesin çözüm)']},{b:'Miyom ve Hamilelik',m:['Miyomların çoğu hamileliği olumsuz etkilemez','Submüköz miyomlar implantasyonu zorlaştırabilir','Büyük miyomlar erken doğum riskini artırabilir','Hamile kalmak isteyenler için miyomektomi tercih edilir']},{b:'Risk Faktörleri',m:['Ailede miyom geçmişi','Erken adet başlangıcı','Hiç doğum yapmamış olmak','Obezite','Kırmızı et ağırlıklı beslenme','Yetersiz D vitamini düzeyi']}],uyari:'⚕️ Miyomlar kansere dönüşmez; ancak şiddetli kanama veya ağrı yaşıyorsanız bir jinekologa başvurun. Anemi gelişmemesi için hemoglobin düzeyinizi takip edin.'},'rahim-agzi-kanseri':{baslik:'Rahim Ağzı Kanseri',ikon:'🩺',ozet:'Rahim ağzı kanseri; büyük ölçüde önlenebilir bir kanser türüdür. Vakaların %99\'undan fazlası Human Papillomavirus (HPV) enfeksiyonuyla ilişkilidir. Türkiye\'de her yıl yaklaşık 2.000 kadına rahim ağzı kanseri tanısı konulmaktadır. HPV aşısı ve düzenli smear testi ile bu kanser büyük ölçüde önlenebilir veya erken evrede yakalanabilir.',bolumler:[{b:'Belirtiler',m:['Erken evrede genellikle belirti vermez (bu yüzden tarama çok önemlidir)','Adetler arası veya cinsel ilişki sonrası kanama','Vajinal akıntıda artış veya kötü koku','Pelvik veya bel ağrısı','İdrar yaparken yanma veya sık idrara çıkma (ileri evrede)']},{b:'HPV ve Rahim Ağzı Kanseri',m:['HPV cinsel temas yoluyla bulaşan çok yaygın bir virüstür','HPV 16 ve 18 tipleri vakaların yaklaşık %70\'inden sorumludur','Çoğu HPV enfeksiyonu kendiliğinden geçer','Kalıcı enfeksiyon kanser öncesi değişikliklere yol açabilir','HPV hem erkeklere hem de kadınlara aşılanabilir']},{b:'Korunma Yöntemleri',m:['HPV aşısı — Türkiye\'de 11-26 yaş arası devlet tarafından karşılanır','Düzenli smear testi (Pap smear) — 21 yaşından itibaren her 3 yılda bir','HPV DNA testi — 30 yaşından itibaren her 5 yılda bir','Korunmalı cinsel ilişki (kondom HPV riskini azaltır)','Sigara içmemek — sigara rahim ağzı kanser riskini artırır']},{b:'Smear Testi Hakkında',m:['Ağrısız veya hafif rahatsızlık veren yaklaşık 5 dakikalık işlem','Adet döneminde yapılmamalıdır (adet sonrası 7-10. gün ideal)','Türkiye\'de devlet hastanelerinde ve KETEM merkezlerinde ücretsizdir','Anormal sonuçta kolposkopi ile ileri inceleme yapılır','Anormal smear = kanser değildir; çoğu düzeltici işlemle çözülür']},{b:'Evreleme ve Tedavi',m:['Evre 0 (CIN 1-3): Kanser öncesi değişiklikler — LEEP veya konizasyon','Evre 1: Küçük, sınırlı tümör — cerrahi veya radyoterapi','Evre 2: Komşu dokulara yayılım — kemoradyoterapi','Evre 3: Pelvik yan duvara yayılım — kemoradyoterapi','Evre 4: Uzak organlara yayılım — palyatif tedavi ve destek']},{b:'Türkiye\'deki Kaynaklar',m:['Smear ve HPV-DNA testi 30-65 yaş kadınlara devlet hastanelerinde ücretsiz','Kanser Erken Teşhis Tarama ve Eğitim Merkezleri (KETEM)','Türk Jinekolojik Onkoloji Derneği (TJOD)','Sağlık Bakanlığı Kanser Danışma Hattı: 182']}],uyari:'⚕️ Smear testi yaptırmadıysanız en yakın sağlık merkezine veya KETEM\'e başvurun — tamamen ücretsizdir. "Önlenebilir bir kanserden korunmak sizin elinizde."'},'over-kanseri':{baslik:'Over (Yumurtalık) Kanseri',ikon:'🫁',ozet:'"Sessiz hastalık" olarak bilinen over kanseri; erken evrede genellikle belirti vermez. Bu nedenle vakaların yaklaşık %75\'i ileri evrede tanı alır. Türkiye\'de her yıl yaklaşık 4.000 yeni vaka görülmektedir. Over kanseri için kesin bir tarama testi henüz mevcut değildir; bu yüzden farkındalık ve belirtilere dikkat etmek kritik önem taşır.',bolumler:[{b:'Uyarı Belirtileri',m:['Karın şişkinliği ve dolgunluk hissi (ısrarcı, geçmeyen)','Yeme güçlüğü veya çabuk doyma','Pelvik veya karın ağrısı','Sık idrara çıkma ihtiyacı','Yorgunluk ve açıklanamayan halsizlik','Sırt veya bel ağrısı','Cinsel ilişkide ağrı','Adet düzensizlikleri','Nedensiz kilo kaybı veya artışı']},{b:'Over Kanseri Türleri',m:['Epitelyal over kanseri — en yaygın tip (%90), 50 yaş üstünde sık','Germ hücre tümörleri — genellikle genç kadınlarda, iyi prognoz','Seks kord stromal tümörler — nadir, hormon salgılayabilir','Borderline (sınırda) tümörler — daha yavaş seyir, daha iyi prognoz']},{b:'Risk Faktörleri',m:['Ailede over veya meme kanseri geçmişi (en önemli risk)','BRCA1 veya BRCA2 gen mutasyonu','Lynch sendromu','Hiç çocuk sahibi olmamak','Endometriozis öyküsü','İleri yaş (50 yaş üstü en yüksek risk)','Uzun süreli hormon replasman tedavisi (bazı türler)']},{b:'Koruyucu Faktörler',m:['Doğum kontrol hapı kullanımı (5+ yıl kullanımda riski azaltır)','Hamile kalmış ve emzirmiş olmak','Tubal ligasyon','BRCA mutasyon taşıyıcılarında profilaktik ooforektomi değerlendirilebilir']},{b:'Tanı Yöntemleri',m:['Pelvik ultrasonografi (transvajinal)','CA-125 kan testi (tümör belirteci — tek başına yeterli değil)','HE4 testi (CA-125 ile birlikte daha güvenilir)','MRI ve BT görüntüleme','Laparoskopi veya laparotomi (kesin tanı)']},{b:'Tedavi Seçenekleri',m:['Cerrahi (debulking) — tümör ve etkilenen dokuların alınması','Kemoterapi — karboplatin + paklitaksel kombinasyonu (altın standart)','PARP inhibitörleri (BRCA mutasyonu olanlarda çok etkili)','Antianjiojenik tedaviler (bevacizumab)','İmmünoterapi (araştırma aşamasında)']},{b:'Genetik Test ve Danışmanlık',m:['BRCA1/BRCA2 testi — ailede kanser öyküsü varsa şiddetle önerilir','Pozitif sonuç kadın akrabaları da ilgilendirir','Genetik danışmanlık hem tıbbi hem psikolojik destek sağlar','Profilaktik cerrahi seçenekleri BRCA taşıyıcılarında değerlendirilebilir']}],uyari:'⚕️ Belirtiler 2 haftadan uzun süre devam ediyorsa veya giderek kötüleşiyorsa vakit kaybetmeden bir jinekolog-onkoloğa başvurun. BRCA mutasyonu taşıdığınızı düşünüyorsanız genetik danışmanlık alın.'}};
+const H={'endometriozis':{baslik:'Endometriozis',ikon:'🌸',ozet:'Endometriozis; rahim iç yüzeyini kaplayan dokunun rahmin dışında, yumurtalıklar, tüpler, bağırsak veya mesane gibi bölgelerde büyümesidir. Her adet döngüsünde bu dokular da kanar; ancak kan vücuttan çıkamadığı için iltihap, kist ve yapışıklıklara yol açar. Türkiye\'de yaklaşık 1,5 milyon kadını etkileyen bu hastalık kronik bir durumdur ve erken tanı ile yönetim hayat kalitesini önemli ölçüde artırır.',bolumler:[{b:'Belirtiler',m:['Şiddetli adet ağrısı (dismenore)','Adet dönemleri dışında kronik pelvik ağrı','Cinsel ilişki sırasında veya sonrasında ağrı (disparoni)','Aşırı veya düzensiz adet kanaması','Bağırsak veya idrar yolu sorunları (özellikle adet döneminde)','Kısırlık (infertilite)','Kronik yorgunluk ve halsizlik']},{b:'Hastalık Evreleri',m:['Evre 1 (Minimal): Az sayıda yüzeysel odak','Evre 2 (Hafif): Daha derin odaklar, küçük endometrioma','Evre 3 (Orta): Çoklu derin odaklar, endometrioma kistleri','Evre 4 (Şiddetli): Yaygın derin odaklar, yoğun yapışıklıklar']},{b:'Tanı Yöntemleri',m:['Laparoskopi (kesin tanı yöntemi)','Transvajinal ultrasonografi','MRI görüntüleme','Pelvik muayene ve hasta hikayesi']},{b:'Tedavi Seçenekleri',m:['Ağrı kesici ve anti-inflamatuar ilaçlar (ibuprofen)','Hormonal tedavi: doğum kontrol hapları, progestinler, GnRH analogları','Laparoskopik cerrahi (odakların alınması)','Kısırlık tedavileri (IVF/IUI)','Hysterektomi (ileri vakalarda son seçenek)']},{b:'Yaşam Tarzı Önerileri',m:['Anti-inflamatuar beslenme (omega-3, sebze, meyve)','Düzenli orta şiddetli egzersiz (yüzme, yürüyüş)','Stres yönetimi ve mindfulness','Isı tedavisi ağrı yönetiminde yardımcı olabilir','Psikolojik destek — kronik ağrı ruh sağlığını etkiler']},{b:'Türkiye\'de Destek',m:['Endometriozis dernek ve destek grupları mevcuttur','Üniversite hastanelerinde endometriozis klinikleri','Aile ve partner desteğini açıkça talep edin','Tanı ortalama 6-10 yıl gecikebilir — belirtilerinizi küçümsemeyin']}],uyari:'⚕️ Belirtileriniz 2 ayı aşkın süredir devam ediyorsa mutlaka bir jinekolog veya endometriozis uzmanına başvurun. "Ağrıya katlanmak zorunda değilsiniz."'},'pkos':{baslik:'PKOS (Polikistik Over Sendromu)',ikon:'🔬',ozet:'PKOS; kadınlarda en sık görülen hormonal bozukluktur. Dünya genelinde üreme çağındaki kadınların %8-13\'ünü etkiler; Türkiye\'de bu oran yaklaşık %12\'dir. PKOS, hormon dengesizliği, düzensiz adet döngüleri ve yumurtalıklarda küçük kistlerin oluşmasıyla karakterizedir. Erken tanı ve yaşam tarzı değişiklikleri ile büyük ölçüde yönetilebilir.',bolumler:[{b:'Belirtiler',m:['Düzensiz veya hiç olmayan adet döngüleri','Akne ve yağlı cilt','İstenmeyen yerlerde aşırı tüylenme (hirsutizm)','Saç dökülmesi veya seyrekleşmesi','Kilo almaya eğilim — özellikle bel bölgesinde','Cilt koyulaşması (akantosis nigrikans)','Hamile kalmakta güçlük','Ruh hali değişimleri ve depresyon riski']},{b:'Tanı Kriterleri (Rotterdam)',m:['Adet düzensizliği (oligomenore veya amenore)','Androjen fazlalığı belirtileri veya yüksek kan değerleri','Ultrasonografide polikistik over görünümü','Üç kriterden ikisinin varlığı PKOS tanısı için yeterlidir']},{b:'İlişkili Sağlık Riskleri',m:['Tip 2 diyabet ve insülin direnci','Kalp-damar hastalıkları','Uyku apnesi','Rahim kanseri (düzensiz adet nedeniyle endometrium birikmesi)','Depresyon ve anksiyete','İnfertilite']},{b:'Tedavi Seçenekleri',m:['Yaşam tarzı değişiklikleri (en etkili ilk adım)','Doğum kontrol hapları (hormon düzenlemesi)','Metformin (insülin direncini azaltır)','Anti-androjen ilaçlar (tüylenme ve akne için)','Yumurtlatma ilaçları (kısırlık tedavisinde)','IVF (diğer yöntemler işe yaramazsa)']},{b:'Beslenme Önerileri',m:['Düşük glisemik indeksli gıdalar tercih edin','İşlenmiş şeker ve rafine karbonhidratları azaltın','Omega-3 içeren besinler (balık, keten tohumu, ceviz)','Lif açısından zengin sebze ve meyveler','Yeşil çay ve tarçın insülin duyarlılığını artırabilir','Porsiyonları küçük tutun, öğün atlamayın']},{b:'Egzersiz ve Psikoloji',m:['Haftada en az 150 dakika orta şiddetli egzersiz','Yürüyüş, yüzme ve bisiklet idealdir','Direnç egzersizleri insülin duyarlılığını artırır','PKOS\'lu kadınlarda depresyon ve anksiyete sık — psikolojik destek önemli']}],uyari:'⚕️ PKOS tedavi edilebilir bir durumdur. Hormon paneli için bir jinekolog veya endokrinolog ile görüşün. Diyabet riskinizi azaltmak için düzenli kan şekeri takibi yaptırın.'},'meme-kanseri':{baslik:'Meme Kanseri',ikon:'🎗️',ozet:'Meme kanseri; Türkiye\'de ve dünyada kadınlar arasında en sık görülen kanser türüdür. Her yıl ülkemizde yaklaşık 25.000 yeni vaka tanı almaktadır. Erken evrede yakalanan meme kanserinde 5 yıllık sağkalım oranı %95\'in üzerindedir. Bu nedenle düzenli tarama ve öz-muayene hayat kurtarır.',bolumler:[{b:'Uyarı İşaretleri',m:['Memede yeni sertlik, kitle veya şişlik','Meme cildinde çekme, buruşma veya gamze oluşumu','Meme başında içe çökme veya anormal akıntı','Koltukaltında şişmiş lenf bezleri','Memede kızarıklık, ısınma veya portakal kabuğu görünümü','Meme şekli veya boyutunda değişim']},{b:'Tarama Kılavuzu',m:['20 yaşından itibaren aylık öz-muayene (adet sonrası 7-10. gün)','20-39 yaş arası her 1-3 yılda bir klinik muayene','40 yaşından itibaren yılda bir mamografi','Aile öyküsü varsa 30 yaşından itibaren MRI taraması','BRCA mutasyonu taşıyanlarda daha sık ve erken tarama']},{b:'Risk Faktörleri',m:['Ailede meme veya over kanseri geçmişi','BRCA1/BRCA2 gen mutasyonu (en önemli genetik risk)','12 yaşından önce adet başlangıcı veya 55 sonrası menopoz','Hiç çocuk sahibi olmamak veya geç doğum (35+)','Uzun süreli hormon replasman tedavisi','Yoğun alkol kullanımı ve hareketsiz yaşam','Obezite — özellikle menopoz sonrası']},{b:'Kanser Türleri',m:['DCIS (Duktal Karsinoma In Situ) — erken, noninvaziv','IDC (İnvaziv Duktal Karsinoma) — en yaygın tip (%80)','Triple negatif meme kanseri — daha agresif seyir','HER2 pozitif meme kanseri — hedefe yönelik tedavilere yanıt verir','Hormona duyarlı (ER/PR pozitif) — en yaygın alt tip']},{b:'Tedavi Seçenekleri',m:['Cerrahi: Lumpektomi (meme koruyucu) veya mastektomi','Radyoterapi','Kemoterapi','Hormon tedavisi (tamoksifen, aromataz inhibitörleri)','Hedefe yönelik tedaviler (HER2+ için trastuzumab)','İmmünoterapi (triple negatif için)','Rekonstrüksiyon (estetik yeniden yapım) cerrahisi']},{b:'Öz-Muayene Adımları',m:['Ayna karşısında her iki kolunuzu kaldırarak bakın','Memeleri dairesel hareketlerle, tüm bölgeleri tarayın','Oturarak ve uzanarak muayene yapın','Koltuk altlarını ve köprücük kemiğini kontrol edin','Meme başlarını sıkıştırarak akıntı olup olmadığına bakın']}],uyari:'⚕️ Şüpheli bir belirti fark ettiğinizde vakit kaybetmeden bir onkoloji veya meme sağlığı uzmanına başvurun. 40-69 yaş arası kadınlara mamografi KETEM\'lerde 2 yılda bir ücretsizdir.'},'menopoz':{baslik:'Menopoz',ikon:'🌡️',ozet:'Menopoz; 12 ay boyunca adet görmemenin ardından adet dönemlerinin kalıcı olarak sona ermesidir. Türkiye\'de ortalama menopoz yaşı 47-49\'dur. Menopoz öncesinde gelen perimenopoz döneminde yıllar öncesinden belirtiler başlayabilir. Menopoz bir hastalık değil, doğal bir geçiş sürecidir; ancak belirtiler yaşam kalitesini ciddi ölçüde etkileyebilir.',bolumler:[{b:'Menopoz Dönemleri',m:['Perimenopoz: Menopozdan önceki geçiş dönemi (2-10 yıl sürebilir)','Menopoz: Son adet döneminden itibaren 12 ay geçmesi','Postmenopoz: Menopoz sonrası yaşam dönemi','Erken menopoz: 40 yaş öncesi görülüyorsa tıbbi değerlendirme şart']},{b:'Yaygın Belirtiler',m:['Sıcak basmaları ve gece terlemeleri','Uyku bozuklukları ve uykusuzluk','Ruh hali değişimleri, sinirlilik, depresyon riski','Vajinal kuruluk ve cinsel ilişkide rahatsızlık','Konsantrasyon güçlüğü ve unutkanlık ("menopoz sisi")','İdrar kaçırma veya sık idrara çıkma','Saç incelmesi ve cilt değişimleri','Eklem ve kas ağrıları']},{b:'Uzun Vadeli Sağlık Riskleri',m:['Osteoporoz — kemik yoğunluğu azalır, kırık riski artar','Kalp-damar hastalıkları riski artar','Ürogenital atrofi (vajina ve idrar yollarında incelme)','Metabolik değişiklikler ve kilo artışı']},{b:'Tıbbi Tedaviler',m:['Hormon Replasman Tedavisi (HRT) — belirtileri önemli ölçüde azaltır','Vajinal östrojen kremleri veya halkaları (yerel etki)','SSRI/SNRI antidepresanlar (sıcak basmalarında yardımcı)','Gabapentin (uyku ve sıcak basmalarında faydalı)','Ospemifen (vajinal kuruluk için oral tablet)']},{b:'Doğal Baş Etme Yöntemleri',m:['Soya, tofu ve edamame — fitoöstrojen içerir','Keten tohumu ve nohut','Tetikleyicilerden kaçınma (alkol, kafein, baharatlı yiyecek)','Serin ortamda uyuma, katmanlı giyinme','Düzenli aerobik egzersiz sıcak basmalarını azaltır','Yoga ve meditasyon etkili stres yönetimi sağlar']},{b:'Kemik ve Kalp Sağlığı',m:['Günlük 1200 mg kalsiyum alımı (süt, yoğurt, brokoli)','Günlük 800-1000 IU D vitamini (güneş + takviye)','Ağırlık taşıyan egzersizler (yürüyüş, dans, pilates)','DEXA kemik yoğunluğu ölçümü — postmenopozda önerilir','Sigara ve aşırı alkol kemik sağlığını bozar']},{b:'Cinsel Sağlık',m:['Vajinal nem için nemlendirici ve lubrikantlar (reçetesiz bulunur)','Düzenli cinsel aktivite vajinal sağlığı korur','Vajinal östrojen kremleri kuruluk için çok etkilidir','Partnerinizle açık ve dürüst iletişim kurun']}],uyari:'⚕️ Menopoz belirtileri yaşam kalitenizi ciddi düşürüyorsa bir jinekologa başvurun. HRT kararını kişisel risk faktörlerinize göre birlikte değerlendirin.'},'miyom':{baslik:'Rahim Miyomları (Fibroid)',ikon:'💊',ozet:'Miyomlar (fibroidler); rahimin kas dokusundan köken alan iyi huylu tümörlerdir. Üreme çağındaki kadınların yaklaşık %25-50\'sinde görülür ve kansere dönüşmez. Kadınların çoğunda hiçbir belirti vermez; ancak boyut ve konuma göre adet sorunları, ağrı veya kısırlığa neden olabilir.',bolumler:[{b:'Miyom Türleri',m:['Submüköz miyom — rahim içine doğru büyür, en belirgin belirtilere yol açar','İntramural miyom — rahim duvarı içinde büyür, en yaygın türdür','Subseröz miyom — rahimin dış yüzeyine doğru büyür','Saplı miyom (pedünküle) — ince bir sap ile rahime bağlıdır, burulabilir']},{b:'Belirtiler',m:['Aşırı veya uzun süreli adet kanamaları (anemi riski)','Adetler arası lekelenme','Pelvik baskı, doluluk veya ağrı hissi','Sık idrara çıkma veya idrar tutamama','Kabızlık veya sırt ağrısı','Karın büyümesi veya şişkinlik','Hamilelikte komplikasyon riski','Kısırlık (özellikle submüköz miyomlarda)']},{b:'Tanı Yöntemleri',m:['Transvajinal ultrasonografi (ilk tercih)','Salin infüzyon sonohisterografi (SIS)','MRI görüntüleme (boyut ve konum için en iyi)','Histeroskopi (rahim içini görmek için)']},{b:'Tedavi Seçenekleri',m:['Bekleme ve izleme (belirti yoksa)','NSAID ağrı kesiciler ve demir takviyesi (anemi için)','Levonorgestrel salgılayan RİA (kanama kontrolü)','GnRH analogları (ameliyat öncesi küçültme)','Miyomektomi — miyomları alır, rahimi korur (doğurganlık isteyenler için)','Uterin Fibroid Embolizasyonu (UFE) — minimal invaziv, lazer','Histerektomi — rahmin tümüyle alınması (kesin çözüm)']},{b:'Miyom ve Hamilelik',m:['Miyomların çoğu hamileliği olumsuz etkilemez','Submüköz miyomlar implantasyonu zorlaştırabilir','Büyük miyomlar erken doğum riskini artırabilir','Hamile kalmak isteyenler için miyomektomi tercih edilir']},{b:'Risk Faktörleri',m:['Ailede miyom geçmişi','Erken adet başlangıcı','Hiç doğum yapmamış olmak','Obezite','Kırmızı et ağırlıklı beslenme','Yetersiz D vitamini düzeyi']}],uyari:'⚕️ Miyomlar kansere dönüşmez; ancak şiddetli kanama veya ağrı yaşıyorsanız bir jinekologa başvurun. Anemi gelişmemesi için hemoglobin düzeyinizi takip edin.'},'rahim-agzi-kanseri':{baslik:'Rahim Ağzı Kanseri',ikon:'🩺',ozet:'Rahim ağzı kanseri; büyük ölçüde önlenebilir bir kanser türüdür. Vakaların %99\'undan fazlası Human Papillomavirus (HPV) enfeksiyonuyla ilişkilidir. Türkiye\'de her yıl yaklaşık 2.000 kadına rahim ağzı kanseri tanısı konulmaktadır. HPV aşısı ve düzenli smear testi ile bu kanser büyük ölçüde önlenebilir veya erken evrede yakalanabilir.',bolumler:[{b:'Belirtiler',m:['Erken evrede genellikle belirti vermez (bu yüzden tarama çok önemlidir)','Adetler arası veya cinsel ilişki sonrası kanama','Vajinal akıntıda artış veya kötü koku','Pelvik veya bel ağrısı','İdrar yaparken yanma veya sık idrara çıkma (ileri evrede)']},{b:'HPV ve Rahim Ağzı Kanseri',m:['HPV cinsel temas yoluyla bulaşan çok yaygın bir virüstür','HPV 16 ve 18 tipleri vakaların yaklaşık %70\'inden sorumludur','Çoğu HPV enfeksiyonu kendiliğinden geçer','Kalıcı enfeksiyon kanser öncesi değişikliklere yol açabilir','HPV hem erkeklere hem de kadınlara aşılanabilir']},{b:'Korunma Yöntemleri',m:['HPV aşısı — Mayıs 2026 itibarıyla Türkiye\'de henüz ulusal aşı takvimine alınmamıştır; eczanede ücretlidir. Bazı büyükşehir belediyeleri 9-26 yaş arası ihtiyaç sahiplerine ücretsiz uygulamaktadır','Smear/HPV-DNA testi — 30-65 yaş arası kadınlara KETEM\'lerde 5 yılda bir ücretsiz uygulanır','HPV DNA testi — 30 yaşından itibaren her 5 yılda bir','Korunmalı cinsel ilişki (kondom HPV riskini azaltır)','Sigara içmemek — sigara rahim ağzı kanser riskini artırır']},{b:'Smear Testi Hakkında',m:['Ağrısız veya hafif rahatsızlık veren yaklaşık 5 dakikalık işlem','Adet döneminde yapılmamalıdır (adet sonrası 7-10. gün ideal)','Türkiye\'de devlet hastanelerinde ve KETEM merkezlerinde ücretsizdir','Anormal sonuçta kolposkopi ile ileri inceleme yapılır','Anormal smear = kanser değildir; çoğu düzeltici işlemle çözülür']},{b:'Evreleme ve Tedavi',m:['Evre 0 (CIN 1-3): Kanser öncesi değişiklikler — LEEP veya konizasyon','Evre 1: Küçük, sınırlı tümör — cerrahi veya radyoterapi','Evre 2: Komşu dokulara yayılım — kemoradyoterapi','Evre 3: Pelvik yan duvara yayılım — kemoradyoterapi','Evre 4: Uzak organlara yayılım — palyatif tedavi ve destek']},{b:'Türkiye\'deki Kaynaklar',m:['Smear ve HPV-DNA testi 30-65 yaş kadınlara devlet hastanelerinde ücretsiz','Kanser Erken Teşhis Tarama ve Eğitim Merkezleri (KETEM)','Türk Jinekolojik Onkoloji Derneği (TJOD)','Hastane randevu hattı: ALO 182 (MHRS)']}],uyari:'⚕️ Smear testi yaptırmadıysanız en yakın sağlık merkezine veya KETEM\'e başvurun — tamamen ücretsizdir. "Önlenebilir bir kanserden korunmak sizin elinizde."'},'over-kanseri':{baslik:'Over (Yumurtalık) Kanseri',ikon:'🫁',ozet:'"Sessiz hastalık" olarak bilinen over kanseri; erken evrede genellikle belirti vermez. Bu nedenle vakaların yaklaşık %75\'i ileri evrede tanı alır. Türkiye\'de her yıl yaklaşık 4.000 yeni vaka görülmektedir. Over kanseri için kesin bir tarama testi henüz mevcut değildir; bu yüzden farkındalık ve belirtilere dikkat etmek kritik önem taşır.',bolumler:[{b:'Uyarı Belirtileri',m:['Karın şişkinliği ve dolgunluk hissi (ısrarcı, geçmeyen)','Yeme güçlüğü veya çabuk doyma','Pelvik veya karın ağrısı','Sık idrara çıkma ihtiyacı','Yorgunluk ve açıklanamayan halsizlik','Sırt veya bel ağrısı','Cinsel ilişkide ağrı','Adet düzensizlikleri','Nedensiz kilo kaybı veya artışı']},{b:'Over Kanseri Türleri',m:['Epitelyal over kanseri — en yaygın tip (%90), 50 yaş üstünde sık','Germ hücre tümörleri — genellikle genç kadınlarda, iyi prognoz','Seks kord stromal tümörler — nadir, hormon salgılayabilir','Borderline (sınırda) tümörler — daha yavaş seyir, daha iyi prognoz']},{b:'Risk Faktörleri',m:['Ailede over veya meme kanseri geçmişi (en önemli risk)','BRCA1 veya BRCA2 gen mutasyonu','Lynch sendromu','Hiç çocuk sahibi olmamak','Endometriozis öyküsü','İleri yaş (50 yaş üstü en yüksek risk)','Uzun süreli hormon replasman tedavisi (bazı türler)']},{b:'Koruyucu Faktörler',m:['Doğum kontrol hapı kullanımı (5+ yıl kullanımda riski azaltır)','Hamile kalmış ve emzirmiş olmak','Tubal ligasyon','BRCA mutasyon taşıyıcılarında profilaktik ooforektomi değerlendirilebilir']},{b:'Tanı Yöntemleri',m:['Pelvik ultrasonografi (transvajinal)','CA-125 kan testi (tümör belirteci — tek başına yeterli değil)','HE4 testi (CA-125 ile birlikte daha güvenilir)','MRI ve BT görüntüleme','Laparoskopi veya laparotomi (kesin tanı)']},{b:'Tedavi Seçenekleri',m:['Cerrahi (debulking) — tümör ve etkilenen dokuların alınması','Kemoterapi — karboplatin + paklitaksel kombinasyonu (altın standart)','PARP inhibitörleri (BRCA mutasyonu olanlarda çok etkili)','Antianjiojenik tedaviler (bevacizumab)','İmmünoterapi (araştırma aşamasında)']},{b:'Genetik Test ve Danışmanlık',m:['BRCA1/BRCA2 testi — ailede kanser öyküsü varsa şiddetle önerilir','Pozitif sonuç kadın akrabaları da ilgilendirir','Genetik danışmanlık hem tıbbi hem psikolojik destek sağlar','Profilaktik cerrahi seçenekleri BRCA taşıyıcılarında değerlendirilebilir']}],uyari:'⚕️ Belirtiler 2 haftadan uzun süre devam ediyorsa veya giderek kötüleşiyorsa vakit kaybetmeden bir jinekolog-onkoloğa başvurun. BRCA mutasyonu taşıdığınızı düşünüyorsanız genetik danışmanlık alın.'}};
 const DIGER=[{id:'endometriozis',ad:'Endometriozis',ico:'🌸'},{id:'pkos',ad:'PKOS',ico:'🔬'},{id:'meme-kanseri',ad:'Meme Kanseri',ico:'🎗️'},{id:'menopoz',ad:'Menopoz',ico:'🌡️'},{id:'miyom',ad:'Rahim Miyomları',ico:'💊'},{id:'rahim-agzi-kanseri',ad:'Rahim Ağzı Kanseri',ico:'🩺'},{id:'over-kanseri',ad:'Over Kanseri',ico:'🫁'}];
 
 window.aktifH=null,window.kullanici=null;
@@ -1232,6 +1239,15 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('yorum-yaz-form').style.display='block';
     // Bildirimleri dinlemeye başla
     window._bildirimBaslat(user.uid);
+    // Deneyim formu profil göster
+    const denAv = document.getElementById('den-profil-av');
+    const denIsim = document.getElementById('den-profil-isim');
+    if(denAv && denIsim){
+      denAv.textContent = (user.displayName||user.email||'?')[0].toUpperCase();
+      denIsim.textContent = user.displayName || user.email || 'Kullanıcı';
+    }
+    document.getElementById('den-giris-form') && (document.getElementById('den-giris-form').style.display='block');
+    document.getElementById('den-giris-uyari') && (document.getElementById('den-giris-uyari').style.display='none');
   }else{
     document.getElementById('auth-giris').style.display='block';
     document.getElementById('auth-profil').style.display='none';
@@ -1247,6 +1263,8 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('nav-profil').style.display='none';
     const bilBtn=document.getElementById('bil-btn');
     if(bilBtn) bilBtn.style.display='none';
+    document.getElementById('den-giris-form') && (document.getElementById('den-giris-form').style.display='none');
+    document.getElementById('den-giris-uyari') && (document.getElementById('den-giris-uyari').style.display='block');
   }
 });
 
@@ -1573,6 +1591,7 @@ window.tabAc=(id,btn)=>{document.querySelectorAll('.stab').forEach(b=>b.classLis
 const RK=['#7B1E4A','#A8336F','#C4703A','#3D6B5C','#2D5C7A','#6B3D7A'];
 function zamanAt(t){if(!t)return'';try{const ms=t.toMillis?t.toMillis():t.seconds?t.seconds*1000:typeof t==='number'?t:typeof t==='string'?new Date(t).getTime():0;if(!ms)return'';const f=(Date.now()-ms)/1000;if(f<60)return'Az önce';if(f<3600)return`${Math.floor(f/60)} dk önce`;if(f<86400)return`${Math.floor(f/3600)} saat önce`;return`${Math.floor(f/86400)} gün önce`;}catch(e){return''}}
 function ini(n){if(!n||n.toLowerCase()==='anonim')return'A';return n.split(' ').map(k=>k[0]).join('').toUpperCase().slice(0,2);}
+let tumDeneyimlerData = [];
 async function yukle(){
   const L=document.getElementById('den-liste');
   try{
@@ -1586,15 +1605,28 @@ async function yukle(){
       snap.forEach(d=>docs.push(d));
       docs.sort((a,b)=>(b.data().tarih?.toMillis?.()||b.data().tarih?.seconds*1000||0)-(a.data().tarih?.toMillis?.()||a.data().tarih?.seconds*1000||0));
     }
+    tumDeneyimlerData = docs;
     document.getElementById('s-paylasim').textContent=docs.length;
     if(!docs.length){L.innerHTML='<div class="yukl">Henüz onaylı paylaşım yok!</div>';return;}
-    L.innerHTML='';
-    docs.forEach((d,i)=>{
-      const r=d.data();
-      const isim=r.anonim?'Anonim':r.kullaniciAdi||'Anonim';
-      L.innerHTML+=`<div class="dkart" data-kat="${r.kategori||''}"><div class="dk-ust"><div class="dk-av" style="background:${RK[i%6]}">${ini(isim)}</div><div><div class="dk-isim">${isim}</div><div class="dk-sure">${zamanAt(r.tarih)}</div></div><span class="dk-etiket">${r.kategori||'Diğer'}</span></div><div class="dk-metin">${r.metin||''}</div><div class="dk-alt"><button class="dk-e ${r.begeni||0}" onclick="destekleFb(this,'${d.id}',${r.begeni||0})">♡ ${r.begeni||0} destek</button></div></div>`;
-    });
+    deneyimlerRender(docs.slice(0,5), L);
+    // Tümünü gör butonu
+    const tumuBtn = document.getElementById('den-tumunu-gor');
+    if(docs.length > 5){
+      tumuBtn.style.display='flex';
+      tumuBtn.onclick = ()=>sayfaGit('deneyimler-tumü');
+    } else {
+      tumuBtn.style.display='none';
+    }
   }catch(e){L.innerHTML='<div class="yukl">Yüklenemedi: '+e.message+'</div>';}
+}
+
+function deneyimlerRender(docs, L){
+  L.innerHTML='';
+  docs.forEach((d,i)=>{
+    const r=d.data();
+    const isim=r.anonim?'Anonim':r.kullaniciAdi||'Anonim';
+    L.innerHTML+=`<div class="dkart" data-kat="${r.kategori||''}"><div class="dk-ust"><div class="dk-av" style="background:${RK[i%6]}">${ini(isim)}</div><div><div class="dk-isim">${isim}</div><div class="dk-sure">${zamanAt(r.tarih)}</div></div><span class="dk-etiket">${r.kategori||'Diğer'}</span></div><div class="dk-metin">${r.metin||''}</div><div class="dk-alt"><button class="dk-e ${r.begeni||0}" onclick="destekleFb(this,'${d.id}',${r.begeni||0})">♡ ${r.begeni||0} destek</button></div></div>`;
+  });
 }
 window.destekleFb=async(btn,id,m)=>{
   if(!window.kullanici){gosterToast('Beğenmek için giriş yapmalısınız.','uyari');return;}
@@ -1628,7 +1660,6 @@ window.destekleFb=async(btn,id,m)=>{
 window.gonder=async()=>{
   if(!window.kullanici){sayfaGit('giris');return;}
   const anonim=document.getElementById('f-anonim')?.checked||false;
-  const isim=document.getElementById('f-isim').value.trim()||'';
   const kat=document.getElementById('f-kat').value;
   const metin=document.getElementById('f-metin').value.trim();
   if(!kat){gosterToast('Lütfen kategori seçin.','uyari');return;}
@@ -1638,7 +1669,7 @@ window.gonder=async()=>{
   try{
     await addDoc(collection(db,'deneyimler'),{
       metin,kategori:kat,
-      kullaniciAdi:anonim?'Anonim':(isim||window.kullanici.displayName||'Kullanıcı'),
+      kullaniciAdi:anonim?'Anonim':(window.kullanici.displayName||'Kullanıcı'),
       kullaniciFoto:anonim?null:window.kullanici.photoURL||null,
       kullaniciId:window.kullanici.uid,
       gercekAd:window.kullanici.displayName||'',
@@ -1648,7 +1679,6 @@ window.gonder=async()=>{
       begeni:0,
       tarih:serverTimestamp()
     });
-    document.getElementById('f-isim').value='';
     document.getElementById('f-kat').value='';
     document.getElementById('f-metin').value='';
     submitBtn.style.display='none';
@@ -2073,6 +2103,15 @@ function sayfaGit(id, pushHistory=true){
   document.querySelectorAll('.sayfa').forEach(s=>s.classList.remove('aktif'));
   document.getElementById('sayfa-'+id).classList.add('aktif');
   window.scrollTo(0,0);
+  if(id==='deneyimler-tumu'){
+    const L2=document.getElementById('den-liste-tumu');
+    if(tumDeneyimlerData&&tumDeneyimlerData.length){
+      deneyimlerRender(tumDeneyimlerData,L2);
+    } else if(window.yukle){
+      window.yukle();
+      setTimeout(()=>{ if(tumDeneyimlerData&&tumDeneyimlerData.length) deneyimlerRender(tumDeneyimlerData,L2); },1500);
+    }
+  }
   if(pushHistory){
     const hash = id==='ana' ? '#ana' : '#'+id;
     history.pushState({sayfa:id, hastalik:window.aktifH||null}, '', hash);
@@ -2155,7 +2194,7 @@ function denFilt(kat,btn){document.querySelectorAll('#den-filtreler .fp').forEac
 const _sayfaGitOrj = sayfaGit;
 sayfaGit = function(id, pushHistory=true){
   _sayfaGitOrj(id, pushHistory);
-  const basliklar = {ana:'Destekçin Olalım — Kadın Sağlığında Güvenilir Destek', profil:'Profilim — Destekçin Olalım', giris:'Giriş Yap — Destekçin Olalım', yonetici:'Yönetici Paneli — Destekçin Olalım', gizlilik:'Gizlilik Politikası — Destekçin Olalım', kullanim:'Kullanım Koşulları — Destekçin Olalım'};
+  const basliklar = {ana:'Destekçin Olalım — Kadın Sağlığında Güvenilir Destek', profil:'Profilim — Destekçin Olalım', giris:'Giriş Yap — Destekçin Olalım', yonetici:'Yönetici Paneli — Destekçin Olalım', gizlilik:'Gizlilik Politikası — Destekçin Olalım', kullanim:'Kullanım Koşulları — Destekçin Olalım', 'deneyimler-tumu':'Tüm Deneyimler — Destekçin Olalım'};
   document.title = basliklar[id] || 'Destekçin Olalım';
 };
 
@@ -2232,7 +2271,15 @@ window.hastalıkAc = function(id, pushHistory=true){
   </div>
 </div>
 
-<!-- GİZLİLİK POLİTİKASI -->
+<!-- TÜM DENEYİMLER SAYFASI -->
+<div class="sayfa" id="sayfa-deneyimler-tumu">
+  <div style="max-width:800px;margin:0 auto;padding:3rem 2rem;">
+    <button onclick="sayfaGit('ana');git('deneyimler')" style="background:none;border:none;color:var(--terra);cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:1.5rem;display:flex;align-items:center;gap:6px;">← Geri dön</button>
+    <h1 style="font-family:'Playfair Display',serif;font-size:30px;color:var(--terra);margin-bottom:0.5rem;">Tüm Deneyimler</h1>
+    <p style="font-size:14px;color:var(--soft);margin-bottom:2rem;">Topluluğumuzun paylaştığı onaylı deneyimler</p>
+    <div id="den-liste-tumu"><div class="yukl">Yükleniyor...</div></div>
+  </div>
+</div>
 <div class="sayfa" id="sayfa-gizlilik">
   <div style="max-width:800px;margin:0 auto;padding:3rem 2rem;">
     <button onclick="history.back()" style="background:none;border:none;color:var(--terra);cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:1.5rem;display:flex;align-items:center;gap:6px;">← Geri dön</button>
