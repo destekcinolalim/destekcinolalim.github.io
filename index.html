@@ -96,7 +96,7 @@ nav{position:sticky;top:0;z-index:300;background:rgba(255,252,248,0.97);backdrop
 .den-ic{max-width:1100px;margin:0 auto;padding:0 2rem;}
 .den-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:2.5rem;margin-top:2rem;align-items:start;}
 .den-liste{display:flex;flex-direction:column;gap:14px;}
-.dkart{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:1.4rem;transition:box-shadow 0.2s;animation:fadeUp 0.4s ease both;}
+.dkart{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:1.4rem;transition:box-shadow 0.2s;animation:fadeUp 0.4s ease both;overflow:hidden;word-break:break-word;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 .dkart:hover{box-shadow:var(--shadow);}
 .dk-ust{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
@@ -200,7 +200,7 @@ nav{position:sticky;top:0;z-index:300;background:rgba(255,252,248,0.97);backdrop
 .yaz-not{font-size:11px;color:var(--soft);}
 .yaz-gonder{background:var(--terra);color:white;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
 .yaz-gonder:hover{background:var(--terra-mid);}
-.soru-kart{background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:12px;animation:fadeUp 0.35s ease both;}
+.soru-kart{background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:12px;animation:fadeUp 0.35s ease both;overflow:hidden;word-break:break-word;}
 .sk-ust{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .sk-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:white;flex-shrink:0;overflow:hidden;}.sk-av img{width:34px;height:34px;object-fit:cover;border-radius:50%;display:block;}
 .sk-av img{width:100%;height:100%;object-fit:cover;}
@@ -327,7 +327,12 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
   /* deneyim kart mobil */
   .dkart{padding:1.1rem;}
 }
-@media(max-width:900px){.has-body{grid-template-columns:1fr;}.sidebar{order:-1;}}
+@media(max-width:900px){
+  .has-body{grid-template-columns:1fr;}
+  .sidebar{order:1;}
+  #has-mobil-sekmeler{display:block!important;grid-column:1/-1;}
+  .has-body > div:first-of-type > .sorular-tabs{display:none;}
+}
 
 /* === DUYURU BANDI === */
 .duyuru-bandi{background:linear-gradient(90deg,var(--terra) 0%,var(--terra-mid) 100%);color:white;text-align:center;padding:9px 3rem;font-size:13px;position:relative;line-height:1.4;}
@@ -999,6 +1004,13 @@ hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
     </div>
   </div>
   <div class="has-body">
+    <!-- MOBİL SEKME ÇUBUĞU -->
+    <div style="grid-column:1/-1;display:none;" id="has-mobil-sekmeler">
+      <div style="display:flex;border-bottom:2px solid var(--border);margin-bottom:1rem;">
+        <button id="mobil-tab-sorular" onclick="hasMobilTab('sorular',this)" style="flex:1;background:none;border:none;border-bottom:3px solid var(--terra);color:var(--terra);font-weight:500;padding:10px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:-2px;">💬 Sorular</button>
+        <button id="mobil-tab-bilgi" onclick="hasMobilTab('bilgi',this)" style="flex:1;background:none;border:none;border-bottom:3px solid transparent;color:var(--soft);font-weight:400;padding:10px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:-2px;">📖 Bilgi</button>
+      </div>
+    </div>
     <!-- ANA ALAN: Sorular & Yorumlar -->
     <div>
       <div class="sorular-tabs">
@@ -2168,6 +2180,20 @@ function hasTab(sekme, btn){
   document.getElementById('has-panel-sorular').style.display = sekme==='sorular' ? '' : 'none';
   document.getElementById('has-tab-bilgi').style.cssText='background:none;border:none;border-bottom:3px solid '+(sekme==='bilgi'?'var(--terra)':'transparent')+';color:'+(sekme==='bilgi'?'var(--terra)':'var(--soft)')+';font-weight:'+(sekme==='bilgi'?'500':'400')+';padding:10px 20px;font-size:15px;cursor:pointer;font-family:"DM Sans",sans-serif;margin-bottom:-2px;';
   document.getElementById('has-tab-sorular').style.cssText='background:none;border:none;border-bottom:3px solid '+(sekme==='sorular'?'var(--terra)':'transparent')+';color:'+(sekme==='sorular'?'var(--terra)':'var(--soft)')+';font-weight:'+(sekme==='sorular'?'500':'400')+';padding:10px 20px;font-size:15px;cursor:pointer;font-family:"DM Sans",sans-serif;margin-bottom:-2px;';
+}
+
+function hasMobilTab(sekme, btn){
+  document.querySelectorAll('#has-mobil-sekmeler button').forEach(b=>{b.style.borderBottomColor='transparent';b.style.color='var(--soft)';b.style.fontWeight='400';});
+  btn.style.borderBottomColor='var(--terra)';btn.style.color='var(--terra)';btn.style.fontWeight='500';
+  const anaAlan=document.querySelector('.has-body > div:nth-child(2)');
+  const sidebar=document.querySelector('.has-body .sidebar');
+  if(sekme==='sorular'){
+    if(anaAlan)anaAlan.style.display='block';
+    if(sidebar)sidebar.style.display='none';
+  }else{
+    if(anaAlan)anaAlan.style.display='none';
+    if(sidebar)sidebar.style.display='flex';
+  }
 }
 let aktifKat='hepsi';
 function aramaYap(){const q=document.getElementById('arama-inp').value.toLowerCase();document.querySelectorAll('.hkart').forEach(k=>{const txt=(k.dataset.q||'')+k.querySelector('h3').textContent.toLowerCase();const katOk=aktifKat==='hepsi'||txt.includes(aktifKat);k.classList.toggle('gizli',!(katOk&&(!q||txt.includes(q))));});}
