@@ -1,0 +1,78 @@
+/* Duyuru bandı, açılır menü, nasıl çalışır, kaynaklar, yukarı çık, hero rozeti, footer */
+/* === DUYURU BANDI === */
+.duyuru-bandi{background:linear-gradient(90deg,var(--terra) 0%,var(--terra-mid) 100%);color:white;text-align:center;padding:9px 3rem;font-size:13px;position:relative;line-height:1.4;}
+.duyuru-bandi strong{font-weight:500;}
+.duyuru-bandi a{color:var(--amber-light);font-weight:600;cursor:pointer;text-decoration:underline;margin-left:4px;}
+.duyuru-kapat{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,0.6);font-size:18px;cursor:pointer;line-height:1;padding:4px 6px;}
+.duyuru-kapat:hover{color:white;}
+
+/* === DROPDOWN NAV === */
+.nav-dd{position:relative;}
+.nav-dd-label{display:flex;align-items:center;gap:3px;color:var(--mid);font-size:14px;cursor:pointer;transition:color 0.2s;padding:4px 0;user-select:none;}
+.nav-dd-label svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;transition:transform 0.2s;}
+.nav-dd:hover .nav-dd-label{color:var(--terra);}
+.nav-dd:hover .nav-dd-label svg{transform:rotate(180deg);}
+.nav-dd-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);background:var(--warm);border:1px solid var(--border);border-radius:14px;box-shadow:0 12px 40px rgba(44,24,16,0.12);padding:8px;min-width:230px;display:none;z-index:500;flex-direction:column;gap:2px;}
+.nav-dd-menu::before{content:'';position:absolute;top:-14px;left:0;right:0;height:14px;}
+.nav-dd:hover .nav-dd-menu{display:flex;}
+.nav-dd-item{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:10px;cursor:pointer;font-size:13px;color:var(--mid);transition:all 0.15s;white-space:nowrap;}
+.nav-dd-item:hover{background:var(--terra-pale);color:var(--terra);}
+.nav-dd-item .dd-ico{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
+
+/* === NASIL ÇALIŞIR === */
+.nasil-band{background:white;padding:5rem 0;border-top:1px solid var(--border);}
+.nasil-ic{max-width:1100px;margin:0 auto;padding:0 2rem;}
+.nasil-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem;}
+.nasil-adim{text-align:center;padding:1.5rem;}
+.nasil-no{width:54px;height:54px;border-radius:50%;background:var(--terra);color:white;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;font-weight:500;margin:0 auto 1.2rem;box-shadow:0 4px 14px rgba(139,58,31,0.25);}
+.nasil-adim h4{font-family:'Playfair Display',serif;font-size:19px;color:var(--terra);margin-bottom:0.6rem;font-weight:500;}
+.nasil-adim p{font-size:14px;color:var(--soft);line-height:1.75;font-weight:300;}
+.nasil-connector{display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+.nasil-connector::after{content:'→';font-size:22px;color:var(--border);}
+@media(max-width:768px){.nasil-grid{grid-template-columns:1fr;gap:0;}}
+
+/* === KAYNAKLAR === */
+.kay-band{background:var(--terra-pale);padding:5rem 0;}
+.kay-ic-wrap{max-width:1100px;margin:0 auto;padding:0 2rem;}
+.kay-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:2rem;}
+.kay-kart{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:1.4rem;display:flex;gap:14px;align-items:flex-start;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);text-decoration:none;color:inherit;cursor:pointer;}
+.kay-kart:hover{box-shadow:var(--shadow);transform:translateY(-3px);border-color:var(--terra-mid);}
+.kay-kart:hover .kay-tag{background:var(--terra);color:white;}
+.kay-kart:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
+.kay-ico{font-size:26px;flex-shrink:0;margin-top:3px;}
+.kay-txt h4{font-size:15px;font-weight:500;color:var(--dark);margin-bottom:5px;}
+.kay-txt p{font-size:13px;color:var(--soft);line-height:1.65;font-weight:300;}
+.kay-tag{display:inline-block;margin-top:8px;font-size:11px;background:var(--terra);color:white;padding:3px 10px;border-radius:100px;font-weight:500;}
+.kay-tag.yesil{background:#2d7a2d;}
+.kay-tag.mavi{background:#2d5c7a;}
+
+/* === SCROLL TO TOP === */
+.stob{position:fixed;bottom:24px;left:24px;width:42px;height:42px;background:var(--terra);color:white;border:none;border-radius:50%;font-size:18px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(139,58,31,0.3);z-index:90;transition:all 0.25s;}
+.stob.gorun{display:flex;}
+.stob:hover{background:var(--terra-mid);transform:translateY(-3px);}
+
+/* === HASTALIKLARA RENK AKSAN === */
+.hkart[data-hid="endometriozis"] .hk-ikon{background:#FCE7F0;}
+.hkart[data-hid="pkos"] .hk-ikon{background:#FFF0E5;}
+.hkart[data-hid="meme-kanseri"] .hk-ikon{background:#FFE5E5;}
+.hkart[data-hid="menopoz"] .hk-ikon{background:#FCE7F0;}
+.hkart[data-hid="miyom"] .hk-ikon{background:#E8F5E9;}
+.hkart[data-hid="rahim-agzi-kanseri"] .hk-ikon{background:#E3F2FD;}
+.hkart[data-hid="over-kanseri"] .hk-ikon{background:#F3E5F5;}
+
+/* === HERO GELİŞTİRME === */
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--terra-pale);color:var(--terra);font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px;border:1px solid rgba(139,58,31,0.2);margin-bottom:1.2rem;}
+.hero-badge::before{content:'';width:7px;height:7px;background:var(--terra);border-radius:50%;animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+/* === SAYAÇ ANİMASYON === */
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.hn{transition:all 0.3s;}
+
+/* === FOOTER GENİŞLEME === */
+.footer-ic{flex-direction:row;}
+.footer-col{display:flex;flex-direction:column;gap:6px;}
+.footer-col a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:13px;cursor:pointer;transition:color 0.2s;}
+.footer-col a:hover{color:var(--amber-light);}
+.footer-col .flbl{font-size:11px;font-weight:500;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding:1rem 2rem;max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap;gap:8px;}

@@ -1,0 +1,12 @@
+/* Tasarım tokenları, animasyonlar, reset ve temel form stilleri */
+:root{--terra:#7B1E4A;--terra-mid:#A8336F;--terra-pale:#F5DDE8;--amber:#C4703A;--amber-light:#E8946A;--cream:#FBF5F2;--warm:#FFFFFF;--dark:#1E0F1F;--mid:#4A2940;--soft:#7A5568;--border:rgba(123,30,74,0.15);--shadow:0 6px 28px rgba(123,30,74,0.12);--shadow-lg:0 12px 36px rgba(123,30,74,0.22);--accent:#1D3557;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-15px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);}}
+@keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+.sayfa{animation:fadeIn 0.4s ease both;}
+button{transition:all 0.25s cubic-bezier(0.4,0,0.2,1);}
+input,textarea,select{transition:border-color 0.2s,box-shadow 0.2s;}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra)!important;box-shadow:0 0 0 3px var(--terra-pale)!important;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{scroll-behavior:smooth;overflow-x:hidden;max-width:100%;}body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);}

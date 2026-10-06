@@ -1,0 +1,9 @@
+/* Baskı stilleri */
+/* === BASKIYA HAZIR === */
+@media print{
+  .duyuru-bandi,nav,.arama-band,.den-band,footer,.stob,.toast-wrap,.bil-panel,.breadcrumb{display:none!important;}
+  .sayfa{display:block!important;}
+  .has-body{grid-template-columns:1fr!important;}
+  .sidebar{display:none!important;}
+  body{background:white!important;}
+}

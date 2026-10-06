@@ -1,0 +1,50 @@
+/* Footer, yardımcı sınıflar, bildirim paneli, kaynakça, toast, sekmeler */
+footer{background:var(--terra);margin-top:4rem;}
+.footer-ic{max-width:1100px;margin:0 auto;padding:2.5rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:18px;color:var(--amber-light);}
+.footer-logo small{display:block;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.footer-links{display:flex;gap:1.5rem;}
+.footer-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;cursor:pointer;transition:color 0.2s;}
+.footer-links a:hover{color:var(--amber-light);}
+.admin-float{position:fixed;bottom:20px;right:20px;background:rgba(44,24,16,0.7);color:rgba(255,255,255,0.6);border:none;padding:8px 16px;border-radius:100px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:100;transition:all 0.2s;}
+.admin-float:hover{color:white;background:var(--dark);}
+hr.ay{border:none;border-top:1px solid var(--border);margin:0;}
+.yukl{text-align:center;padding:3rem;color:var(--soft);font-size:14px;}
+.toast-wrap{position:fixed;bottom:2rem;right:2rem;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
+/* BİLDİRİM */
+.bil-btn{position:relative;background:none;border:none;cursor:pointer;padding:4px 6px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background 0.2s;}
+.bil-btn:hover{background:var(--terra-pale);}
+.bil-btn svg{width:22px;height:22px;stroke:var(--terra);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.bil-badge{position:absolute;top:0px;right:0px;background:#d9534f;color:white;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:100px;display:flex;align-items:center;justify-content:center;padding:0 3px;line-height:1;}
+.bil-panel{position:fixed;top:68px;right:1rem;width:340px;max-height:480px;background:var(--cream);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.12);z-index:400;overflow:hidden;display:none;flex-direction:column;}
+.bil-panel.acik{display:flex;}
+.bil-panel-ust{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.bil-panel-ust h3{font-size:15px;font-weight:500;color:var(--dark);}
+.bil-tamami-oku{font-size:12px;color:var(--terra);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;padding:0;}
+.bil-liste{overflow-y:auto;flex:1;}
+.bil-item{padding:0.9rem 1.25rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;display:flex;gap:10px;align-items:flex-start;}
+.bil-item:hover{background:var(--warm);}
+.bil-item.okunmadi{background:#fff8f5;}
+.bil-item.okunmadi:hover{background:#fff0e8;}
+.bil-ikon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:2px;}
+.bil-ic{flex:1;min-width:0;}
+.bil-ic-metin{font-size:13px;color:var(--dark);line-height:1.5;margin-bottom:3px;}
+.bil-ic-metin strong{font-weight:500;}
+.bil-ic-sure{font-size:11px;color:var(--soft);}
+.bil-bos{padding:2.5rem;text-align:center;color:var(--soft);font-size:14px;}
+/* Kaynakça */
+.kaynak-grup summary::-webkit-details-marker{display:none;}
+.kaynak-grup summary{user-select:none;}
+.kaynak-grup[open] summary span:last-child{color:var(--soft);}
+.kaynak-grup ul li{margin-bottom:6px;}
+.kaynak-grup ul li a:hover{text-decoration:underline;}
+.toast{background:var(--dark);color:white;padding:12px 20px;border-radius:12px;font-size:14px;font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.2);opacity:0;transform:translateY(20px);transition:all 0.3s;pointer-events:none;max-width:320px;line-height:1.5;}
+.toast.goster{opacity:1;transform:translateY(0);}
+.toast.basari{background:#2d7a2d;}
+.toast.hata{background:#a32d2d;}
+.toast.uyari{background:#7a5800;}
+
+.stab{background:none;border:none;border-bottom:2px solid transparent;padding:10px 20px;font-size:14px;font-weight:500;color:var(--soft);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-bottom:-2px;}
+.stab.ak{color:var(--terra);border-bottom-color:var(--terra);}
+.stab:hover{color:var(--terra);}
+.bos{text-align:center;padding:2rem;color:var(--soft);font-size:14px;background:var(--warm);border-radius:12px;border:1px solid var(--border);}
